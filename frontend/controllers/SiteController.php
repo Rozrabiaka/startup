@@ -3,10 +3,17 @@
 namespace frontend\controllers;
 
 use backend\models\Traitors;
+use common\models\LoginForm;
 use frontend\models\Contact;
+use frontend\models\PasswordResetRequestForm;
+use frontend\models\ResendVerificationEmailForm;
+use frontend\models\ResetPasswordForm;
 use frontend\models\Search;
+use frontend\models\SignupForm;
+use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -17,7 +24,7 @@ use yii\web\UploadedFile;
  */
 class SiteController extends Controller
 {
-	const META = 'Ми викриваємо зрадників України, мародерів та інших покидьків. Запрошуємо всіх охочих долучитися до проєкту.PS. Не забувайте про цікаву гру.';
+	const META = '';
 
 	/**
 	 * {@inheritdoc}
@@ -75,7 +82,7 @@ class SiteController extends Controller
 	{
 		\Yii::$app->view->registerMetaTag([
 			'name' => 'description',
-			'content' => "Traitors. " . self::META
+			'content' => "Freedom Home. " . self::META
 		]);
 		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/mobile-detect.min.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		return $this->render('index');
@@ -97,7 +104,7 @@ class SiteController extends Controller
 
 		\Yii::$app->view->registerMetaTag([
 			'name' => 'description',
-			'content' => "Traitors. Зв'язатись з нами. " . self::META
+			'content' => "Freedom Home. Зв'язатись з нами. " . self::META
 		]);
 
 		return $this->render('contact', [
@@ -200,149 +207,178 @@ class SiteController extends Controller
 		));
 	}
 
-//	/**
-//	 * Logs in a user.
-//	 *
-//	 * @return mixed
-//	 */
-//	public function actionLogin()
-//	{
-//		if (!Yii::$app->user->isGuest) {
-//			return $this->goHome();
-//		}
-//
-//		$model = new LoginForm();
-//		if ($model->load(Yii::$app->request->post()) && $model->login()) {
-//			return $this->goBack();
-//		}
-//
-//		$model->password = '';
-//
-//		return $this->render('login', [
-//			'model' => $model,
-//		]);
-//	}
-//
-//	/**
-//	 * Logs out the current user.
-//	 *
-//	 * @return mixed
-//	 */
-//	public function actionLogout()
-//	{
-//		Yii::$app->user->logout();
-//
-//		return $this->goHome();
-//	}
-//
-//	/**
-//	 * Signs user up.
-//	 *
-//	 * @return mixed
-//	 */
-//	public function actionSignup()
-//	{
-//		$model = new SignupForm();
-//		if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-//			Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-//			return $this->goHome();
-//		}
-//
-//		return $this->render('signup', [
-//			'model' => $model,
-//		]);
-//	}
-//
-//	/**
-//	 * Requests password reset.
-//	 *
-//	 * @return mixed
-//	 */
-//	public function actionRequestPasswordReset()
-//	{
-//		$model = new PasswordResetRequestForm();
-//		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-//			if ($model->sendEmail()) {
-//				Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-//
-//				return $this->goHome();
-//			}
-//
-//			Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
-//		}
-//
-//		return $this->render('requestPasswordResetToken', [
-//			'model' => $model,
-//		]);
-//	}
-//
-//	/**
-//	 * Resets password.
-//	 *
-//	 * @param string $token
-//	 * @return mixed
-//	 * @throws BadRequestHttpException
-//	 */
-//	public function actionResetPassword($token)
-//	{
-//		try {
-//			$model = new ResetPasswordForm($token);
-//		} catch (InvalidArgumentException $e) {
-//			throw new BadRequestHttpException($e->getMessage());
-//		}
-//
-//		if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-//			Yii::$app->session->setFlash('success', 'New password saved.');
-//
-//			return $this->goHome();
-//		}
-//
-//		return $this->render('resetPassword', [
-//			'model' => $model,
-//		]);
-//	}
-//
-//	/**
-//	 * Verify email address
-//	 *
-//	 * @param string $token
-//	 * @return yii\web\Response
-//	 * @throws BadRequestHttpException
-//	 */
-//	public function actionVerifyEmail($token)
-//	{
-//		try {
-//			$model = new VerifyEmailForm($token);
-//		} catch (InvalidArgumentException $e) {
-//			throw new BadRequestHttpException($e->getMessage());
-//		}
-//		if (($user = $model->verifyEmail()) && Yii::$app->user->login($user)) {
-//			Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
-//			return $this->goHome();
-//		}
-//
-//		Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
-//		return $this->goHome();
-//	}
-//
-//	/**
-//	 * Resend verification email
-//	 *
-//	 * @return mixed
-//	 */
-//	public function actionResendVerificationEmail()
-//	{
-//		$model = new ResendVerificationEmailForm();
-//		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-//			if ($model->sendEmail()) {
-//				Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-//				return $this->goHome();
-//			}
-//			Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
-//		}
-//
-//		return $this->render('resendVerificationEmail', [
-//			'model' => $model
-//		]);
-//	}
+	/**
+	 * Logs in a user.
+	 *
+	 * @return mixed
+	 */
+	public function actionLogin()
+	{
+		if (!Yii::$app->user->isGuest) {
+			return $this->goHome();
+		}
+
+		$model = new LoginForm();
+		if ($model->load(Yii::$app->request->post()) && $model->login()) {
+			return $this->goBack();
+		}
+
+		$model->password = '';
+
+		\Yii::$app->view->registerMetaTag([
+			'name' => 'description',
+			'content' => 'Freedom Home. Вхід в систему. ' . self::META
+		]);
+
+		return $this->render('login', [
+			'model' => $model,
+		]);
+	}
+
+	/**
+	 * Logs out the current user.
+	 *
+	 * @return mixed
+	 */
+	public function actionLogout()
+	{
+		Yii::$app->user->logout();
+
+		return $this->goHome();
+	}
+
+	/**
+	 * Signs user up.
+	 *
+	 * @return mixed
+	 */
+	public function actionSignup()
+	{
+		$model = new SignupForm();
+		if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+			Yii::$app->session->setFlash('success', 'Дякуємо за реєстрацію. Будь ласка, перевірте свою електронну пошту для підтвердження.');
+			return $this->goHome();
+		}
+
+		\Yii::$app->view->registerMetaTag([
+			'name' => 'description',
+			'content' => 'Freedom Home. Реєстрація. ' . self::META
+		]);
+
+		return $this->render('signup', [
+			'model' => $model,
+		]);
+	}
+
+	/**
+	 * Requests password reset.
+	 *
+	 * @return mixed
+	 */
+	public function actionRequestPasswordReset()
+	{
+		$model = new PasswordResetRequestForm();
+		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+			if ($model->sendEmail()) {
+				Yii::$app->session->setFlash('success', 'Перевірте свою електронну пошту, щоб отримати подальші інструкції.');
+
+				return $this->goHome();
+			}
+
+			Yii::$app->session->setFlash('error', 'На жаль, ми не можемо скинути пароль для вказаної адреси електронної пошти.');
+		}
+
+		\Yii::$app->view->registerMetaTag([
+			'name' => 'description',
+			'content' => 'Freedom Home. Cкидання пароля.'
+		]);
+
+		return $this->render('requestPasswordResetToken', [
+			'model' => $model,
+		]);
+	}
+
+	/**
+	 * Resets password.
+	 *
+	 * @param string $token
+	 * @return mixed
+	 * @throws BadRequestHttpException
+	 */
+	public function actionResetPassword($token)
+	{
+		try {
+			$model = new ResetPasswordForm($token);
+		} catch (\InvalidArgumentException $e) {
+			throw new BadRequestHttpException($e->getMessage());
+		}
+
+		if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+			Yii::$app->session->setFlash('success', 'Новий пароль збережено.');
+
+			return $this->goHome();
+		}
+
+		\Yii::$app->view->registerMetaTag([
+			'name' => 'description',
+			'content' => 'Freedom Home. Cкидання пароля.'
+		]);
+
+		return $this->render('resetPassword', [
+			'model' => $model,
+		]);
+	}
+
+	/**
+	 * Verify email address
+	 *
+	 * @param string $token
+	 * @return yii\web\Response
+	 * @throws BadRequestHttpException
+	 */
+	public function actionVerifyEmail($token)
+	{
+		try {
+			$model = new VerifyEmailForm($token);
+		} catch (\InvalidArgumentException $e) {
+			throw new BadRequestHttpException($e->getMessage());
+		}
+		if (($user = $model->verifyEmail()) && Yii::$app->user->login($user)) {
+			Yii::$app->session->setFlash('success', 'Вашу електронну пошту підтверджено.');
+			return $this->goHome();
+		}
+
+		\Yii::$app->view->registerMetaTag([
+			'name' => 'description',
+			'content' => 'Freedom Home. Перевірте електронну пошту.'
+		]);
+
+		Yii::$app->session->setFlash('error', 'На жаль, ми не можемо підтвердити ваш обліковий запис за допомогою наданого токена.');
+		return $this->goHome();
+	}
+
+	/**
+	 * Resend verification email
+	 *
+	 * @return mixed
+	 */
+	public function actionResendVerificationEmail()
+	{
+		$model = new ResendVerificationEmailForm();
+		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+			if ($model->sendEmail()) {
+				Yii::$app->session->setFlash('success', 'Перевірте свою електронну пошту, щоб отримати подальші інструкції.');
+				return $this->goHome();
+			}
+			Yii::$app->session->setFlash('error', 'На жаль, ми не можемо повторно надіслати електронний лист для підтвердження наданої електронної адреси.');
+		}
+
+		\Yii::$app->view->registerMetaTag([
+			'name' => 'description',
+			'content' => 'Freedom Home. Відправити лист з підтвердженням.'
+		]);
+		return $this->render('resendVerificationEmail', [
+			'model' => $model
+		]);
+	}
 }

@@ -1,6 +1,7 @@
 <?php
 
 /** @var \yii\web\View $this */
+
 /** @var string $content */
 
 use common\widgets\Alert;
@@ -16,7 +17,7 @@ AppAsset::register($this);
     <!DOCTYPE html>
     <html lang="<?= Yii::$app->language ?>" class="h-100">
     <head>
-        <meta name="google-site-verification" content="Nhyimd3UAD4JOjFf9Vya9cCdM-w9xeOEJ5ga3uCp44o" />
+        <meta name="google-site-verification" content="Nhyimd3UAD4JOjFf9Vya9cCdM-w9xeOEJ5ga3uCp44o"/>
 		<?= $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/svg+xml', 'href' => '/images/svg/logo.svg']); ?>
         <meta charset="<?= Yii::$app->charset ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -27,7 +28,11 @@ AppAsset::register($this);
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGJE5JG5K4"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
             gtag('js', new Date());
 
             gtag('config', 'G-HGJE5JG5K4');
@@ -46,24 +51,21 @@ AppAsset::register($this);
 			],
 		]);
 		$menuItems = [
-			['label' => 'Зрадники', 'url' => ['/site/traitors']],
-			['label' => 'Додати зрадника', 'url' => ['/add-traitor']],
-			['label' => "З'язатися з нами", 'url' => ['/site/contact']],
-			['label' => Html::img('/images/svg/telegram.svg', ['alt' => 'Telegram']), 'encode' => false, 'url' => 'https://t.me/+QCzlUvxlTMdmZWZk'],
+			['label' => 'Історії', 'url' => ['/site/traitors']],
+			['label' => 'Волонтерство', 'url' => ['/add-traitor']],
 		];
-		//    if (Yii::$app->user->isGuest) {
-		//        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-		//        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-		//    } else {
-		//        $menuItems[] = '<li>'
-		//            . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
-		//            . Html::submitButton(
-		//                'Logout (' . Yii::$app->user->identity->username . ')',
-		//                ['class' => 'btn btn-link logout']
-		//            )
-		//            . Html::endForm()
-		//            . '</li>';
-		//    }
+		if (Yii::$app->user->isGuest) {
+			$menuItems[] = ['label' => 'Профіль', 'url' => ['/site/login']];
+		}else{
+			$menuItems[] = '<li>'
+				. Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
+				. Html::submitButton(
+					'Logout (' . Yii::$app->user->identity->username . ')',
+					['class' => 'btn btn-link logout']
+				)
+				. Html::endForm()
+				. '</li>';
+        }
 		echo Nav::widget([
 			'options' => ['class' => 'navbar-nav ml-auto'],
 			'items' => $menuItems,
@@ -89,9 +91,7 @@ AppAsset::register($this);
                     <a href="/"><?= Html::img('/images/svg/logo.svg', ['alt' => 'Logo']) ?> Зрадники</a>
                 </div>
                 <div class="right-logo">
-                    <a href="/traitors/">Зрадники</a>
-                    <a href="/add-traitor">Додати зрадника</a>
-                    <a href="/contact/">З'язатися з нами</a>
+                    <a href="/contact">З'язатися з нами</a>
                     <a href="https://t.me/+QCzlUvxlTMdmZWZk"><?= Html::img('/images/svg/telegram.svg', ['alt' => 'Telegram']) ?></a>
                 </div>
             </div>

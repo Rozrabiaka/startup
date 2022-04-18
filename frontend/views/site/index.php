@@ -5,7 +5,7 @@
 use common\widgets\QuotesWidget;
 use yii\bootstrap4\Html;
 
-$this->title = 'Traitors UA';
+$this->title = 'Freedom Home UA';
 ?>
 <div class="row">
     <div class="col-lg-5">

@@ -63,7 +63,7 @@ class Contact extends \yii\db\ActiveRecord
 				['name' => $this->name]
 			)
 			->setCharset('UTF-8')
-			->setFrom([Yii::$app->params['supportEmail'] => 'Traitors - robot'])
+			->setFrom([Yii::$app->params['supportEmail'] => 'Freedom Home - robot'])
 			->setTo($this->email)
 			->setSubject('Дякуємо за звернення')
 			->send();

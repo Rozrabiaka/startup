@@ -532,3 +532,11 @@ a.desc:after {
 }
 
 /* END MEDIA */
+
+
+.register{
+    padding: 17px 45px;
+}
+.register:hover{
+    color:#fff;
+}

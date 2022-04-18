@@ -60,7 +60,7 @@ return [
 			'showScriptName' => false,
 			'rules' => [
 				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-				'<action:index|contact|traitors|add-traitor>' => 'site/<action>',
+				'<action:index|contact|traitors|add-traitor|signup|login|request-password-reset|resend-verification-email>' => 'site/<action>',
 				'<action:ajax>' => 'ajax/<alias>',
 			],
 		],

@@ -50,6 +50,13 @@ class ResetPasswordForm extends Model
         ];
     }
 
+	public function attributeLabels()
+	{
+		return [
+			'password' => 'Новий пароль',
+		];
+	}
+
     /**
      * Resets password.
      *
