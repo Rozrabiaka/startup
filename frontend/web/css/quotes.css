@@ -1,0 +1,52 @@
+.quotes-widget {
+    height:100%;
+    padding-left: 67px;
+    background: linear-gradient(144.84deg, #00A3FF -116.25%, #080E97 265.32%);
+    clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%, 0 99.7%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.quotes {
+    position: relative;
+    max-height: 253px;
+    height: 253px;
+    border-radius: 14px;
+    clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%, 0 10%);
+}
+
+.quotes .q-p-t {
+    text-align: center;
+    max-width: 400px;
+}
+
+.quotes-widget .text-p-q {
+    font-family: 'Montserrat-SemiBold', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    color: #fff;
+}
+
+.quotes-widget .author-q-p {
+    font-family: 'Montserrat-Regular', sans-serif;
+    font-size: 14px;
+    line-height: 17px;
+    color: #fff;
+}
+
+
+@media (max-width: 991px) {
+    .quotes, .quotes-widget {
+        clip-path: none;
+        padding-left: 0;
+        height: 200px;
+    }
+
+    .quotes {
+        margin-top: 60px;
+    }
+}

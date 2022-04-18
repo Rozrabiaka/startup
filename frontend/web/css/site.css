@@ -1,0 +1,534 @@
+@font-face {
+    font-family: Montserrat-Black;
+    src: url("/fonts/Montserrat-Black.ttf") format('truetype');
+}
+
+@font-face {
+    font-family: Montserrat-Bold;
+    src: url("/fonts/Montserrat-Bold.ttf") format('truetype');
+}
+
+@font-face {
+    font-family: Montserrat-Medium;
+    src: url("/fonts/Montserrat-Medium.ttf") format('truetype');
+}
+
+@font-face {
+    font-family: Montserrat-SemiBold;
+    src: url("/fonts/Montserrat-SemiBold.ttf") format('truetype');
+}
+
+@font-face {
+    font-family: Montserrat-Regular;
+    src: url("/fonts/Montserrat-Regular.ttf") format('truetype');
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #121212;
+    font-family: Montserrat-Bold, sans-serif;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 44px;
+}
+
+.bg-light {
+    background-color: #fff !important;
+}
+
+main > .container {
+    padding: 70px 15px 20px;
+}
+
+.help-block {
+    color: #7e0808;
+}
+
+.footer {
+    background-color: #F0F0F0;
+    font-size: .9em;
+}
+
+.footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.logo a {
+    color: #121212 !important;
+}
+
+.logo .navbar-brand, .footer .left-logo a {
+    font-size: 24px;
+}
+
+.logo .navbar-brand:hover, .footer .logo a:hover {
+    text-decoration: none;
+}
+
+.footer .logo {
+    display: flex;
+}
+
+.footer .logo .right-logo {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-brand, .logo ul {
+    align-items: center;
+    justify-content: center;
+}
+
+.footer .right-logo a, .navbar-expand-md .navbar-nav .nav-link {
+    padding-right: 20px;
+    padding-left: 0;
+    font-family: Montserrat-Medium, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.footer .right-logo a:last-child, .navbar-expand-md .navbar-nav .nav-item:last-child a {
+    padding-right: 0 !important;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    content: '';
+    left: 3px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: solid 5px transparent;
+    margin: 4px 4px 2px 4px;
+    background: transparent;
+}
+
+a.asc:after {
+    border-bottom: solid 7px #212529;
+    border-top-width: 0;
+}
+
+a.desc:after {
+    border-top: solid 7px #212529;
+    border-bottom-width: 0;
+}
+
+.grid-view th,
+.grid-view td:last-child {
+    white-space: nowrap;
+}
+
+.grid-view .filters input,
+.grid-view .filters select {
+    min-width: 50px;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+/* align the logout "link" (button in form) of the navbar */
+.nav li > form > button.logout {
+    padding-top: 7px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 767px) {
+    .nav li > form > button.logout {
+        display: block;
+        text-align: left;
+        width: 100%;
+        padding: 10px 0;
+    }
+}
+
+.nav > li > form > button.logout:focus,
+.nav > li > form > button.logout:hover {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.nav > li > form > button.logout:focus {
+    outline: none;
+}
+
+.about p {
+    font-family: Montserrat-Medium, sans-serif;
+    font-size: 16px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.blue-b {
+    background: linear-gradient(144.84deg, #00A3FF -116.25%, #080E97 265.32%);
+    font-size: 20px;
+    line-height: 30px;
+    color: #F8F8F8;
+    font-family: Montserrat-SemiBold, sans-serif;
+    padding: 14px 45px;
+    border: none;
+}
+
+.green-b {
+    background: linear-gradient(144.84deg, #00FFB2 -116.25%, #089764 265.32%);
+    font-family: Montserrat-SemiBold, sans-serif;
+    padding: 14px 45px;
+    border: none;
+    font-size: 20px;
+    line-height: 30px;
+    color: #fff;
+}
+
+.green-b:hover {
+    color: #fff;
+}
+
+.about .blue-b img {
+    padding-right: 10px;
+}
+
+.about a:hover {
+    color: #fff;
+}
+
+/* flipping the picture with CSS */
+.back {
+    transform: scaleX(-1);
+    filter: fliph;
+}
+
+/* GAME */
+
+#game {
+    margin-top: 40px;
+}
+
+.world {
+    overflow: hidden;
+    position: relative;
+}
+
+.score {
+    position: absolute;
+    font-size: 3vmin;
+    right: 1vmin;
+    top: 1vmin;
+}
+
+.start-screen {
+    position: absolute;
+    font-size: 5vmin;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.start-screen img {
+    max-width: 100px;
+    width: 20%;
+}
+
+.hide {
+    display: none;
+}
+
+.ground {
+    --left: 0;
+    position: absolute;
+    width: 300%;
+    bottom: 0;
+    left: calc(var(--left) * 1%)
+}
+
+.dino {
+    --bottom: 0;
+    position: absolute;
+    left: 1%;
+    height: 30%;
+    bottom: calc(var(--bottom) * 1%);
+}
+
+.cactus {
+    position: absolute;
+    left: calc(var(--left) * 1%);
+    height: 20%;
+    bottom: 0;
+}
+
+/* END GAME */
+
+.game-buttons {
+    text-align: center;
+}
+
+.game-buttons button {
+    margin: 0 auto;
+}
+
+.traitors-search-form .field-q {
+    width: 100%;
+}
+
+.traitors-search-form .search {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 15px;
+}
+
+.traitors .empty {
+    margin: 0 auto;
+}
+
+.traitors-search-form .field-q input {
+    border-radius: unset;
+}
+
+.traitors-search-form .field-b .b-search {
+    padding: 4px 45px;
+}
+
+.traitors-search-form .green-b {
+    padding: 7px 45px;
+    line-height: 38px;
+}
+
+.traitors .traitor a, .traitors-more a {
+    color: #121212;
+    display: flex;
+}
+
+.traitors .traitor .traitor-description, .traitors-more .traitor-description {
+    font-size: .85rem;
+    color: #5f6368;
+    overflow: hidden;
+    line-height: 1.25rem;
+}
+
+.traitors .traitor-info, .traitors-more .traitor-info {
+    padding-left: 20px;
+}
+
+.traitors-more h1 {
+    font-size: 30px;
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.traitors-more .traitor a {
+    padding-bottom: 30px;
+}
+
+.pagination .prev, .pagination .next {
+    background-color: unset;
+    color: #121212;
+}
+
+.pagination .active a {
+    color: #fff;
+    padding: 32px 10px;
+    font-size: 20px;
+}
+
+.pagination .active {
+    background: linear-gradient(144.84deg, #00A3FF -116.25%, #080E97 265.32%);
+    color: #fff;
+    float: left;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.pagination li a, .pagination li span {
+    font-size: 20px;
+    color: #121212;
+}
+
+.pagination li:hover:not(.active) {
+    background-color: #ddd;
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+.pagination li {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.pagination {
+    margin: 0 auto;
+}
+
+.traitors .traitor-name, .traitors-more .traitor-name {
+    text-transform: uppercase;
+    font-family: Montserrat-SemiBold, sans-serif;
+}
+
+.traitors .traitor a:hover, .traitors-more a:hover {
+    color: #0056b3;
+}
+
+.traitor-insult {
+    font-size: .75rem;
+    color: #80868b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.25rem;
+    margin: 0.125rem 0;
+}
+
+.traitors .traitor:first-child a {
+    border-image: none;
+    border-bottom: none;
+    border-top: none;
+}
+
+.traitors .traitor a {
+    padding: 30px 0;
+    border-image: linear-gradient(90deg, hsla(0, 0%, 69.8%, 0), #b2b2b2, hsla(0, 0%, 69.8%, 0)) 1;
+    border-top: 1px solid #c6e3f3;
+    border-bottom: 0;
+    content: "";
+}
+
+.img-traitor {
+    width: 100px;
+}
+
+.img-traitor img {
+    max-width: 100px;
+    max-height: 125px;
+    width: 100px;
+}
+
+.add-traitor .cr-tr-b {
+    width: 100%;
+}
+
+.add-traitor h1 {
+    margin-bottom: 60px;
+}
+
+.traitor .traitor-image {
+    text-align: center;
+}
+
+.traitor .traitor-image img {
+    max-width: 350px;
+    max-height: 350px;
+    width: 100%;
+}
+
+.traitor.tr-ap {
+    border: thin solid #dadce0;
+    border-radius: 0.5rem;
+    padding: 30px;
+    border-top: thin solid #dadce0;
+}
+
+.traitor .traitor-content {
+    font-family: Montserrat-Medium, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 25px;
+}
+
+.triangle {
+    background: linear-gradient(144.84deg, #00FFB2 -116.25%, #089764 265.32%);
+    color: #fff;
+    font-size: 24px;
+    font-family: Montserrat-Medium, sans-serif;
+    padding: 3px 30px 3px 30px;
+    max-width: 350px;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+/* MEDIA */
+@media (max-width: 1199px) {
+    .traitors .border-blue img {
+        height: 156px;
+    }
+}
+
+@media (max-width: 991px) {
+    .traitors-search-form .add-traitor {
+        margin-bottom: 20px;
+    }
+
+    .traitors .border-blue img {
+        height: 246px;
+    }
+}
+
+@media (max-width: 767px) {
+    .footer .logo .right-logo {
+        display: inline-grid;
+    }
+
+    .left-logo {
+        align-items: center;
+        display: flex;
+    }
+
+    .footer .right-logo a {
+        font-size: 14px;
+
+    }
+
+    .footer .right-logo a:first-child {
+        padding-top: 0;
+    }
+
+    .footer .right-logo a {
+        padding-top: 10px;
+    }
+
+    .traitors .border-blue img {
+        height: 178px;
+    }
+}
+
+@media (max-width: 575px) {
+    .traitors-search-form .add-traitor {
+        margin-bottom: 20px;
+    }
+
+    .traitors .border-blue img {
+        height: 300px;
+    }
+
+    .traitors-search-form .field-b .b-search {
+        padding: 4px 20px;
+    }
+}
+
+/* END MEDIA */
