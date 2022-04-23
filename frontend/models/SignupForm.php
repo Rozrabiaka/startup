@@ -11,79 +11,85 @@ use common\models\User;
  */
 class SignupForm extends Model
 {
-    public $username;
-    public $email;
-    public $password;
+	public $username;
+	public $email;
+	public $password;
+	public $img;
 
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            ['username', 'trim'],
-            ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+	/**
+	 * {@inheritdoc}
+	 */
+	public function rules()
+	{
+		return [
+			['username', 'trim'],
+			['username', 'required'],
+			['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Це ім’я користувача вже зайнято.'],
+			['username', 'string', 'min' => 2, 'max' => 255],
 
-            ['email', 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
-            ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+			['img', 'string'],
 
-            ['password', 'required'],
-            ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
-        ];
-    }
+			['email', 'trim'],
+			['email', 'required'],
+			['email', 'email'],
+			['email', 'string', 'max' => 255],
+			['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Цю електронну адресу вже зайнято.'],
+
+			['password', 'required'],
+			['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+		];
+	}
 
 	public function attributeLabels()
 	{
 		return [
 			'username' => 'Логін',
 			'email' => 'Пошта',
-			'password' => "Пароль"
+			'password' => "Пароль",
+			'img' => 'Аватар'
 		];
 	}
 
-    /**
-     * Signs user up.
-     *
-     * @return bool whether the creating new account was successful and email was sent
-     */
-    public function signup()
-    {
-        if (!$this->validate()) {
-            return null;
-        }
-        
-        $user = new User();
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->setPassword($this->password);
-        $user->generateAuthKey();
-        $user->generateEmailVerificationToken();
+	/**
+	 * Signs user up.
+	 *
+	 * @return bool whether the creating new account was successful and email was sent
+	 */
+	public function signup()
+	{
+		if (!$this->validate()) {
+			return null;
+		}
 
-        return $user->save() && $this->sendEmail($user);
-    }
+		$user = new User();
+		$user->username = $this->username;
 
-    /**
-     * Sends confirmation email to user
-     * @param User $user user model to with email should be send
-     * @return bool whether the email was sent
-     */
-    protected function sendEmail($user)
-    {
-        return Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
-                ['user' => $user]
-            )
-            ->setFrom([Yii::$app->params['supportEmail'] => 'Freedom Home robot'])
-            ->setTo($this->email)
-            ->setSubject('Реєстрація аккаунта ' . Yii::$app->name)
-            ->send();
-    }
+		$user->email = $this->email;
+		$user->img = '/images/no-image.png';
+		$user->setPassword($this->password);
+		$user->generateAuthKey();
+		$user->generateEmailVerificationToken();
+
+		return $user->save() && $this->sendEmail($user);
+	}
+
+	/**
+	 * Sends confirmation email to user
+	 * @param User $user user model to with email should be send
+	 * @return bool whether the email was sent
+	 */
+	protected function sendEmail($user)
+	{
+		return Yii::$app
+			->mailer
+			->compose(
+				['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
+				['user' => $user]
+			)
+			->setFrom([Yii::$app->params['supportEmail'] => 'Freedom Home robot'])
+			->setTo($this->email)
+			->setSubject('Реєстрація аккаунта ' . Yii::$app->name)
+			->send();
+	}
 }

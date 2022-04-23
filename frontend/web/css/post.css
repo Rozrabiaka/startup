@@ -1,0 +1,131 @@
+
+.post {
+    background: #353B53;
+    border-radius: 5px;
+}
+
+.post-data img {
+    max-width: 28px;
+    width: 100%;
+}
+
+.post-data, .post-description, .post-top {
+    padding: 20px;
+}
+
+.post-info {
+    padding: 20px 28px;
+}
+
+.post-data .post-username {
+    font-family: 'Inter-Medium', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.post-data .post-date {
+    font-family: 'Inter-Light', sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 15px;
+    padding-left: 16px;
+    color: #8D92A4;
+}
+
+.content {
+    margin-top: 150px;
+}
+
+.post-title {
+    font-family: 'Inter-Medium', sans-serif;
+    font-size: 28px;
+    line-height: 39px;
+}
+
+.post-description {
+    padding-top: 40px;
+    background: #1E2133;
+}
+
+.post-text {
+    font-family: 'Inter-Regular', sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    margin-bottom: 0;
+}
+
+.post-text img {
+    max-width: 620px;
+    width: 100%;
+}
+
+.post-hashtags {
+    padding-bottom: 30px;
+}
+
+.post-hashtags a {
+    border: 1px solid #8D92A4;
+    color: #8D92A4;
+    padding: 10px;
+    margin-right: 14px;
+    border-radius: 2px;
+    font-family: 'Inter-Regular', sans-serif;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.post-hashtags a:hover {
+    color: #6427C7;
+    background: #DEE4FF;
+    border: none;
+}
+
+.post-info .watch-more {
+    font-family: 'Inter-Bold', sans-serif;
+    font-size: 20px;
+    line-height: 24px;
+    color: #9772FF;
+}
+
+/* TOP POSTS */
+.content-menu .post-top {
+    margin-bottom: 0;
+    color: #9772FF;
+    font-family: 'Inter-Bold', sans-serif;
+    font-size: 14px;
+    line-height: 17px;
+    background: #1E2133;
+}
+
+.content-menu .post-description {
+    background: none;
+}
+
+.content-menu .post-text {
+    padding-bottom: 0;
+}
+
+.content-menu a {
+    color: #F5F7FF;
+}
+
+.content-menu .post-data {
+    display: flex;
+    align-items: center;
+}
+
+.content-menu .cnm-pd-username {
+    display: flex;
+    align-items: center;
+}
+
+.content-menu .cnm-pd-date {
+    display: flex;
+    align-items: end;
+    margin-left: auto;
+}

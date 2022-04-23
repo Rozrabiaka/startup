@@ -12,14 +12,8 @@ return [
 	'controllerNamespace' => 'backend\controllers',
 	'bootstrap' => ['log'],
 	'modules' => [
-		'quote' => [
-			'class' => 'backend\modules\quote\Module',
-		],
 		'contact' => [
 			'class' => 'backend\modules\contact\Module',
-		],
-		'traitors' => [
-			'class' => 'backend\modules\traitors\Module',
 		],
 	],
 	'components' => [

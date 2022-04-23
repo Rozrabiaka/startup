@@ -30,6 +30,16 @@ return [
 				'encryption' => 'tls',
 			],
 		],
+		'authClientCollection' => [
+			'class' => \yii\authclient\Collection::className(),
+			'clients' => [
+				'google' => [
+					'class' => 'yii\authclient\clients\Google',
+					'clientId' => '256585557761-d0ch4pn82ep6pii485n7eteb43e80fft.apps.googleusercontent.com',
+					'clientSecret' => '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',
+				],
+			],
+		],
 		'request' => [
 			'baseUrl' => '',
 			'csrfParam' => '_csrf-frontend',
@@ -60,7 +70,7 @@ return [
 			'showScriptName' => false,
 			'rules' => [
 				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-				'<action:index|contact|traitors|add-traitor|signup|login|request-password-reset|resend-verification-email>' => 'site/<action>',
+				'<action:index|contact|signup|login|request-password-reset|resend-verification-email|profile>' => 'site/<action>',
 				'<action:ajax>' => 'ajax/<alias>',
 			],
 		],

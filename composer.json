@@ -20,7 +20,8 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "kartik-v/yii2-widget-fileinput": "dev-master",
         "2amigos/yii2-ckeditor-widget": "^1.0@dev",
-        "execut/yii2-robots-txt": "dev-master"
+        "execut/yii2-robots-txt": "dev-master",
+        "yiisoft/yii2-authclient": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

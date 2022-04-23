@@ -5,6 +5,8 @@
 /** @var string $content */
 
 use common\widgets\Alert;
+use common\widgets\FooterBottomWidget;
+use common\widgets\SearchWidget;
 use frontend\assets\AppAsset;
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
@@ -38,65 +40,53 @@ AppAsset::register($this);
             gtag('config', 'G-HGJE5JG5K4');
         </script>
     </head>
-    <body class="d-flex flex-column h-100">
+    <body class="d-flex flex-column">
 	<?php $this->beginBody() ?>
 
     <header>
-		<?php
-		NavBar::begin([
-			'brandLabel' => Html::img('/images/svg/logo.svg') . ' Зрадники',
-			'brandUrl' => Yii::$app->homeUrl,
-			'options' => [
-				'class' => 'navbar navbar-expand-md logo navbar-light bg-light',
-			],
-		]);
-		$menuItems = [
-			['label' => 'Історії', 'url' => ['/site/traitors']],
-			['label' => 'Волонтерство', 'url' => ['/add-traitor']],
-		];
-		if (Yii::$app->user->isGuest) {
-			$menuItems[] = ['label' => 'Профіль', 'url' => ['/site/login']];
-		}else{
-			$menuItems[] = '<li>'
-				. Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
-				. Html::submitButton(
-					'Logout (' . Yii::$app->user->identity->username . ')',
-					['class' => 'btn btn-link logout']
-				)
-				. Html::endForm()
-				. '</li>';
-        }
-		echo Nav::widget([
-			'options' => ['class' => 'navbar-nav ml-auto'],
-			'items' => $menuItems,
-		]);
-		NavBar::end();
-		?>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="main-header">
+                        <div class="align-start">
+                            <a href="/"><?= Html::img('/images/svg/logo.svg', ['alt' => 'Logo', 'class' => 'logo-img pc-logo']) ?></a>
+                            <a href="/"><?= Html::img('/images/svg/mobile_logo.svg', ['alt' => 'Logo', 'class' => 'mobile_logo']) ?></a>
+                        </div>
+                        <div class="align-center">
+							<?= Html::a('Головна', ['/'], ['class' => '']) ?>
+							<?= Html::a('Спільноти', ['/'], ['class' => '']) ?>
+							<?= Html::a('Стрічка', ['/'], ['class' => '']) ?>
+                        </div>
+                        <div class="align-end">
+							<?= SearchWidget::widget() ?>
+                            <div class="rg-header">
+                                <a href="/profile"><?= Html::img('/images/svg/user.svg', ['alt' => 'Logo']) ?></a>
+                            </div>
+                            <div class="rg-header mobile-menu">
+                                <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="40" height="40" rx="2" fill="#9772FF"/>
+                                    <rect x="9" y="13" width="22" height="2" rx="1" fill="#F5F7FF"/>
+                                    <rect x="9" y="19" width="22" height="2" rx="1" fill="#F5F7FF"/>
+                                    <rect x="9" y="25" width="22" height="2" rx="1" fill="#F5F7FF"/>
+                                </svg>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
 
     <main role="main" class="flex-shrink-0">
         <div class="container">
-			<?= Breadcrumbs::widget([
-				'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-			]) ?>
 			<?= Alert::widget() ?>
 			<?= $content ?>
         </div>
     </main>
 
-    <footer class="footer mt-auto py-3 text-muted">
-        <div class="container">
-            <div class="logo">
-                <div class="left-logo">
-                    <a href="/"><?= Html::img('/images/svg/logo.svg', ['alt' => 'Logo']) ?> Зрадники</a>
-                </div>
-                <div class="right-logo">
-                    <a href="/contact">З'язатися з нами</a>
-                    <a href="https://t.me/+QCzlUvxlTMdmZWZk"><?= Html::img('/images/svg/telegram.svg', ['alt' => 'Telegram']) ?></a>
-                </div>
-            </div>
-        </div>
-    </footer>
+	<?= FooterBottomWidget::widget() ?>
 
 	<?php $this->endBody() ?>
     </body>

@@ -2,29 +2,27 @@
 
 namespace frontend\controllers;
 
-use backend\models\Traitors;
+use common\models\Auth;
 use common\models\LoginForm;
+use common\models\User;
 use frontend\models\Contact;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\ResetPasswordForm;
-use frontend\models\Search;
 use frontend\models\SignupForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\web\UploadedFile;
 
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
-	const META = '';
+	const META = 'Це найкраща платформа для розповсюдження ваших історій! Багатий функціонал допоможе вам дуже швидко написати подію із вашого життя!';
 
 	/**
 	 * {@inheritdoc}
@@ -34,7 +32,7 @@ class SiteController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['logout', 'signup'],
+				'only' => ['logout', 'signup', 'profile'],
 				'rules' => [
 					[
 						'actions' => ['signup'],
@@ -42,7 +40,7 @@ class SiteController extends Controller
 						'roles' => ['?'],
 					],
 					[
-						'actions' => ['logout'],
+						'actions' => ['logout', 'profile'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -70,6 +68,10 @@ class SiteController extends Controller
 				'class' => 'yii\captcha\CaptchaAction',
 				//'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
 			],
+			'auth' => [
+				'class' => 'yii\authclient\AuthAction',
+				'successCallback' => [$this, 'onAuthSuccess'],
+			],
 		];
 	}
 
@@ -84,7 +86,11 @@ class SiteController extends Controller
 			'name' => 'description',
 			'content' => "Freedom Home. " . self::META
 		]);
+
 		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/mobile-detect.min.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+		$this->getView()->registerCssFile("@web/css/index.css", ['depends' => ['frontend\assets\AppAsset']]);
+		$this->getView()->registerCssFile("@web/css/post.css", ['depends' => ['frontend\assets\AppAsset']]);
+
 		return $this->render('index');
 	}
 
@@ -112,101 +118,6 @@ class SiteController extends Controller
 		]);
 	}
 
-	public function actionTraitors()
-	{
-		$query = Traitors::find()->select(["*"]);
-		$model = new Search();
-
-		//улучшить поиск
-		$q = Yii::$app->getRequest()->getQueryParam('q');
-
-		if (!empty($q)) {
-			$explode = explode(' ', $q);
-			foreach ($explode as $data) {
-				$query->andWhere(['like', 'name', $data]);
-			}
-		}
-
-		$query->andWhere(['active' => Traitors::ACTIVE]);
-
-		$dataProvider = new ActiveDataProvider([
-			'query' => $query,
-			'sort' => [
-				'defaultOrder' => [
-					'id' => SORT_DESC
-				]
-			],
-			'pagination' => [
-				'pageSize' => 10,
-			],
-		]);
-
-		foreach ($dataProvider->getModels() as $key => $data) {
-			$dataProvider->getModels()[$key]->description = html_entity_decode(strip_tags(mb_strimwidth($data->description, 0, 400, "...")));
-		}
-
-		\Yii::$app->view->registerMetaTag([
-			'name' => 'description',
-			'content' => 'Traitors. Список зрадників. ' . self::META
-		]);
-
-		return $this->render('traitors', [
-			'dataProvider' => $dataProvider,
-			'model' => $model,
-			'q' => $q
-		]);
-	}
-
-	public function actionAddTraitor()
-	{
-		$model = new Traitors();
-
-		if ($this->request->isPost && $model->load($this->request->post())) {
-			$model->image = UploadedFile::getInstances($model, 'image');
-			$imgPath = $model->uploadImages();
-			if (!empty($imgPath)) $model->img = $imgPath[0];
-			else $model->img = $model->getImageDefaultLink();
-
-			$model->image = null;
-			if ($model->save()) {
-				if (!empty($model->feedback_email)) $model->sendEmail();
-				Yii::$app->session->setFlash('success', "Дякуємо за звернення. Після перевірки інформації виродака буде додано до нашої бази. ");
-			} else {
-				Yii::$app->session->setFlash('error', "Трапилась помилка. Спробуйте знову.");
-			}
-		}
-
-		\Yii::$app->view->registerMetaTag([
-			'name' => 'description',
-			'content' => 'Traitors. Додати зрадника. ' . self::META
-		]);
-
-		return $this->render('addTraitor', [
-			'model' => $model
-		]);
-	}
-
-	public function actionTraitor(int $id)
-	{
-		$traitor = Traitors::find()->select(["*"])->where(['id' => $id])->andWhere(['active' => Traitors::ACTIVE])->one();
-		if (empty($traitor)) return $this->redirect(['error']);
-
-		$traitorsMore = Traitors::find()->where(['!=', 'id', $id])->orderBy('RAND()')->limit(3)->asArray()->all();
-		foreach ($traitorsMore as $key => $data) {
-			$traitorsMore[$key]['description'] = html_entity_decode(strip_tags(mb_strimwidth($data['description'], 0, 100, "...")));
-		}
-
-		\Yii::$app->view->registerMetaTag([
-			'name' => 'description',
-			'content' => 'Traitors. ' . html_entity_decode(strip_tags($traitor->description)) . '. ' . self::META
-		]);
-
-		return $this->render('traitor', array(
-			'traitor' => $traitor,
-			'traitorsMore' => $traitorsMore
-		));
-	}
-
 	/**
 	 * Logs in a user.
 	 *
@@ -230,6 +141,8 @@ class SiteController extends Controller
 			'content' => 'Freedom Home. Вхід в систему. ' . self::META
 		]);
 
+		$this->getView()->registerCssFile("@web/css/login.css", ['depends' => ['frontend\assets\AppAsset']]);
+
 		return $this->render('login', [
 			'model' => $model,
 		]);
@@ -245,6 +158,65 @@ class SiteController extends Controller
 		Yii::$app->user->logout();
 
 		return $this->goHome();
+	}
+
+	public function onAuthSuccess($client)
+	{
+		$attributes = $client->getUserAttributes();
+
+		/* @var $auth Auth */
+		$auth = Auth::find()->where([
+			'source' => $client->getId(),
+			'source_id' => $attributes['id'],
+		])->one();
+
+		if (Yii::$app->user->isGuest) {
+			if ($auth) { // авторизация
+				$user = $auth->user;
+				Yii::$app->user->login($user);
+			} else { // регистрация
+				$username = User::generateRandomUserName();
+
+				//TODO сделать проверку на существование такого пользователя по username, ДОЛЖНО БЫТЬ УНИКАЛЬНЫМ!
+				//TODO В ФУНКЦИИ generateRandomUserName;
+				$password = Yii::$app->security->generateRandomString(25);
+				$user = new User([
+					'username' => $username,
+					'email' => $attributes['email'],
+					'password' => $password,
+					'which_user' => 0,
+					'status' => 10
+				]);
+				$user->generateAuthKey();
+				$user->generatePasswordResetToken();
+				$transaction = $user->getDb()->beginTransaction();
+				if ($user->save()) {
+					$auth = new Auth([
+						'user_id' => $user->id,
+						'source' => $client->getId(),
+						'source_id' => (string)$attributes['id'],
+					]);
+					if ($auth->save()) {
+						$transaction->commit();
+						Yii::$app->user->login($user);
+						return $this->redirect('/site/index/');
+					} else {
+						return $this->render('error');
+					}
+				} else {
+					return $this->render('error');
+				}
+			}
+		} else { // Пользователь уже зарегистрирован
+			if (!$auth) { // добавляем внешний сервис аутентификации
+				$auth = new Auth([
+					'user_id' => Yii::$app->user->id,
+					'source' => $client->getId(),
+					'source_id' => $attributes['id'],
+				]);
+				$auth->save();
+			}
+		}
 	}
 
 	/**
@@ -377,7 +349,18 @@ class SiteController extends Controller
 			'name' => 'description',
 			'content' => 'Freedom Home. Відправити лист з підтвердженням.'
 		]);
+
 		return $this->render('resendVerificationEmail', [
+			'model' => $model
+		]);
+	}
+
+	public function actionProfile()
+	{
+		$model = User::find()->where(['id' => Yii::$app->user->id])->one();
+
+		\Yii::$app->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+		return $this->render('profile', [
 			'model' => $model
 		]);
 	}
