@@ -141,8 +141,6 @@ class SiteController extends Controller
 			'content' => 'Freedom Home. Вхід в систему. ' . self::META
 		]);
 
-		$this->getView()->registerCssFile("@web/css/login.css", ['depends' => ['frontend\assets\AppAsset']]);
-
 		return $this->render('login', [
 			'model' => $model,
 		]);
@@ -160,6 +158,13 @@ class SiteController extends Controller
 		return $this->goHome();
 	}
 
+	/**
+	 * @param $client
+	 * @return string|\yii\web\Response
+	 * @throws \yii\base\Exception
+	 * @throws \yii\db\Exception
+	 */
+
 	public function onAuthSuccess($client)
 	{
 		$attributes = $client->getUserAttributes();
@@ -175,18 +180,16 @@ class SiteController extends Controller
 				$user = $auth->user;
 				Yii::$app->user->login($user);
 			} else { // регистрация
-				$username = User::generateRandomUserName();
-
-				//TODO сделать проверку на существование такого пользователя по username, ДОЛЖНО БЫТЬ УНИКАЛЬНЫМ!
-				//TODO В ФУНКЦИИ generateRandomUserName;
 				$password = Yii::$app->security->generateRandomString(25);
 				$user = new User([
-					'username' => $username,
+					'username' => User::generateRandomUserName(),
 					'email' => $attributes['email'],
 					'password' => $password,
 					'which_user' => 0,
-					'status' => 10
+					'status' => 10,
+					'img' => '/images/no-image.png'
 				]);
+
 				$user->generateAuthKey();
 				$user->generatePasswordResetToken();
 				$transaction = $user->getDb()->beginTransaction();
@@ -351,16 +354,6 @@ class SiteController extends Controller
 		]);
 
 		return $this->render('resendVerificationEmail', [
-			'model' => $model
-		]);
-	}
-
-	public function actionProfile()
-	{
-		$model = User::find()->where(['id' => Yii::$app->user->id])->one();
-
-		\Yii::$app->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
-		return $this->render('profile', [
 			'model' => $model
 		]);
 	}

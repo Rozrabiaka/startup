@@ -1,0 +1,67 @@
+.profile-menu li a {
+    color: #F5F7FF;
+    font-family: 'Inter-Regular', sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    padding-left: 10px;
+}
+
+.profile-menu {
+    margin-bottom: 20px;
+}
+
+.left-profile-menu h5 a {
+    padding-left: 10px;
+}
+
+.header-profile {
+    padding: 20px;
+    background-color: #353B53;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.profile-img {
+    max-width: 116px;
+    width: 116px;
+}
+
+.left-profile-menu h5 {
+    display: flex;
+}
+
+.profile-menu li {
+    display: flex;
+}
+
+.profile-menu li a:hover {
+    color: #9772FF;
+}
+
+.profile-menu li {
+    padding-bottom: 20px;
+}
+
+.create-history{
+    padding:20px;
+    background: #353B53;
+}
+
+.create-history .ck-editor__main .ck-content{
+    background: #1E2133 !important;
+    border:none;
+    height:350px;
+    border-radius: 5px !important;
+    max-height: 350px;
+}
+
+.create-history .ck-button{
+    color:#9772FF !important;
+}
+
+.create-history .ck-toolbar{
+    background: #1E2133 !important;
+    margin-bottom:20px !important;
+    border: none !important;
+    border-radius: 5px !important;
+}

@@ -32,6 +32,9 @@ class User extends ActiveRecord implements IdentityInterface
 
 	public $image;
 
+	const ADMIN_LOGIN = 1;
+	const USER_LOGIN = 0;
+
 
 	/**
 	 * {@inheritdoc}

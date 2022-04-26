@@ -22,7 +22,7 @@ class m220418_163257_history_table extends Migration
 			'title' => $this->string(255)->notNull(),
 			'description' => $this->text()->notNull(),
 			'user_id' => $this->integer()->notNull(),
-			'date' => $this->timestamp()->defaultValue(null)->append('ON UPDATE CURRENT_TIMESTAMP')
+			'date' => $this->timestamp()->defaultValue('CURRENT_TIMESTAMP')
 		], $tableOptions);
 
 		$this->addForeignKey('fk_history_user_id', 'history', 'user_id', 'user', 'id');

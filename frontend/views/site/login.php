@@ -2,7 +2,6 @@
 
 /** @var yii\web\View $this */
 /** @var yii\bootstrap4\ActiveForm $form */
-
 /** @var \common\models\LoginForm $model */
 
 use common\widgets\FooterMenuWidget;
@@ -24,7 +23,7 @@ $this->title = 'Freedom Home. Вхід в систему';
                 <div class="col-lg-6 offset-lg-3 col-md-6 offset-md-3">
 					<?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-					<?= $form->field($model, 'username')->textInput(['placeholder' => "Ім'я користувача"])->label(false) ?>
+					<?= $form->field($model, 'username')->textInput(['placeholder' => "Ім'я користувача. Приклад: dartwaider)"])->label(false) ?>
 
 					<?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Пароль'])->label(false) ?>
 

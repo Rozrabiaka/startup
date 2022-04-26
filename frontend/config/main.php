@@ -70,8 +70,8 @@ return [
 			'showScriptName' => false,
 			'rules' => [
 				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-				'<action:index|contact|signup|login|request-password-reset|resend-verification-email|profile>' => 'site/<action>',
-				'<action:ajax>' => 'ajax/<alias>',
+				'<action:index>' => 'profile/<action>',
+				'<action:index|contact|signup|login|request-password-reset|resend-verification-email>' => 'site/<action>',
 			],
 		],
 	],
