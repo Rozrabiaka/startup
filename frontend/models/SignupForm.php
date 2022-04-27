@@ -15,6 +15,7 @@ class SignupForm extends Model
 	public $email;
 	public $password;
 	public $img;
+	public $description;
 
 
 	/**
@@ -29,6 +30,7 @@ class SignupForm extends Model
 			['username', 'string', 'min' => 2, 'max' => 255],
 
 			['img', 'string'],
+			['description', 'string'],
 
 			['email', 'trim'],
 			['email', 'required'],
@@ -66,6 +68,7 @@ class SignupForm extends Model
 		$user->username = $this->username;
 
 		$user->email = $this->email;
+		$user->description = '';
 		$user->img = '/images/no-image.png';
 		$user->setPassword($this->password);
 		$user->generateAuthKey();

@@ -29,6 +29,7 @@ class Hashtags extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['date'], 'safe'],
+			[['status'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique'],
         ];
@@ -41,8 +42,9 @@ class Hashtags extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'date' => 'Date',
+            'name' => 'Тег',
+            'date' => 'Дата',
+			'status' => 'Статус'
         ];
     }
 }

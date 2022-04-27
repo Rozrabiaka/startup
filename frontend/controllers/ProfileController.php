@@ -2,9 +2,10 @@
 
 namespace frontend\controllers;
 
+use common\models\Hashtags;
 use common\models\History;
+use common\models\HistoryHashtags;
 use common\models\User;
-use frontend\models\Search;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -61,14 +62,58 @@ class ProfileController extends Controller
 
 	public function actionIndex()
 	{
-		$model = User::find()->where(['id' => Yii::$app->user->id])->one();
 		$history = new History();
 
 		if (!empty(Yii::$app->request->post())) {
+			$postData = Yii::$app->request->post('History');
 
-			echo "<pre>";
-			var_dump(Yii::$app->request->post());
-			exit;
+			if (!empty($postData['hashtags']) AND $hashtags = json_decode($postData['hashtags'])) {
+
+				//делаем одномерный массив для поиска одним запросом
+				$searchArray = array();
+				foreach ($hashtags as $data) {
+					array_push($searchArray, $data->value);
+				}
+
+				//ищем хештеги поимени
+				$hashtagsModel = new Hashtags();
+				$issetHashtags = $hashtagsModel::find()->select(['id', 'name'])->where(['name' => $searchArray])->asArray()->all();
+
+				//Создаем 2 массива, один который хранит имена хештегов, 2рой будет хранить ID тегов для записи в БД postHashtags
+				$hashtagsNames = array(); //to one-dimensional array
+				$hashtagsIds = array(); //array with existing tags
+				foreach ($issetHashtags as $isset) {
+					array_push($hashtagsNames, $isset['name']);
+					array_push($hashtagsIds, $isset['id']); //tag to added (existing tags)
+				}
+
+				//теги которые нужно создать, в batchArray сохраняем для insert, $newTags для поиска в БД чтобы получить ID тегов
+				$batchArray = array();
+				$newTags = array();
+				foreach ($searchArray as $tag) {
+					if (!in_array($tag, $hashtagsNames)) {
+						$batchArray[] = array(
+							'name' => $tag
+						);
+						array_push($newTags, $tag);
+					}
+				}
+
+				//create tags
+				$result = Yii::$app->db->createCommand()->batchInsert($hashtagsModel::tableName(),
+					['name'], $batchArray)->execute();
+
+				if (is_int($result)) {
+					$newHashtagsIds = $hashtagsModel::find()->select(['id'])->where(['name' => $newTags])->asArray()->all();
+
+					//получив айди вставляем их в массив всех ID тегов которые нужно добавить к посту
+					foreach ($newHashtagsIds as $ids) {
+						array_push($hashtagsIds, $ids['id']);
+					}
+				}
+			}
+
+			//Сохраняем пост
 			$history->load(Yii::$app->request->post());
 			$history->user_id = Yii::$app->user->id;
 
@@ -84,6 +129,20 @@ class ProfileController extends Controller
 					}
 				}
 
+				//сохраняем в таблицу postHashtags массив с тегами $hashtagsIds
+				if (!empty($hashtagsIds)) {
+					$historyBatchArray = array();
+					foreach ($hashtagsIds as $id) {
+						$historyBatchArray[] = array(
+							'history_id' => $history->id,
+							'hashtag_id' => $id
+						);
+					}
+
+					Yii::$app->db->createCommand()->batchInsert(HistoryHashtags::tableName(),
+						['history_id', 'hashtag_id'], $historyBatchArray)->execute();
+				}
+
 				Yii::$app->session->setFlash('success', 'Вашу історію було успішно добавлено.');
 				return $this->refresh();
 			} else {
@@ -91,7 +150,9 @@ class ProfileController extends Controller
 			}
 		}
 
-		\Yii::$app->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+		$model = User::find()->where(['id' => Yii::$app->user->id])->one();
+		$model->description = mb_strimwidth($model->description, 0, 130, '...');
+
 		\Yii::$app->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/autocomplete-0.3.0.min.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		\Yii::$app->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/jquery-ui.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		\Yii::$app->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/hashtags.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);

@@ -20,6 +20,9 @@ class History extends \yii\db\ActiveRecord
 
 	public $hashtags;
 
+	const STATUS_ACTIVE = 0;
+	const STATUS_DEACTIVATED = 1;
+
 	/**
 	 * {@inheritdoc}
 	 */

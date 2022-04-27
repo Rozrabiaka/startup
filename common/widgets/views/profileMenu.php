@@ -13,16 +13,6 @@ use yii\bootstrap4\Html; ?>
             <li>
 				<?= Html::img('/images/svg/settings.svg', ['alt' => 'My history']) ?><?= Html::a('Налаштування', ['/my-history']) ?>
             </li>
-			<?php
-			echo '<li>'
-				. Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
-				. Html::submitButton(
-					'Вихід',
-					['class' => 'btn btn-link logout profile-logout']
-				)
-				. Html::endForm()
-				. '</li>';
-			?>
         </ul>
     </div>
 	<?= FooterMenuWidget::widget() ?>
