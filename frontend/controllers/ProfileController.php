@@ -26,10 +26,10 @@ class ProfileController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['index'],
+				'only' => ['index', 'settings'],
 				'rules' => [
 					[
-						'actions' => ['index'],
+						'actions' => ['index', 'settings'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -115,20 +115,21 @@ class ProfileController extends Controller
 
 			//Сохраняем пост
 			$history->load(Yii::$app->request->post());
+
+			preg_match_all('/<img[^>]+>/i', $history->description, $descriptionImages);
+
+			foreach ($descriptionImages[0] as $key => $images) {
+				$explode = explode('/', $images);
+				$transferResult = $history->transferImage(str_replace('">', '', $explode[array_key_last($explode)]));
+
+				if (!empty($transferResult)) {
+					$history->description = str_replace($transferResult['oldFilePath'], $transferResult['newFilePath'], $history->description);
+				}
+			}
+
 			$history->user_id = Yii::$app->user->id;
 
 			if ($history->save()) {
-				preg_match_all('/<img[^>]+>/i', $history->description, $descriptionImages);
-
-				foreach ($descriptionImages[0] as $key => $images) {
-					$explode = explode('/', $images);
-					$transferResult = $history->transferImage(str_replace('">', '', $explode[array_key_last($explode)]));
-
-					if (!empty($transferResult)) {
-						$history->description = str_replace($transferResult['oldFilePath'], $transferResult['newFilePath'], $history->description);
-					}
-				}
-
 				//сохраняем в таблицу postHashtags массив с тегами $hashtagsIds
 				if (!empty($hashtagsIds)) {
 					$historyBatchArray = array();
@@ -150,9 +151,6 @@ class ProfileController extends Controller
 			}
 		}
 
-		$model = User::find()->where(['id' => Yii::$app->user->id])->one();
-		$model->description = mb_strimwidth($model->description, 0, 130, '...');
-
 		\Yii::$app->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/autocomplete-0.3.0.min.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		\Yii::$app->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/jquery-ui.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		\Yii::$app->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/hashtags.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
@@ -164,8 +162,13 @@ class ProfileController extends Controller
 		]);
 
 		return $this->render('profile', [
-			'model' => $model,
 			'history' => $history
 		]);
+	}
+
+	public function actionSettings()
+	{
+		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
+		return $this->render('settings');
 	}
 }

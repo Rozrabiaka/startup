@@ -79,6 +79,14 @@
     line-height: 17px;
 }
 
+.list-view .item:first-child {
+    padding-top: 0;
+}
+
+.item {
+    padding-top: 20px;
+}
+
 .post-hashtags a:hover {
     color: #6427C7;
     background: #DEE4FF;

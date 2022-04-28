@@ -70,7 +70,7 @@ return [
 			'showScriptName' => false,
 			'rules' => [
 				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-				'<action:index>' => 'profile/<action>',
+//				'<action:index>' => 'profile/<action>',
 				'<action:index|contact|signup|login|request-password-reset|resend-verification-email>' => 'site/<action>',
 			],
 		],

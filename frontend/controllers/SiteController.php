@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Auth;
+use common\models\History;
 use common\models\LoginForm;
 use common\models\User;
 use frontend\models\Contact;
@@ -12,6 +13,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -87,11 +89,16 @@ class SiteController extends Controller
 			'content' => "Freedom Home. " . self::META
 		]);
 
+		$model = new History();
+		$dataProvider = $model->historis();
+
 		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/mobile-detect.min.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/index.css", ['depends' => ['frontend\assets\AppAsset']]);
 		$this->getView()->registerCssFile("@web/css/post.css", ['depends' => ['frontend\assets\AppAsset']]);
 
-		return $this->render('index');
+		return $this->render('index', array(
+			'dataProvider' => $dataProvider
+		));
 	}
 
 	/**

@@ -2,8 +2,12 @@
 
 /** @var yii\web\View $this */
 
+/** @var common\models\History $dataProvider */
+
 use common\widgets\FooterMenuWidget;
+use kop\y2sp\ScrollPager;
 use yii\bootstrap4\Html;
+use yii\widgets\ListView;
 
 $this->title = 'Freedom Home UA';
 ?>
@@ -58,33 +62,27 @@ $this->title = 'Freedom Home UA';
 			<?= FooterMenuWidget::widget() ?>
         </div>
         <div class="col-lg-8">
-            <div class="post">
-                <div class="post-data">
-					<?= Html::img('/images/people.png', ['alt' => 'People']) ?> <span
-                            class="post-username">Rozrabiaka</span>
-                    <span class="post-date">Опубліковано о 16:15 21.11.2022</span>
-                </div>
-                <div class="post-description">
-                    <h3 class="post-title">Магазины низких цен: оригиналы или подделки?</h3>
-
-                    <p class="post-text">
-						<?= Html::img('/images/people.png', ['alt' => 'People']) ?>
-                        В одном из сообществ Вк попался мне такой вопрос: "в Светофоре оригинал или подделка (мыло Duru,
-                        мишки Барни, конфеты MilkyWay)?"Думаю, что ответ на этот вопрос волнует многих, поэтому
-                        продублирую
-                        и расширю свой ответ здесь.</p>
-
-                    <div class="post-hashtags">
-						<?= Html::a('Природа', ['/signup'], ['class' => 'post-hashtag']) ?>
-						<?= Html::a('Дотка', ['/signup'], ['class' => 'post-hashtag']) ?>
-						<?= Html::a('Парнушка', ['/signup'], ['class' => 'post-hashtag']) ?>
-                    </div>
-                </div>
-
-                <div class="post-info">
-					<?= Html::a('Дивитись повністю', ['/signup'], ['class' => 'watch-more']) ?>
-                </div>
-            </div>
+			<?php
+			echo ListView::widget([
+				'dataProvider' => $dataProvider,
+				'itemOptions' => ['class' => 'item'],
+				'itemView' => '_indexPosts',
+				'summary' => '',
+				'pager' => [
+					'class' => ScrollPager::className(),
+					'noneLeftText' => 'Кінець стрічки. Чи не час зайнятись спортом?',
+					'spinnerTemplate' => '
+					                    <div class="d-flex justify-content-center loader-historis">
+                                            <div class="spinner-border" role="status">
+                                                <span class="sr-only"></span>
+                                            </div>
+                                        </div>
+					',
+					'enabledExtensions' => [ScrollPager::EXTENSION_SPINNER, ScrollPager::EXTENSION_NONE_LEFT, ScrollPager::EXTENSION_PAGING],
+					'eventOnScroll' => 'function() {$(\'.ias-trigger a\').trigger(\'click\')}',
+				]
+			]);
+			?>
         </div>
     </div>
 </div>

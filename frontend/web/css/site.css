@@ -616,6 +616,14 @@ footer .down {
     display: none !important;
 }
 
+.loader-historis, .ias-noneleft{
+    margin-top:20px;
+}
+
+.spinner-border{
+    color:#9772FF;
+}
+
 /* BOTTOM FOOTER END */
 
 @media (max-width: 1199px) {
