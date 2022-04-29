@@ -18,7 +18,7 @@ $this->title = 'Freedom Home. Профіль';
 		<?= ProfileMenuWidget::widget() ?>
         <div class="col-lg-8">
             <h5 class="mh-block-dark">Створити публікацію</h5>
-            <div class="create-history">
+            <div class="create-history profile-right-content">
 				<?php $form = ActiveForm::begin(['id' => 'create-history-form']); ?>
 
 				<?= $form->field($history, 'title')->textInput(['placeholder' => "Титулка"])->label(false) ?>

@@ -44,7 +44,7 @@ use yii\bootstrap4\Html; ?>
             <div class="col-lg-12">
                 <div class="f-c-links">
                     <div class="f-c-link first-link">
-						<?= Html::a(Html::img('/images/svg/telegram.svg', ['alt' => 'telegram', 'class' => '']) . 'Freedom Home в Telegram', ['/signup'], ['class' => 'mc-social-links']) ?>
+						<?= Html::a(Html::img('/images/svg/telegram.svg', ['alt' => 'telegram', 'class' => '']) . 'Freedom Home в Telegram', 'https://t.me/+5gFPWLJC9zpiZGU0', ['class' => 'mc-social-links', 'target' => '_blank']) ?>
                     </div>
                     <div class="f-c-link">
 						<?= Html::a(Html::img('/images/svg/mail.svg', ['alt' => 'telegram', 'class' => '']) . 'Наша електронна пошта', ['/signup'], ['class' => 'mc-social-links']) ?>

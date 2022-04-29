@@ -11,25 +11,29 @@ use yii\widgets\ListView;
 
 $this->title = 'Freedom Home UA';
 ?>
-<div class="index-top">
-    <div class="row">
-        <div class="col-lg-6">
-            <h1>Що таке Freedom Home?</h1>
+<?php if (Yii::$app->user->isGuest): ?>
+    <div class="index-top">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1>Що таке Freedom Home?</h1>
 
-            <p>Це найкраща українська платформа для розповсюдження ваших історій! Багатий функціонал допоможе вам дуже
-                швидко написати
-                історію із вашого життя!</p>
+                <p>Це найкраща українська платформа для розповсюдження ваших історій! Багатий функціонал допоможе вам
+                    дуже
+                    швидко написати
+                    історію із вашого життя!</p>
 
-			<?= Html::a('Реєстрація', ['/signup'], ['class' => 'purple-b']) ?>
-        </div>
-        <div class="col-lg-6">
-            <div class="index-img">
-				<?= Html::img('/images/people.png', ['alt' => 'People']) ?>
+				<?= Html::a('Реєстрація', ['/signup'], ['class' => 'purple-b']) ?>
+            </div>
+            <div class="col-lg-6">
+                <div class="index-img">
+					<?= Html::img('/images/people.png', ['alt' => 'People']) ?>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="content">
+<?php endif; ?>
+
+<div class="content history-content">
     <div class="row">
         <div class="col-lg-4">
             <div class="content-menu mobile-none">

@@ -168,7 +168,11 @@ class ProfileController extends Controller
 
 	public function actionSettings()
 	{
+		$userModel = User::find()->where(['id' => Yii::$app->user->id])->one();
+
 		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
-		return $this->render('settings');
+		return $this->render('settings', [
+			'model' => $userModel
+		]);
 	}
 }

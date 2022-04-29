@@ -8,7 +8,7 @@ use yii\bootstrap4\Html;
     <h5 class="mh-block-dark">Зв'язатись з нами</h5>
     <div class="social-links menu-back">
         <ul>
-            <li><?= Html::a(Html::img('/images/svg/telegram.svg', ['alt' => 'telegram', 'class' => '']) . 'Freedom Home в Telegram', ['/signup'], ['class' => 'mc-social-links']) ?></li>
+            <li><?= Html::a(Html::img('/images/svg/telegram.svg', ['alt' => 'telegram', 'class' => '']) . 'Freedom Home в Telegram', 'https://t.me/+5gFPWLJC9zpiZGU0', ['class' => 'mc-social-links', 'target' => '_blank']) ?></li>
             <li><?= Html::a(Html::img('/images/svg/mail.svg', ['alt' => 'telegram', 'class' => '']) . 'Наша електронна пошта', ['/signup'], ['class' => 'mc-social-links']) ?></li>
         </ul>
     </div>
