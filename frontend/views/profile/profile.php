@@ -8,7 +8,7 @@ use \stkevich\ckeditor5\EditorClassic;
 
 /** @var common\models\History $history */
 
-$this->title = 'Freedom Home. Профіль';
+$this->title = 'Freedom Home. Створити історію';
 
 ?>
 

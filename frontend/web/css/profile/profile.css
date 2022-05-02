@@ -138,6 +138,7 @@
     width: 100%;
     margin: 0;
     padding: 0;
+    border: 1px dashed #9772FF !important;
     min-height: unset;
 }
 
@@ -177,6 +178,13 @@
 
 .change-click .active {
     color: #9772FF;
+}
+.file-drop-zone .file-preview-thumbnails{
+    cursor: pointer !important;
+}
+
+.text-success{
+    display: none;
 }
 
 @media (max-width: 991px) {
