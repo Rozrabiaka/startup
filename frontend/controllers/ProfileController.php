@@ -5,11 +5,13 @@ namespace frontend\controllers;
 use common\models\Hashtags;
 use common\models\History;
 use common\models\HistoryHashtags;
-use common\models\User;
+use frontend\models\FrontUser;
+use frontend\models\NewPassword;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -26,10 +28,10 @@ class ProfileController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['index', 'settings'],
+				'only' => ['index', 'settings', 'my-history'],
 				'rules' => [
 					[
-						'actions' => ['index', 'settings'],
+						'actions' => ['index', 'settings', 'my-history'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -168,11 +170,35 @@ class ProfileController extends Controller
 
 	public function actionSettings()
 	{
-		$userModel = User::find()->where(['id' => Yii::$app->user->id])->one();
+		$model = new FrontUser();
+		$modelPassword = new NewPassword();
 
+		if ($model->load(Yii::$app->request->post())) {
+			$image = UploadedFile::getInstances($model, 'image');
+
+			if ($model->updateUser($image)) {
+				Yii::$app->session->setFlash('success', 'Дані успішно оновлені.');
+				return $this->refresh();
+			}
+		}
+
+		//update passowrd
+		if ($modelPassword->load(Yii::$app->request->post()) && $modelPassword->updatePassword()) {
+			Yii::$app->session->setFlash('success', 'Пароль було успішно оновлено.');
+			return $this->refresh();
+		}
+
+		\Yii::$app->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
+
 		return $this->render('settings', [
-			'model' => $userModel
+			'model' => $model,
+			'modelPassword' => $modelPassword
 		]);
+	}
+
+	public function actionMyHistory()
+	{
+
 	}
 }

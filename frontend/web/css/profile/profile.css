@@ -68,8 +68,14 @@
 }
 
 .profile-img {
-    max-width: 116px;
-    width: 116px;
+    max-width: 140px;
+    max-height: 116px;
+    width: 140px;
+    height: 116px;
+}
+.profile-img img{
+    width:100%;
+    height: 100%;
 }
 
 .profile-menu li a:hover {
@@ -117,6 +123,62 @@
     background: unset;
 }
 
+.profile-right-content .file-preview {
+    height: 160px;
+    width: 160px;
+    border: none;
+}
+
+.file-drop-zone.clickable:hover {
+    border: 1px dashed #999 !important;
+}
+
+.profile-right-content .file-drop-zone {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: unset;
+}
+
+.file-thumbnail-footer, .fileinput-remove, .file-drop-zone-title {
+    display: none;
+}
+
+.kv-file-content {
+    height: 140px !important;
+    width: 140px !important;
+}
+
+.kv-file-content img {
+    height: 100% !important;
+}
+
+.file-preview-frame {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.change-password-click, .change-info-click {
+    cursor: pointer;
+}
+
+.change-password {
+    display: none;
+}
+
+.change-click {
+    display: flex;
+    justify-content: space-around;
+    background: #1E2133;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.change-click .active {
+    color: #9772FF;
+}
+
 @media (max-width: 991px) {
     .bottom-profile {
         display: flex;
@@ -148,8 +210,14 @@
     }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 480px) {
+    .profile-img{
+        max-width: 116px;
+        max-height: 116px;
+        width: 116px;
+        height: 116px;
+    }
     .pfi-username {
-        font-size: 24px;
+        font-size: 22px;
     }
 }

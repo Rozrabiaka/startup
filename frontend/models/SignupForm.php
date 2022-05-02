@@ -69,7 +69,7 @@ class SignupForm extends Model
 
 		$user->email = $this->email;
 		$user->description = '';
-		$user->img = '/images/no-image.png';
+		$user->img = Yii::getAlias('@imgDefault');
 		$user->setPassword($this->password);
 		$user->generateAuthKey();
 		$user->generateEmailVerificationToken();

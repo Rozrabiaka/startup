@@ -3,17 +3,17 @@
 use yii\bootstrap4\Html; ?>
 
 <div class="col-lg-12">
-	<div class="header-profile">
-		<div class="top-profile">
-			<div class="profile-img">
-				<?= Html::img($model->identity->img, ['alt' => $model->identity->username]) ?>
-			</div>
-			<div class="profile-info">
-				<span class="pfi-username"><?= $model->identity->username ?></span>
-				<span class="pfi-email"><?= $model->identity->email ?> </span>
-				<span class="pfi-description pfi-pc"><?= $model->identity->description ?></span>
-			</div>
-			<div class="profile-logout profile-logout-pc">
+    <div class="header-profile">
+        <div class="top-profile">
+            <div class="profile-img">
+				<?= Html::img(Yii::$app->user->identity->img, ['alt' => Yii::$app->user->identity->username]) ?>
+            </div>
+            <div class="profile-info">
+                <span class="pfi-username"><?= Yii::$app->user->identity->username ?></span>
+                <span class="pfi-email"><?= Yii::$app->user->identity->email ?> </span>
+                <span class="pfi-description pfi-pc"><?= $description ?></span>
+            </div>
+            <div class="profile-logout profile-logout-pc">
 				<?php
 				echo Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
 					. Html::submitButton(
@@ -22,8 +22,8 @@ use yii\bootstrap4\Html; ?>
 					)
 					. Html::endForm()
 				?>
-			</div>
-			<div class="profile-logout profile-logout-mobile">
+            </div>
+            <div class="profile-logout profile-logout-mobile">
 				<?php
 				echo Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
 					. Html::submitButton(
@@ -32,12 +32,12 @@ use yii\bootstrap4\Html; ?>
 					)
 					. Html::endForm()
 				?>
-			</div>
-		</div>
-		<div class="bottom-profile">
+            </div>
+        </div>
+        <div class="bottom-profile">
                     <span class="pfi-description">
-                        <?= $model->identity->description ?>
+                        <?= $description ?>
                     </span>
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
