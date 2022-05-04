@@ -55,7 +55,6 @@ AppAsset::register($this);
                         <div class="align-center">
 							<?= Html::a('Головна', ['/'], ['class' => '']) ?>
 							<?= Html::a('Спільноти', ['/'], ['class' => '']) ?>
-							<?= Html::a('Стрічка', ['/'], ['class' => '']) ?>
                         </div>
                         <div class="align-end">
 							<?= SearchWidget::widget() ?>
@@ -70,7 +69,6 @@ AppAsset::register($this);
                                     <rect x="9" y="19" width="22" height="2" rx="1" fill="#F5F7FF"/>
                                     <rect x="9" y="25" width="22" height="2" rx="1" fill="#F5F7FF"/>
                                 </svg>
-
                             </div>
                         </div>
                     </div>
@@ -78,6 +76,56 @@ AppAsset::register($this);
             </div>
         </div>
     </header>
+
+    <div class="mobile-menu-block">
+        <div class="mobile-overlay-wrapper">
+            <div class="mobile-overlay-pane">
+                <div class="drawer">
+                    <div class="drawer-content">
+                        <div class="close-mmb">
+                            <span class="click-close-mmb"><?= Html::img('/images/svg/close-mmb.svg', ['alt' => 'Close mmb']) ?></span>
+                        </div>
+						<?php if (!Yii::$app->user->isGuest): ?>
+                            <div class="drawer-user-info">
+                                <div class="drawer-user-img">
+									<?= Html::img(Yii::$app->user->identity->img, ['alt' => 'Close mmb']) ?>
+                                </div>
+                                <div class="drawer-user-params">
+                                    <span class="mmb-username"><?= Yii::$app->user->identity->username ?></span>
+                                    <span class="mmb-email"><?= Yii::$app->user->identity->email ?></span>
+                                </div>
+                            </div>
+						<?php endif; ?>
+
+                        <div class="mmb-links">
+                            <ul>
+                                <li><?= Html::a('Головна', ['/'], ['class' => '']) ?></li>
+                                <li><?= Html::a('Спільноти', ['/'], ['class' => '']) ?></li>
+                            </ul>
+                        </div>
+
+                        <div class="mmb-b">
+                            <div class="mmb-buttons">
+								<?php if (Yii::$app->user->isGuest): ?>
+									<?= Html::a('Реєстрація', ['/signup'], ['class' => 'purple-b mmb-b-registration']) ?>
+									<?= Html::a('Вхід', ['/signup'], ['class' => 'black-b']) ?>
+								<?php else: ?>
+									<?php
+									echo Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
+										. Html::submitButton(
+											'Вихід',
+											['class' => 'black-b black-b-button']
+										)
+										. Html::endForm()
+									?>
+								<?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <main role="main" class="flex-shrink-0">
         <div class="container">

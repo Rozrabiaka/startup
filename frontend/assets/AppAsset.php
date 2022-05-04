@@ -15,7 +15,8 @@ class AppAsset extends AssetBundle
 		'css/site.css',
 	];
 	public $js = [
-		'js/footer.js'
+		'js/footer.js',
+		'js/main.js'
 	];
 	public $images = [];
 	public $depends = [

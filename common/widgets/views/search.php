@@ -2,7 +2,6 @@
 
 use yii\bootstrap4\Html;
 use yii\widgets\ActiveForm;
-
 ?>
 
 <div class="search-box rg-header">

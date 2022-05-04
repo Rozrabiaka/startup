@@ -8,6 +8,7 @@ use common\models\HistoryHashtags;
 use frontend\models\FrontUser;
 use frontend\models\NewPassword;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -191,6 +192,11 @@ class ProfileController extends Controller
 		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
 
+		$this->view->registerMetaTag([
+			'name' => 'description',
+			'content' => "Freedom Home. Профіль. Налаштування. " . self::META
+		]);
+
 		return $this->render('settings', [
 			'model' => $model,
 			'modelPassword' => $modelPassword
@@ -199,8 +205,27 @@ class ProfileController extends Controller
 
 	public function actionMyHistory()
 	{
+		$dataProvider = new ActiveDataProvider([
+			'query' => History::find(),
+			'pagination' => [
+				'pageSize' => 10
+			],
+			'sort' => [
+				'defaultOrder' => [
+					'id' => SORT_DESC
+				]
+			],
+		]);
+
+		$this->view->registerMetaTag([
+			'name' => 'description',
+			'content' => "Freedom Home. Профіль. Мої історії. " . self::META
+		]);
+
 		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
-		return $this->render('myHistory');
+		return $this->render('myHistory', [
+			'dataProvider' => $dataProvider
+		]);
 	}
 }
