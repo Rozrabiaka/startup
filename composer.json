@@ -27,7 +27,8 @@
     "execut/yii2-robots-txt": "dev-master",
     "yiisoft/yii2-authclient": "*",
     "stkevich/yii2-ckeditor5": "*",
-    "kop/yii2-scroll-pager": "dev-master"
+    "kop/yii2-scroll-pager": "dev-master",
+    "yii2mod/yii2-comments": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

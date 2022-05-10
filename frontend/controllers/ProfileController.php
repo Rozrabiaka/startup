@@ -7,8 +7,8 @@ use common\models\History;
 use common\models\HistoryHashtags;
 use frontend\models\FrontUser;
 use frontend\models\NewPassword;
+use frontend\models\ProfileSettingsSearch;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -205,17 +205,8 @@ class ProfileController extends Controller
 
 	public function actionMyHistory()
 	{
-		$dataProvider = new ActiveDataProvider([
-			'query' => History::find(),
-			'pagination' => [
-				'pageSize' => 10
-			],
-			'sort' => [
-				'defaultOrder' => [
-					'id' => SORT_DESC
-				]
-			],
-		]);
+		$search = new ProfileSettingsSearch();
+		$dataProvider = $search->search();
 
 		$this->view->registerMetaTag([
 			'name' => 'description',
@@ -224,8 +215,11 @@ class ProfileController extends Controller
 
 		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
+		$this->getView()->registerCssFile("@web/css/post.css", ['depends' => ['frontend\assets\AppAsset']]);
+		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		return $this->render('myHistory', [
-			'dataProvider' => $dataProvider
+			'dataProvider' => $dataProvider,
+			'search' => $search
 		]);
 	}
 }

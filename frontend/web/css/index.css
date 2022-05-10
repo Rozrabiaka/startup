@@ -20,10 +20,6 @@
     max-width: 540px;
 }
 
-.menu-contact{
-    padding-top:20px;
-}
-
 @media (max-width: 1199px) {
     .index-top .index-img {
         margin: 0 auto;

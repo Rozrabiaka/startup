@@ -3,7 +3,6 @@
 namespace common\models;
 
 use Yii;
-use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "history".
@@ -58,7 +57,7 @@ class History extends \yii\db\ActiveRecord
 			'title' => 'Титулка',
 			'description' => 'Історія',
 			'user_id' => 'User ID',
-			'datetime' => 'Date',
+			'datetime' => 'Дата',
 		];
 	}
 
@@ -69,12 +68,12 @@ class History extends \yii\db\ActiveRecord
 	 */
 	public function getUser()
 	{
-		return $this->hasOne(User::className(), ['id' => 'user_id']);
+		return $this->hasOne(User::className(), ['id' => 'user_id'])->select(['id', 'username']);
 	}
 
 	public function getHistoryHashtags()
 	{
-		return $this->hasMany(HistoryHashtags::className(), ['history_id' => 'id'])->joinWith('hashtag');
+		return $this->hasMany(HistoryHashtags::className(), ['history_id' => 'id'])->select(['hashtag_id', 'history_id'])->joinWith('hashtag');
 	}
 
 	public function transferImage($fromImage)
@@ -93,28 +92,5 @@ class History extends \yii\db\ActiveRecord
 			'newFilePath' => Yii::$app->request->hostInfo . '/uploads/historyFiles/' . $fromImage,
 			'oldFilePath' => Yii::$app->request->hostInfo . '/uploads/removeImages/' . $fromImage
 		);
-	}
-
-	public function historis()
-	{
-		$query = self::find()
-			->select(['history.id', 'history.title', 'history.user_id', 'history.description', 'history.datetime', 'user.username'])
-			->joinWith('user')
-			->joinWith('historyHashtags');
-
-		$dataProvider = new ActiveDataProvider([
-			'query' => $query,
-			'pagination' => [
-				'pageSize' => 10
-			],
-			'sort' => [
-				'defaultOrder' => [
-					'id' => SORT_DESC
-				]
-			],
-		]);
-
-		return $dataProvider;
-
 	}
 }

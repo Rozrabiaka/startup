@@ -300,7 +300,7 @@ header {
     max-height: 40px;
 }
 
-.main-header .align-end input {
+.main-header .align-end input, .profile-settings-layout input {
     border: 1px solid #9772FF;
     max-width: 240px;
     width: 240px;
@@ -309,7 +309,7 @@ header {
     border-radius: 2px 0 0 2px;
 }
 
-.main-header .align-end form button {
+.main-header .align-end form button, .profile-settings-layout form button {
     height: 40px;
     border: none;
     background: #9772FF;
@@ -788,6 +788,22 @@ footer .down {
     color: #9772FF;
 }
 
+.watch-more{
+    cursor: pointer;
+}
+
+.post-info{
+    display: flex;
+}
+
+.post-info .history-comments{
+    margin-left:auto;
+}
+
+.menu-contact{
+    padding-top:20px;
+}
+
 /* BOTTOM FOOTER END */
 
 @media (max-width: 1199px) {
@@ -851,8 +867,8 @@ footer .down {
         padding-right: 8px;
     }
 
-    .main-header .align-end input {
-        width: 144px;
+    .main-header .align-end input, .profile-settings-layout input {
+        width: 144px !important;
     }
 
     h1 {

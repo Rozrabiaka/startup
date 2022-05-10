@@ -6,11 +6,11 @@ use yii\bootstrap4\Html; ?>
     <div class="header-profile">
         <div class="top-profile">
             <div class="profile-img">
-				<?= Html::img(Yii::$app->user->identity->img, ['alt' => Yii::$app->user->identity->username]) ?>
+				<?= Html::img($userData->img, ['alt' => $userData->username]) ?>
             </div>
             <div class="profile-info">
-                <span class="pfi-username"><?= Yii::$app->user->identity->username ?></span>
-                <span class="pfi-email"><?= Yii::$app->user->identity->email ?> </span>
+                <span class="pfi-username"><?= $userData->username ?></span>
+                <span class="pfi-email"><?= $userData->email ?> </span>
                 <span class="pfi-description pfi-pc"><?= $description ?></span>
             </div>
             <div class="profile-logout profile-logout-pc">

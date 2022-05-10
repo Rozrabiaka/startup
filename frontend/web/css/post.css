@@ -35,6 +35,15 @@
     color: #8D92A4;
 }
 
+.post-data a:hover {
+    color: #9772FF;
+}
+
+.story-block {
+    max-height: 450px;
+    overflow: hidden;
+}
+
 .post-title {
     font-family: 'Inter-Medium', sans-serif;
     font-size: 28px;
@@ -133,3 +142,113 @@
     align-items: end;
     margin-left: auto;
 }
+
+/* comments */
+.comment-wrapper .comment-form-container {
+    margin: 20px 0;
+}
+
+.history-comments .comments-list li {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.history-comments .comment-details {
+    display: flex;
+}
+
+.history-comments .comment-content {
+    background: #353B53;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.history-comments .comments-list .children {
+    border-left: none;
+}
+
+.history-comments .comment-author-name {
+    display: inline-grid;
+    padding-left: 10px;
+}
+
+.history-comments .comment-body {
+    padding-top: 20px;
+    font-size: 14px;
+    font-family: 'Inter-Regular', sans-serif;
+}
+
+.history-comments .comment-author-name span {
+    font-family: 'Inter-Medium', sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    color: #FFFFFF;
+}
+
+.history-comments .comment-author-name a {
+    color: #8D92A4;
+    font-family: 'Inter-Light', sans-serif;
+    font-size: 12px;
+}
+
+.history-comments .comments-list .children .comment:after {
+    content: unset;
+}
+
+.history-comments .comments-list .children .comment:before {
+    content: unset;
+}
+
+.history-comments .comment-action-buttons {
+    text-align: right;
+    float: none;
+}
+
+.history-comments .comment-action-buttons a {
+    font-size: 12px;
+    color: #9772FF;
+}
+
+.history-comments .comment-action-buttons a:hover {
+    color: #9772FF;
+}
+
+.history-comments .comment-author-avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.history-comments .comment-author-avatar img {
+    width: 100%;
+    height: 100%;
+}
+
+.history-comments .comment-box textarea {
+    background: #1E2133;
+    border: none;
+}
+
+.add-comment {
+    width: 130px;
+    padding: 10px 0 !important;
+}
+
+.history-comments .help-block {
+    color: #F10A5E;
+    font-family: 'Inter-Light', sans-serif;
+    font-size: 12px;
+    line-height: 15px;
+}
+
+.history-comments #cancel-reply {
+    color: #fff;
+    font-size: 14px;
+    margin-top: -15px;
+    margin-bottom: 10px;
+}
+
+.history-comments #cancel-reply:hover {
+    color: #9772FF;
+}
+
+/* end comments */

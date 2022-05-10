@@ -12,7 +12,20 @@ return [
 	'bootstrap' => ['log'],
 	'language' => 'uk',
 	'controllerNamespace' => 'frontend\controllers',
+	'modules' => [
+		'comment' => [
+			'class' => 'yii2mod\comments\Module',
+		],
+	],
 	'components' => [
+		'i18n' => [
+			'translations' => [
+				'yii2mod.comments' => [
+					'class' => 'yii\i18n\PhpMessageSource',
+					'basePath' => '@yii2mod/comments/messages',
+				],
+			],
+		],
 		'assetManager' => array(
 			'linkAssets' => true,
 			'appendTimestamp' => true,
@@ -70,8 +83,7 @@ return [
 			'showScriptName' => false,
 			'rules' => [
 				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-//				'<action:index>' => 'profile/<action>',
-				'<action:index|contact|signup|login|request-password-reset|resend-verification-email>' => 'site/<action>',
+				'<action:index|comments|contact|signup|login|request-password-reset|resend-verification-email>' => 'site/<action>',
 			],
 		],
 	],

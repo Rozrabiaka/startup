@@ -1,27 +1,29 @@
 <?php
 
-use common\widgets\ProfileMenuWidget;
+use common\widgets\FooterMenuWidget;
 use common\widgets\ProfileTopMenuWidget;
 use common\widgets\SorterDropdown;
 use yii\bootstrap4\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 
-$this->title = 'Freedom Home. Мої історії';
 ?>
 
-<div class="profile">
+<div class="profile site-user-profile">
     <div class="row">
-		<?= ProfileTopMenuWidget::widget() ?>
-		<?= ProfileMenuWidget::widget() ?>
+		<?= ProfileTopMenuWidget::widget(['userId' => $userId]) ?>
+        <div class="col-lg-4">
+			<?= FooterMenuWidget::widget() ?>
+        </div>
         <div class="col-lg-8">
-            <div class="mh-block-dark profile-settings-layout"><span class="mh-block-dark-title">Мої публікації</span>
+            <div class="mh-block-dark profile-settings-layout"><span
+                        class="mh-block-dark-title">Публікації автора</span>
                 <div class="profile-search-form">
 					<?php echo SorterDropdown::widget(array(
-					        'sort' => $dataProvider->sort
-                    )) ?>
+						'sort' => $dataProvider->sort
+					)) ?>
 
-					<?php $form = ActiveForm::begin(['method' => 'get', 'action' => '/profile/my-history']); ?>
+					<?php $form = ActiveForm::begin(['method' => 'get', 'action' => '/site/profile/' . $userId]); ?>
 
 					<?= $form->field($search, 'q')->textInput(['maxlength' => true, 'placeholder' => 'Пошук за титулкою'])->label(false) ?>
 					<?= Html::submitButton('<svg width="20" height="20" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +34,6 @@ $this->title = 'Freedom Home. Мої історії';
 					<?php ActiveForm::end(); ?>
                 </div>
             </div>
-
 			<?php
 			echo ListView::widget([
 				'dataProvider' => $dataProvider,

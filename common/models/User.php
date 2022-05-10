@@ -233,4 +233,10 @@ class User extends ActiveRecord implements IdentityInterface
 
 		return $username;
 	}
+
+	public function getAvatar()
+	{
+		if (!empty($this->img)) return $this->img;
+		return '/images/no-image.png';
+	}
 }

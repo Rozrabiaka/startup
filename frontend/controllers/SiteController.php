@@ -8,8 +8,10 @@ use common\models\LoginForm;
 use common\models\User;
 use frontend\models\Contact;
 use frontend\models\PasswordResetRequestForm;
+use frontend\models\ProfileSettingsSearch;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\ResetPasswordForm;
+use frontend\models\Search;
 use frontend\models\SignupForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -88,7 +90,7 @@ class SiteController extends Controller
 			'content' => "Freedom Home. " . self::META
 		]);
 
-		$model = new History();
+		$model = new Search();
 		$dataProvider = $model->historis();
 
 		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
@@ -361,6 +363,45 @@ class SiteController extends Controller
 
 		return $this->render('resendVerificationEmail', [
 			'model' => $model
+		]);
+	}
+
+	public function actionComments($id)
+	{
+		$model = new ProfileSettingsSearch();
+		$historyInfo = $model->getPostById($id);
+
+		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+		$this->getView()->registerCssFile("@web/css/post.css", ['depends' => ['frontend\assets\AppAsset']]);
+
+		\Yii::$app->view->registerMetaTag([
+			'name' => 'description',
+			'content' => 'Freedom Home. Коментарі. ' . self::META
+		]);
+
+		return $this->render('comments', [
+			'model' => $historyInfo,
+		]);
+	}
+
+	public function actionProfile($id)
+	{
+		$model = new ProfileSettingsSearch();
+		$dataProvider = $model->search($id);
+
+		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
+		$this->getView()->registerCssFile("@web/css/post.css", ['depends' => ['frontend\assets\AppAsset']]);
+		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+
+		\Yii::$app->view->registerMetaTag([
+			'name' => 'description',
+			'content' => 'Freedom Home. Профіль користувача. ' . self::META
+		]);
+
+		return $this->render('profile', [
+			'dataProvider' => $dataProvider,
+			'search' => $model,
+			'userId' => $id
 		]);
 	}
 }
