@@ -32,4 +32,34 @@ class AjaxController extends Controller
 
 		return false;
 	}
+
+	public function actionSearch()
+	{
+		if (Yii::$app->request->isAjax) {
+			$q = Yii::$app->request->get('q');
+
+			$historyResult = (new \yii\db\Query())
+				->select(['title', 'id'])
+				->from('history')
+				->where(['like', 'title', $q])
+				->limit(10)
+				->all();
+
+			$hashtagsResult = (new \yii\db\Query())
+				->select(['name', 'id'])
+				->from('hashtags')
+				->where(['like', 'name', $q])
+				->limit(10)
+				->all();
+
+			return json_encode(array(
+				'data' => array(
+					'history' => $historyResult,
+					'hashtags' => $hashtagsResult
+				)
+			));
+		}
+
+		return false;
+	}
 }

@@ -54,7 +54,7 @@ AppAsset::register($this);
                         </div>
                         <div class="align-center">
 							<?= Html::a('Головна', ['/'], ['class' => '']) ?>
-							<?= Html::a('Спільноти', ['/'], ['class' => '']) ?>
+							<?= Html::a('Спільноти', ['/site/communities'], ['class' => '']) ?>
                         </div>
                         <div class="align-end">
 							<?= SearchWidget::widget() ?>

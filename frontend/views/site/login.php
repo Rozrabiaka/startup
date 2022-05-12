@@ -8,7 +8,7 @@ use common\widgets\FooterMenuWidget;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\ActiveForm;
 
-$this->title = 'Freedom Home. Вхід в систему';
+$this->title = Yii::$app->name . ' Вхід в систему';
 ?>
 <div class="row">
     <div class="col-lg-4">

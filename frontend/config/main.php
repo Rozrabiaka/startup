@@ -37,8 +37,8 @@ return [
 			'transport' => [
 				'class' => 'Swift_SmtpTransport',
 				'host' => 'smtp.gmail.com',
-				'username' => 'traitorsua@gmail.com',
-				'password' => 'p1buny5og43fs0lt',
+				'username' => 'freehomeua@gmail.com',
+				'password' => '4.vqJAN(cQ%ZWj96',
 				'port' => '587',
 				'encryption' => 'tls',
 			],
@@ -83,7 +83,7 @@ return [
 			'showScriptName' => false,
 			'rules' => [
 				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-				'<action:index|comments|contact|signup|login|request-password-reset|resend-verification-email>' => 'site/<action>',
+				'<action:index|comments|communities|contact|signup|login|request-password-reset|resend-verification-email>' => 'site/<action>',
 			],
 		],
 	],

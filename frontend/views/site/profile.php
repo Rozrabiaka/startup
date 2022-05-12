@@ -7,6 +7,8 @@ use yii\bootstrap4\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 
+$this->title = Yii::$app->name . '. Профіль'
+
 ?>
 
 <div class="profile site-user-profile">

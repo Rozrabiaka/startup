@@ -18,17 +18,17 @@ use yii\bootstrap4\Html; ?>
 									<?= Html::a('Головна', ['/'], ['class' => '']) ?>
                                 </li>
                                 <li>
-									<?= Html::a('Політика', ['/signup'], ['class' => '']) ?>
+									<?= Html::a('Політика', ['/politic'], ['class' => '']) ?>
                                 </li>
                             </ul>
                         </div>
                         <div class="footer-menu-l footer-menu-l-ahref">
                             <ul>
                                 <li>
-									<?= Html::a('Спільноти', ['/'], ['class' => '']) ?>
+									<?= Html::a('Спільноти', ['/site/communities'], ['class' => '']) ?>
                                 </li>
                                 <li>
-									<?= Html::a('Стрічка', ['/signup'], ['class' => '']) ?>
+									<?= Html::a('Стрічка', ['/'], ['class' => '']) ?>
                                 </li>
                             </ul>
                         </div>
@@ -47,7 +47,7 @@ use yii\bootstrap4\Html; ?>
 						<?= Html::a(Html::img('/images/svg/telegram.svg', ['alt' => 'telegram', 'class' => '']) . 'Freedom Home в Telegram', 'https://t.me/+5gFPWLJC9zpiZGU0', ['class' => 'mc-social-links', 'target' => '_blank']) ?>
                     </div>
                     <div class="f-c-link">
-						<?= Html::a(Html::img('/images/svg/mail.svg', ['alt' => 'telegram', 'class' => '']) . 'Наша електронна пошта', ['/signup'], ['class' => 'mc-social-links']) ?>
+						<?= Html::mailto(Html::img('/images/svg/mail.svg', ['alt' => 'telegram', 'class' => '']) . 'Наша електронна пошта', 'freehomeua@gmail.com', ['class' => 'mc-social-links']) ?>
                     </div>
                 </div>
             </div>

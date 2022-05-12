@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Auth;
-use common\models\History;
+use common\models\Community;
 use common\models\LoginForm;
 use common\models\User;
 use frontend\models\Contact;
@@ -402,6 +402,21 @@ class SiteController extends Controller
 			'dataProvider' => $dataProvider,
 			'search' => $model,
 			'userId' => $id
+		]);
+	}
+
+	public function actionCommunities()
+	{
+		$model = new Community();
+		$dataProvider = $model->getCommunities();
+
+		\Yii::$app->view->registerMetaTag([
+			'name' => 'description',
+			'content' => 'Freedom Home. Спільноти. ' . self::META
+		]);
+
+		return $this->render('communities', [
+			'dataProvider' => $dataProvider
 		]);
 	}
 }

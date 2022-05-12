@@ -9,7 +9,7 @@ use kop\y2sp\ScrollPager;
 use yii\bootstrap4\Html;
 use yii\widgets\ListView;
 
-$this->title = 'Freedom Home UA';
+$this->title = Yii::$app->name;
 ?>
 <?php if (Yii::$app->user->isGuest): ?>
     <div class="index-top">

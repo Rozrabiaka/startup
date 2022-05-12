@@ -163,10 +163,6 @@
     border-radius: 4px;
 }
 
-.history-comments .comments-list .children {
-    border-left: none;
-}
-
 .history-comments .comment-author-name {
     display: inline-grid;
     padding-left: 10px;
@@ -192,11 +188,11 @@
 }
 
 .history-comments .comments-list .children .comment:after {
-    content: unset;
+    border-color: transparent transparent transparent #9772FF;
 }
 
 .history-comments .comments-list .children .comment:before {
-    content: unset;
+    background-color: #9772FF;
 }
 
 .history-comments .comment-action-buttons {

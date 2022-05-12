@@ -154,8 +154,6 @@ class ProfileController extends Controller
 			}
 		}
 
-		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/autocomplete-0.3.0.min.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
-		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/jquery-ui.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/hashtags.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
 

@@ -1,6 +1,6 @@
 <?php
 
-$this->title = Yii::$app->name . " Коментарі";
+$this->title = Yii::$app->name . ". Коментарі";
 
 use common\widgets\FooterMenuWidget;
 use yii\bootstrap4\Html;
@@ -77,7 +77,7 @@ use yii\bootstrap4\Html;
 				'commentView' => '@app/views/site/comments/_comment',
 				'dataProviderConfig' => [
 					'pagination' => [
-						'pageSize' => 5
+						'pageSize' => 10
 					],
 				]
 			]); ?>
