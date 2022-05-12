@@ -71,7 +71,8 @@ $this->title = Yii::$app->name;
 				'dataProvider' => $dataProvider,
 				'itemOptions' => ['class' => 'item'],
 				'itemView' => '_indexPosts',
-				'summary' => '',
+				'layout' => "{items}\n{pager}",
+				'summary' => false,
 				'pager' => [
 					'class' => ScrollPager::className(),
 					'noneLeftText' => 'Кінець стрічки. Чи не час зайнятись спортом?',

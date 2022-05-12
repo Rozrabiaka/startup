@@ -375,7 +375,7 @@ class SiteController extends Controller
 	 * @param integer $id
 	 * @throws InvalidConfigException
 	 */
-	public function actionComments($id)
+	public function actionComments(int $id)
 	{
 		$model = new ProfileSettingsSearch();
 		$historyInfo = $model->getPostById($id);
@@ -400,7 +400,7 @@ class SiteController extends Controller
 	 * @param integer $id
 	 * @throws InvalidConfigException
 	 */
-	public function actionProfile($id)
+	public function actionProfile(int $id)
 	{
 		$model = new ProfileSettingsSearch();
 		$dataProvider = $model->search($id);

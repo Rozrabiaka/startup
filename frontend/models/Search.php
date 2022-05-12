@@ -29,9 +29,8 @@ class Search extends Model
 	public function historis()
 	{
 		$query = History::find()
-			->select(['history.id', 'history.title', 'history.user_id', 'history.description', 'history.datetime', 'user.username'])
-			->joinWith('user')
-			->joinWith('historyHashtags');
+			->select(['history.id', 'history.title', 'history.user_id', 'history.description', 'history.datetime'])
+			->joinWith(['user', 'historyHashtags']);
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
