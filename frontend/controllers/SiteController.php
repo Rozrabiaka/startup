@@ -15,6 +15,7 @@ use frontend\models\Search;
 use frontend\models\SignupForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -82,6 +83,7 @@ class SiteController extends Controller
 	 * Displays homepage.
 	 *
 	 * @return mixed
+	 * @throws InvalidConfigException
 	 */
 	public function actionIndex()
 	{
@@ -366,6 +368,13 @@ class SiteController extends Controller
 		]);
 	}
 
+	/**
+	 * Comments page.
+	 *
+	 * @return mixed
+	 * @param integer $id
+	 * @throws InvalidConfigException
+	 */
 	public function actionComments($id)
 	{
 		$model = new ProfileSettingsSearch();
@@ -384,6 +393,13 @@ class SiteController extends Controller
 		]);
 	}
 
+	/**
+	 * Profile page.
+	 *
+	 * @return mixed
+	 * @param integer $id
+	 * @throws InvalidConfigException
+	 */
 	public function actionProfile($id)
 	{
 		$model = new ProfileSettingsSearch();
@@ -405,6 +421,11 @@ class SiteController extends Controller
 		]);
 	}
 
+	/**
+	 * Communities page.
+	 *
+	 * @return mixed
+	 */
 	public function actionCommunities()
 	{
 		$model = new Community();

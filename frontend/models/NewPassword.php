@@ -51,6 +51,13 @@ class NewPassword extends Model
 		];
 	}
 
+	/**
+	 * Communities page.
+	 *
+	 * @return mixed
+	 * @throws \yii\base\Exception
+	 * @throws \yii\db\Exception
+	 */
 	public function updatePassword()
 	{
 		if (!$this->validate()) {

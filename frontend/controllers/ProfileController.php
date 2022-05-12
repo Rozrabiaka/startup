@@ -63,6 +63,13 @@ class ProfileController extends Controller
 		];
 	}
 
+	/**
+	 * Profile index page, save new history.
+	 *
+	 * @return mixed
+	 * @throws \yii\base\InvalidConfigException
+	 * @throws \yii\db\Exception
+	 */
 	public function actionIndex()
 	{
 		$history = new History();
@@ -167,6 +174,13 @@ class ProfileController extends Controller
 		]);
 	}
 
+	/**
+	 * Profile settings page.
+	 *
+	 * @return mixed
+	 * @throws \yii\base\InvalidConfigException
+	 * @throws \yii\db\Exception
+	 */
 	public function actionSettings()
 	{
 		$model = new FrontUser();
@@ -201,6 +215,12 @@ class ProfileController extends Controller
 		]);
 	}
 
+	/**
+	 * Profile My History page.
+	 *
+	 * @return mixed
+	 * @throws \yii\base\InvalidConfigException
+	 */
 	public function actionMyHistory()
 	{
 		$search = new ProfileSettingsSearch();

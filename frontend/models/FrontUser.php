@@ -65,6 +65,13 @@ class FrontUser extends Model
 		return true;
 	}
 
+	/**
+	 * Communities page.
+	 *
+	 * @param integer $image
+	 * @return mixed
+	 * @throws \yii\db\Exception
+	 */
 	public function updateUser($image)
 	{
 		if (!$this->validate()) {
@@ -89,6 +96,12 @@ class FrontUser extends Model
 		return false;
 	}
 
+	/**
+	 * Communities page.
+	 *
+	 * @param integer $image
+	 * @return mixed
+	 */
 	public function uploadAvatar($image)
 	{
 		$uploadPath = Yii::getAlias('@uploads') . '/avatars/' . date('Y') . '/' . date('m');
