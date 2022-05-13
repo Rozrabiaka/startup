@@ -111,10 +111,9 @@ AppAsset::register($this);
             </div>
         </div>
     </div>
-
+	<?= Alert::widget() ?>
     <main role="main" class="flex-shrink-0">
         <div class="container">
-			<?= Alert::widget() ?>
 			<?= $content ?>
         </div>
     </main>

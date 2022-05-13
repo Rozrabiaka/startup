@@ -69,12 +69,19 @@ class SignupForm extends Model
 
 		$user->email = $this->email;
 		$user->description = '';
+		$user->status = 10;
 		$user->img = Yii::getAlias('@imgDefault');
 		$user->setPassword($this->password);
 		$user->generateAuthKey();
 		$user->generateEmailVerificationToken();
 
-		return $user->save() && $this->sendEmail($user);
+		if ($user->save()) {
+			Yii::$app->user->login($user);
+			return true;
+		}
+		
+		return false;
+		//&& $this->sendEmail($user);
 	}
 
 	/**
@@ -87,7 +94,7 @@ class SignupForm extends Model
 		return Yii::$app
 			->mailer
 			->compose(
-				['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
+				['html' => 'successSignup-html', 'text' => 'successSignup-text'],
 				['user' => $user]
 			)
 			->setFrom([Yii::$app->params['supportEmail'] => 'Freedom Home robot'])

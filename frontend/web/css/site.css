@@ -830,6 +830,25 @@ footer .down {
     color: #9772FF;
 }
 
+.alert {
+    padding: 0;
+    font-family: 'Inter-Regular', sans-serif;
+    font-size: 12px;
+    border-radius: unset;
+    text-align: center;
+}
+
+.alert-dismissible .close {
+    padding: 0;
+    top: -5px;
+}
+
+.alert-danger {
+    background-color: #F10A5E;
+    border-color: #F10A5E;
+    color: #F5F7FF;
+}
+
 /* BOTTOM FOOTER END */
 
 @media (max-width: 1199px) {

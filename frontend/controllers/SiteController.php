@@ -104,29 +104,29 @@ class SiteController extends Controller
 		));
 	}
 
-	/**
-	 * Displays contact page.
-	 *
-	 * @return mixed
-	 */
-	public function actionContact()
-	{
-		$model = new Contact();
-		if ($model->load(Yii::$app->request->post())) {
-			if (!empty($model->email)) $model->sendEmail();
-			if ($model->save()) Yii::$app->session->setFlash('success', "Дякуємо за звернення. Найближчим часом ми зв'яжимось з вами.");
-			else Yii::$app->session->setFlash('error', "Трапилась помилка. Спробуйте ще раз.");
-		}
-
-		\Yii::$app->view->registerMetaTag([
-			'name' => 'description',
-			'content' => "Freedom Home. Зв'язатись з нами. " . self::META
-		]);
-
-		return $this->render('contact', [
-			'model' => $model,
-		]);
-	}
+//	/**
+//	 * Displays contact page.
+//	 *
+//	 * @return mixed
+//	 */
+//	public function actionContact()
+//	{
+//		$model = new Contact();
+//		if ($model->load(Yii::$app->request->post())) {
+//			if (!empty($model->email)) $model->sendEmail();
+//			if ($model->save()) Yii::$app->session->setFlash('success', "Дякуємо за звернення. Найближчим часом ми зв'яжимось з вами.");
+//			else Yii::$app->session->setFlash('error', "Трапилась помилка. Спробуйте ще раз.");
+//		}
+//
+//		\Yii::$app->view->registerMetaTag([
+//			'name' => 'description',
+//			'content' => "Freedom Home. Зв'язатись з нами. " . self::META
+//		]);
+//
+//		return $this->render('contact', [
+//			'model' => $model,
+//		]);
+//	}
 
 	/**
 	 * Logs in a user.
@@ -240,7 +240,7 @@ class SiteController extends Controller
 	{
 		$model = new SignupForm();
 		if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-			Yii::$app->session->setFlash('success', 'Дякуємо за реєстрацію. Будь ласка, перевірте свою електронну пошту для підтвердження.');
+			Yii::$app->session->setFlash('success', 'Дякуємо за реєстрацію. Гарного користування платформою.');
 			return $this->goHome();
 		}
 
