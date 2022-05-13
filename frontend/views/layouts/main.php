@@ -19,30 +19,15 @@ AppAsset::register($this);
     <!DOCTYPE html>
     <html lang="<?= Yii::$app->language ?>" class="h-100">
     <head>
-        <meta name="google-site-verification" content="Nhyimd3UAD4JOjFf9Vya9cCdM-w9xeOEJ5ga3uCp44o"/>
 		<?= $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/svg+xml', 'href' => '/images/svg/logo.svg']); ?>
         <meta charset="<?= Yii::$app->charset ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<?php $this->registerCsrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
 		<?php $this->head() ?>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGJE5JG5K4"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-
-            gtag('js', new Date());
-
-            gtag('config', 'G-HGJE5JG5K4');
-        </script>
     </head>
     <body class="d-flex flex-column">
 	<?php $this->beginBody() ?>
-
     <header>
         <div class="container">
             <div class="row">

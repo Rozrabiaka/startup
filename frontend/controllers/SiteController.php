@@ -190,15 +190,16 @@ class SiteController extends Controller
 				$user = $auth->user;
 				Yii::$app->user->login($user);
 			} else { // регистрация
+				$user = new User();
+				$existUser = $user->findByEmail($attributes['email']);
+				if (!empty($existUser)) return $this->render('error');
+
 				$password = Yii::$app->security->generateRandomString(25);
-				$user = new User([
-					'username' => User::generateRandomUserName(),
-					'email' => $attributes['email'],
-					'password' => $password,
-					'which_user' => 0,
-					'status' => 10,
-					'img' => '/images/no-image.png'
-				]);
+				$user->username = User::generateRandomUserName();
+				$user->email = $attributes['email'];
+				$user->password = $password;
+				$user->status = 10;
+				$user->img = '/images/no-image.png';
 
 				$user->generateAuthKey();
 				$user->generatePasswordResetToken();
@@ -212,13 +213,11 @@ class SiteController extends Controller
 					if ($auth->save()) {
 						$transaction->commit();
 						Yii::$app->user->login($user);
-						return $this->redirect('/site/index/');
-					} else {
-						return $this->render('error');
+						return $this->redirect('/profile');
 					}
-				} else {
-					return $this->render('error');
 				}
+
+				return $this->render('error');
 			}
 		} else { // Пользователь уже зарегистрирован
 			if (!$auth) { // добавляем внешний сервис аутентификации
@@ -371,8 +370,8 @@ class SiteController extends Controller
 	/**
 	 * Comments page.
 	 *
-	 * @return mixed
 	 * @param integer $id
+	 * @return mixed
 	 * @throws InvalidConfigException
 	 */
 	public function actionComments(int $id)
@@ -396,8 +395,8 @@ class SiteController extends Controller
 	/**
 	 * Profile page.
 	 *
-	 * @return mixed
 	 * @param integer $id
+	 * @return mixed
 	 * @throws InvalidConfigException
 	 */
 	public function actionProfile(int $id)

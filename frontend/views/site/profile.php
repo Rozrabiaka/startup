@@ -2,7 +2,7 @@
 
 use common\widgets\FooterMenuWidget;
 use common\widgets\ProfileTopMenuWidget;
-use common\widgets\SorterDropdown;
+use common\widgets\SorterWidget;
 use yii\bootstrap4\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
@@ -21,8 +21,11 @@ $this->title = Yii::$app->name . '. Профіль'
             <div class="mh-block-dark profile-settings-layout"><span
                         class="mh-block-dark-title">Публікації автора</span>
                 <div class="profile-search-form">
-					<?php echo SorterDropdown::widget(array(
-						'sort' => $dataProvider->sort
+					<?php echo SorterWidget::widget(array(
+						'sort' => $dataProvider->sort,
+						'removeAttributes' => array(
+							'description', 'id', 'user_id'
+						)
 					)) ?>
 
 					<?php $form = ActiveForm::begin(['method' => 'get', 'action' => '/site/profile/' . $userId]); ?>

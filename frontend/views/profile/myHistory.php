@@ -2,7 +2,7 @@
 
 use common\widgets\ProfileMenuWidget;
 use common\widgets\ProfileTopMenuWidget;
-use common\widgets\SorterDropdown;
+use common\widgets\SorterWidget;
 use yii\bootstrap4\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
@@ -17,9 +17,12 @@ $this->title = 'Freedom Home. Мої історії';
         <div class="col-lg-8">
             <div class="mh-block-dark profile-settings-layout"><span class="mh-block-dark-title">Мої публікації</span>
                 <div class="profile-search-form">
-					<?php echo SorterDropdown::widget(array(
-					        'sort' => $dataProvider->sort
-                    )) ?>
+					<?php echo SorterWidget::widget(array(
+						'sort' => $dataProvider->sort,
+						'removeAttributes' => array(
+							'description', 'id', 'user_id'
+						)
+					)) ?>
 
 					<?php $form = ActiveForm::begin(['method' => 'get', 'action' => '/profile/my-history']); ?>
 

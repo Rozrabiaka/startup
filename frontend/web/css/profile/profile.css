@@ -270,10 +270,13 @@
 .profile-search-form .dropdown-menu {
     background: #9772FF;
     border-color: #9772FF;
+    border-radius: 4px;
 }
 
 .profile-search-form .dropdown-menu li {
-    padding: 10px 0 10px 12px;
+    padding: 5px 0 5px 12px;
+    font-size: 14px;
+    font-family: 'Inter-Regular', sans-serif;
 }
 
 .site-user-profile .menu-contact{

@@ -5,6 +5,7 @@
 /** @var common\models\History $dataProvider */
 
 use common\widgets\FooterMenuWidget;
+use common\widgets\SorterWidget;
 use kop\y2sp\ScrollPager;
 use yii\bootstrap4\Html;
 use yii\widgets\ListView;
@@ -36,32 +37,31 @@ $this->title = Yii::$app->name;
 <div class="content history-content">
     <div class="row">
         <div class="col-lg-4">
-            <div class="content-menu mobile-none">
-                <a href="">
-                    <div class="post">
-                        <h5 class="mh-block-dark">Топ від адміністратора</h5>
-                        <div class="post-description">
-                            <h3 class="post-title">Магазины низких цен: оригиналы или подделки?</h3>
+            <div class="filter">
+                <h5 class="mh-block-dark">Сортувати за: </h5>
+                <div class="menu-back">
+					<?php echo SorterWidget::widget(array(
+						'sort' => $dataProvider->sort,
+						'type' => 'listStyleType',
+						'removeAttributes' => array(
+							'title', 'description', 'id', 'user_id'
+						)
+					)) ?>
 
-                            <p class="post-text">
-								<?= Html::img('/images/people.png', ['alt' => 'People']) ?>
-                                В одном из сообществ Вк попался мне такой вопрос: "в Светофоре оригинал или подделка
-                                (мыло Duru,
-                                мишки Барни, конфеты MilkyWay)?"Думаю, что ответ на этот вопрос волнует многих, поэтому
-                                продублирую
-                                и расширю свой ответ здесь.</p>
-                        </div>
-                        <div class="post-data">
-                            <div class="cnm-pd-username">
-								<?= Html::img('/images/people.png', ['alt' => 'People']) ?> <span
-                                        class="post-username">Rozrabiaka</span>
-                            </div>
-                            <div class="cnm-pd-date">
-                                <span class="post-date">16:15 21.11.2022</span>
-                            </div>
-                        </div>
+					<?php if (!empty(Yii::$app->getRequest()->getQueryParams())): ?>
+						<?= Html::a('Очистити фільтр', ['/'], ['class' => 'clear-filer']) ?>
+					<?php endif; ?>
+                </div>
+            </div>
+            <div class="content-menu mobile-none">
+                <div class="post">
+                    <h5 class="mh-block-dark">Інформаційний блок</h5>
+                    <div class="menu-back info-block">
+                        Freedom Home потребує вашої допомоги. Ми шукаємо SEO спеціаліста(ів), котрі допоможуть
+                        продвинути наший проєкт в пошукових системах. Якщо маєте бажання допомогти, будь ласка,
+						<?= Html::mailto('напишіть нам', 'freehomeua@gmail.com', ['class' => '']) ?>
                     </div>
-                </a>
+                </div>
             </div>
 			<?= FooterMenuWidget::widget() ?>
         </div>

@@ -48,8 +48,8 @@ return [
 			'clients' => [
 				'google' => [
 					'class' => 'yii\authclient\clients\Google',
-					'clientId' => '256585557761-d0ch4pn82ep6pii485n7eteb43e80fft.apps.googleusercontent.com',
-					'clientSecret' => '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',
+					'clientId' => '376858153683-5csopdh89kqf21gfkh4uac4s8llnl085.apps.googleusercontent.com',
+					'clientSecret' => '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',
 				],
 			],
 		],

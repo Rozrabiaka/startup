@@ -788,20 +788,46 @@ footer .down {
     color: #9772FF;
 }
 
-.watch-more{
+.watch-more {
     cursor: pointer;
 }
 
-.post-info{
+.post-info {
     display: flex;
 }
 
-.post-info .history-comments{
-    margin-left:auto;
+.post-info .history-comments {
+    margin-left: auto;
 }
 
-.menu-contact{
-    padding-top:20px;
+.menu-contact {
+    padding-top: 20px;
+}
+
+.filter {
+    margin-bottom: 20px;
+}
+
+.filter a:hover {
+    color: #9772FF;
+}
+
+.filter a:after {
+    border-block-color: #F5F7FF;
+}
+
+.filter .clear-filer {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.info-block {
+    font-size: 14px;
+    font-family: 'Inter-Medium', sans-serif;
+}
+
+.content-menu .info-block a {
+    color: #9772FF;
 }
 
 /* BOTTOM FOOTER END */
