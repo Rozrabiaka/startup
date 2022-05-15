@@ -52,6 +52,12 @@ class History extends \yii\db\ActiveRecord
 		];
 	}
 
+	public function init()
+	{
+		$this->user_id = Yii::$app->user->id;
+		parent::init();
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */

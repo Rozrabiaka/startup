@@ -132,8 +132,6 @@ class ProfileController extends Controller
 				}
 			}
 
-			$history->user_id = Yii::$app->user->id;
-
 			if ($history->save()) {
 				//сохраняем в таблицу postHashtags массив с тегами $hashtagsIds
 				if (!empty($hashtagsIds)) {

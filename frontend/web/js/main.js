@@ -36,7 +36,6 @@ jQuery(document).ready(function () {
         },
         select: function (event, ui) {
 
-
         }, minLength: 3,
         close: function () {
 
