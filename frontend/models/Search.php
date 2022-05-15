@@ -12,6 +12,7 @@ use yii\data\ActiveDataProvider;
 class Search extends Model
 {
 	public $q;
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -22,20 +23,32 @@ class Search extends Model
 		];
 	}
 
-	public function formName() {
+	public function formName()
+	{
 		return '';
 	}
 
 	public function historis()
 	{
 		$query = History::find()
-			->select(['history.id', 'history.title', 'history.user_id', 'history.description', 'history.datetime'])
-			->joinWith(['user', 'historyHashtags']);
+			->select(array(
+				'history.id',
+				'history.title',
+				'history.user_id',
+				'history.description',
+				'history.datetime',
+				'user.id as userId',
+				'user.username',
+				'user.img'
+			))
+			->leftJoin('user', 'history.user_id = user.id')
+			->joinWith(['historyHashtags'])
+			->groupBy(['history.id']);
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
 			'pagination' => [
-				'pageSize' => 10
+				'pageSize' => 6
 			],
 			'sort' => [
 				'defaultOrder' => [
@@ -43,7 +56,6 @@ class Search extends Model
 				]
 			],
 		]);
-
 		return $dataProvider;
 	}
 }

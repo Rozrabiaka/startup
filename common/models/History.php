@@ -20,6 +20,11 @@ class History extends \yii\db\ActiveRecord
 
 	public $hashtags;
 
+	/* userInfo in search model frontend/search */
+	public $username;
+	public $img;
+	public $userId;
+
 	const STATUS_ACTIVE = 0;
 	const STATUS_DEACTIVATED = 1;
 
@@ -92,7 +97,7 @@ class History extends \yii\db\ActiveRecord
 	 */
 	public function getUser()
 	{
-		return $this->hasOne(User::className(), ['id' => 'user_id'])->select(['id', 'username', 'img']);
+		return $this->hasOne(User::className(), ['id' => 'user_id']);
 	}
 
 	public function getHistoryHashtags()
