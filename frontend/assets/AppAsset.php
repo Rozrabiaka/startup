@@ -15,7 +15,6 @@ class AppAsset extends AssetBundle
 		'css/site.css',
 	];
 	public $js = [
-		'js/footer.js',
 		'js/main.js',
 		'js/autocomplete-0.3.0.min.js',
 		'js/jquery-ui.js'

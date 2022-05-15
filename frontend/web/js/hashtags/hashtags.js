@@ -19,6 +19,10 @@ jQuery(document).ready(function () {
         }
     }
 
+    jQuery('.field-history-hashtags').on('click', function () {
+        hashtags.focus();
+    });
+
     hashtags.on("input", function () {
         if (jQuery(this).val().length >= maxLength) {
             hashtags.val(jQuery(this).val().substring(0, maxLength));

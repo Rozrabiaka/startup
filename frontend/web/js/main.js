@@ -1,5 +1,8 @@
 jQuery(document).ready(function () {
     const q = jQuery('#q');
+    const up = jQuery('.up');
+    const down = jQuery('.down');
+    const footerC = jQuery('.footer-c');
 
     jQuery('.click-close-mmb').on('click', function () {
         jQuery('.mobile-menu-block').hide();
@@ -38,5 +41,17 @@ jQuery(document).ready(function () {
         close: function () {
 
         },
+    });
+
+    jQuery(".up").click(function () {
+        down.show();
+        footerC.show();
+        up.hide();
+    });
+
+    jQuery(".down").click(function () {
+        down.hide();
+        up.show();
+        footerC.hide();
     });
 });
