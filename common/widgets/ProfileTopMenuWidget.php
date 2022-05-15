@@ -9,6 +9,7 @@ use yii\base\Widget;
 class ProfileTopMenuWidget extends Widget
 {
 	public $userId = null;
+	public $hide = false;
 
 	public function run()
 	{
@@ -22,7 +23,8 @@ class ProfileTopMenuWidget extends Widget
 
 		return $this->render('profileTopMenu', [
 			'userData' => $userData,
-			'description' => $description
+			'description' => $description,
+			'hide' => $this->hide
 		]);
 	}
 }

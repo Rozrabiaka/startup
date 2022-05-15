@@ -4,7 +4,7 @@ class UploadImage
 {
 	protected $file;
 	protected $referer = false;
-	protected $domains = array('localhost');
+	protected $domains = array('localhost', 'freehome.com.ua');
 
 	public function __construct()
 	{

@@ -49,7 +49,10 @@
     font-size: 12px;
     line-height: 16px;
     color: #8D92A4;
-    padding: 14px 0;
+}
+
+.pfi-pad-top{
+    padding-top:14px;
 }
 
 .profile-logout {
@@ -75,6 +78,7 @@
 .profile-img img {
     width: 116px;
     height: 116px;
+    object-fit: cover;
 }
 
 .profile-menu li a:hover {
@@ -152,6 +156,7 @@
 
 .kv-file-content img {
     height: 100% !important;
+    object-fit: cover;
 }
 
 .file-preview-frame {

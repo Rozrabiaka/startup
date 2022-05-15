@@ -37,11 +37,11 @@ class History extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['title', 'description', 'user_id', 'hashtags'], 'required'],
-			[['description'], 'string'],
+			[['title', 'user_id', 'hashtags'], 'required'],
+			[['description'], 'validateDescription'],
 			[['user_id'], 'integer'],
 			[['datetime'], 'safe'],
-			[['hashtags'], 'string'],
+			[['hashtags'], 'validateHashtags'],
 			[['title'], 'string', 'max' => 255],
 			[['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
 		];
@@ -58,7 +58,31 @@ class History extends \yii\db\ActiveRecord
 			'description' => 'Історія',
 			'user_id' => 'User ID',
 			'datetime' => 'Дата',
+			'hashtags' => 'Хештеги'
 		];
+	}
+
+	public function validateDescription()
+	{
+		if ($this->description == '<p>&nbsp;</p>') {
+			$this->addError('description', "Поле обов'язкове для заповнення.");
+		} else if (iconv_strlen($this->description) < 200) {
+			$this->addError('description', "Мінімальная кількість символів має бути 200.");
+		}
+	}
+
+	public function validateHashtags()
+	{
+		$hashtagsData = json_decode($this->hashtags);
+		if (json_last_error() !== JSON_ERROR_NONE) {
+			$this->hashtags = '';
+			$this->addError('hashtags', "Трапилась незроуміла помилка. Спробуйте знову.");
+		}
+
+		if (!is_array($hashtagsData)) {
+			$this->hashtags = '';
+			$this->addError('hashtags', "Поле обов'язкове для заповнення.");
+		}
 	}
 
 	/**
@@ -68,7 +92,7 @@ class History extends \yii\db\ActiveRecord
 	 */
 	public function getUser()
 	{
-		return $this->hasOne(User::className(), ['id' => 'user_id'])->select(['id', 'username']);
+		return $this->hasOne(User::className(), ['id' => 'user_id'])->select(['id', 'username', 'img']);
 	}
 
 	public function getHistoryHashtags()

@@ -6,7 +6,6 @@ use common\models\Auth;
 use common\models\Community;
 use common\models\LoginForm;
 use common\models\User;
-use frontend\models\Contact;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ProfileSettingsSearch;
 use frontend\models\ResendVerificationEmailForm;
@@ -36,7 +35,7 @@ class SiteController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['logout', 'signup', 'profile'],
+				'only' => ['logout', 'signup'],
 				'rules' => [
 					[
 						'actions' => ['signup'],

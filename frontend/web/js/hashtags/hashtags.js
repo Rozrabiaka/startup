@@ -2,12 +2,38 @@ jQuery(document).ready(function () {
     const tagInput = jQuery('.input_hashtags input');
     const hashtags = jQuery('.hashtags');
     const form = jQuery('#create-history-form');
-    let selectedTags = [];
     const maxLength = 25;
+    let selectedTags = [];
+    let hashtagsCountValue = 0;
+
+    if (hashtags.val().length > 0) {
+        const validHashtags = hashtags.val();
+        hashtags.val("");
+        if (isValidJSONString(validHashtags)) {
+            const json = JSON.parse(validHashtags);
+            if (json.length > 0) {
+                jQuery.each(json, function (index, value) {
+                    setNewHashtag(value.value);
+                });
+            }
+        }
+    }
 
     hashtags.on("input", function () {
         if (jQuery(this).val().length >= maxLength) {
             hashtags.val(jQuery(this).val().substring(0, maxLength));
+        }
+
+        const width = hashtags.width();
+        if (jQuery(this).val().length > hashtagsCountValue) {
+            hashtagsCountValue = jQuery(this).val().length;
+            hashtags.css('width', (width + 12) + 'px');
+        } else if (jQuery(this).val().length < hashtagsCountValue) {
+            hashtagsCountValue = jQuery(this).val().length;
+            if (width > 30) hashtags.css('width', (width - 12) + 'px');
+            else hashtags.css('width', '34px');
+        } else if (jQuery(this).val().length === 0) {
+            hashtagsCountValue = 0;
         }
     });
 
@@ -61,7 +87,6 @@ jQuery(document).ready(function () {
         const id = jQuery(this).attr('id');
         jQuery('#' + id).parent().remove();
 
-        console.log(selectedTags);
         selectedTags = selectedTags.filter(function (elem) {
             return elem.id !== id;
         });
@@ -70,18 +95,34 @@ jQuery(document).ready(function () {
             hashtags.prop('disabled', false);
             hashtags.show();
         }
+
+        if (selectedTags.length === 0) {
+            hashtags.attr("placeholder", "Додати хештеги...");
+            hashtags.css('width', '100%');
+        }
+    });
+
+    jQuery(document).mouseup(function (e) {
+        const container = jQuery(".input_hashtags");
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            if (hashtags.val().length > 0) {
+                resetHashtagsCountValue();
+                setNewHashtag(hashtags.val());
+                hashtags.val("");
+            }
+        }
     });
 
     hashtags.keypress(function (event) {
         const keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == '13') {
+        const charCode = String.fromCharCode(event.which);
+        if (keycode === 13 || charCode === ',') {
             setNewHashtag(hashtags.val());
             hashtags.val("");
         }
     });
 
     function setNewHashtag(label) {
-
         if (selectedTags.length > 0) {
             for (let i = 0; selectedTags.length >= i; i++) {
                 if (typeof selectedTags[i] !== 'undefined') {
@@ -118,11 +159,15 @@ jQuery(document).ready(function () {
             'id': genId,
             'value': label
         });
+
+        if (selectedTags.length > 0) hashtags.attr("placeholder", "");
     }
 
     form.on('keyup keypress', function (e) {
-        var keyCode = e.keyCode || e.which;
-        if (keyCode === 13) {
+        const keyCode = e.keyCode || e.which;
+        const charCode = String.fromCharCode(e.which);
+        if (keyCode === 13 || charCode === ',') {
+            resetHashtagsCountValue();
             e.preventDefault();
             return false;
         }
@@ -134,4 +179,17 @@ jQuery(document).ready(function () {
         else tagInput.show();
         jQuery('#history-description').val(jQuery('.ck-content').html());
     });
+
+    function resetHashtagsCountValue() {
+        hashtagsCountValue = 0;
+    }
+
+    function isValidJSONString(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
 });

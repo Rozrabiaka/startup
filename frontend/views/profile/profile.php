@@ -31,7 +31,7 @@ $this->title = 'Freedom Home. Створити історію';
 				)->label(false); ?>
 
                 <div class="input_hashtags form-control">
-					<?= $form->field($history, 'hashtags')->textInput(['class' => 'hashtags'])->label(false) ?>
+					<?= $form->field($history, 'hashtags')->textInput(['class' => 'hashtags', 'placeholder' => "Додати хештеги..."])->label(false) ?>
                 </div>
                 <div id="autocomplete-container"></div>
                 <div class="form-group">

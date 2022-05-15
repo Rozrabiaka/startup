@@ -13,7 +13,11 @@ $this->title = Yii::$app->name . '. Профіль'
 
 <div class="profile site-user-profile">
     <div class="row">
-		<?= ProfileTopMenuWidget::widget(['userId' => $userId]) ?>
+		<?= ProfileTopMenuWidget::widget(array(
+				'userId' => $userId,
+                'hide' => true
+			)
+		) ?>
         <div class="col-lg-4">
 			<?= FooterMenuWidget::widget() ?>
         </div>

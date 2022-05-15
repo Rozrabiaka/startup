@@ -5,8 +5,9 @@
 }
 
 .post-data img {
-    max-width: 28px;
-    width: 100%;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
 }
 
 .post-data, .post-description, .post-top {

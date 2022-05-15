@@ -1,12 +1,10 @@
 <?php
-
 use yii\bootstrap4\Html;
-
 ?>
 
 <div class="post">
     <div class="post-data">
-		<?= Html::img('/images/people.png', ['alt' => 'People']) ?>
+		<?= Html::img($model->relatedRecords["user"]->img, ['alt' => 'People']) ?>
 		<?= Html::a('<span class="post-username">' . $model->relatedRecords["user"]->username . '</span>', ['/site/profile', 'id' => $model->relatedRecords["user"]->id]) ?>
         <span class="post-date">Опубліковано о <?= $model->datetime ?></span>
     </div>

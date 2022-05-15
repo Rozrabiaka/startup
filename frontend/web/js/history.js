@@ -2,7 +2,7 @@ jQuery(document).ready(function () {
     if (jQuery(".index-top")[0]) jQuery('.history-content').css('margin-top', '150px');
     else jQuery('.history-content').css('margin-top', '0');
 
-    jQuery('.watch-more').on('click', function (e) {
+    jQuery(document).on('click', '.watch-more', function (e) {
         const el = this.id;
         const id = el.replace('show-', '');
         const close = jQuery('[data-key=' + id + ']').find('.close-story');

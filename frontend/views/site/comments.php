@@ -11,31 +11,14 @@ use yii\bootstrap4\Html;
     <div class="row">
         <div class="col-lg-4">
             <div class="content-menu mobile-none">
-                <a href="">
-                    <div class="post">
-                        <h5 class="mh-block-dark">Топ від адміністратора</h5>
-                        <div class="post-description">
-                            <h3 class="post-title">Магазины низких цен: оригиналы или подделки?</h3>
-
-                            <p class="post-text">
-								<?= Html::img('/images/people.png', ['alt' => 'People']) ?>
-                                В одном из сообществ Вк попался мне такой вопрос: "в Светофоре оригинал или подделка
-                                (мыло Duru,
-                                мишки Барни, конфеты MilkyWay)?"Думаю, что ответ на этот вопрос волнует многих, поэтому
-                                продублирую
-                                и расширю свой ответ здесь.</p>
-                        </div>
-                        <div class="post-data">
-                            <div class="cnm-pd-username">
-								<?= Html::img('/images/people.png', ['alt' => 'People']) ?> <span
-                                        class="post-username">Rozrabiaka</span>
-                            </div>
-                            <div class="cnm-pd-date">
-                                <span class="post-date">16:15 21.11.2022</span>
-                            </div>
-                        </div>
+                <div class="post">
+                    <h5 class="mh-block-dark">Інформаційний блок</h5>
+                    <div class="menu-back info-block">
+                        Freedom Home потребує вашої допомоги. Ми шукаємо SEO спеціаліста(ів), котрі допоможуть
+                        продвинути наший проєкт в пошукових системах. Якщо маєте бажання допомогти, будь ласка,
+						<?= Html::mailto('напишіть нам', 'freehomeua@gmail.com', ['class' => '']) ?>
                     </div>
-                </a>
+                </div>
             </div>
 			<?= FooterMenuWidget::widget() ?>
         </div>
@@ -44,7 +27,7 @@ use yii\bootstrap4\Html;
             <div class="comment-post" style="margin-top:20px;">
                 <div class="post" data-key="<?= $model->id ?>">
                     <div class="post-data">
-						<?= Html::img('/images/people.png', ['alt' => 'People']) ?> <?= Html::a('<span class="post-username">' . $model->relatedRecords["user"]->username . '</span>', ['/site/profile', 'id' => $model->relatedRecords["user"]->id]) ?>
+						<?= Html::img($model->relatedRecords["user"]->img, ['alt' => 'People']) ?> <?= Html::a('<span class="post-username">' . $model->relatedRecords["user"]->username . '</span>', ['/site/profile', 'id' => $model->relatedRecords["user"]->id]) ?>
                         <span class="post-date">Опубліковано о <?= $model->datetime ?></span>
                     </div>
                     <div class="post-description">

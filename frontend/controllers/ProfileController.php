@@ -74,11 +74,9 @@ class ProfileController extends Controller
 	{
 		$history = new History();
 
-		if (!empty(Yii::$app->request->post())) {
+		if ($history->load(Yii::$app->request->post()) && $history->validate()) {
 			$postData = Yii::$app->request->post('History');
-
-			if (!empty($postData['hashtags']) AND $hashtags = json_decode($postData['hashtags'])) {
-
+			if (!empty($postData['hashtags']) && $hashtags = json_decode($postData['hashtags'])) {
 				//делаем одномерный массив для поиска одним запросом
 				$searchArray = array();
 				foreach ($hashtags as $data) {
@@ -122,9 +120,6 @@ class ProfileController extends Controller
 					}
 				}
 			}
-
-			//Сохраняем пост
-			$history->load(Yii::$app->request->post());
 
 			preg_match_all('/<img[^>]+>/i', $history->description, $descriptionImages);
 
