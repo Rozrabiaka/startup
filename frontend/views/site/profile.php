@@ -10,7 +10,6 @@ use yii\widgets\ListView;
 $this->title = Yii::$app->name . '. Профіль'
 
 ?>
-
 <div class="profile site-user-profile">
     <div class="row">
 		<?= ProfileTopMenuWidget::widget(array(

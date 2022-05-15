@@ -37,9 +37,19 @@ class ProfileSettingsSearch extends Model
 	public function search($useId = null)
 	{
 		$query = History::find()
-			->select(['history.id', 'history.title', 'history.user_id', 'history.description', 'history.datetime'])
-			->joinWith('user')
-			->joinWith('historyHashtags');
+			->select(array(
+				'history.id',
+				'history.title',
+				'history.user_id',
+				'history.description',
+				'history.datetime',
+				'user.id as userId',
+				'user.username',
+				'user.img'
+			))
+			->leftJoin('user', 'history.user_id = user.id')
+			->joinWith('historyHashtags')
+			->groupBy(['history.id']);
 
 		if (empty($useId)) $query->where(['history.user_id' => Yii::$app->user->id]);
 		else $query->where(['history.user_id' => $useId]);
@@ -49,7 +59,7 @@ class ProfileSettingsSearch extends Model
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
 			'pagination' => [
-				'pageSize' => 10
+				'pageSize' => 5
 			],
 			'sort' => [
 				'defaultOrder' => [
@@ -64,8 +74,17 @@ class ProfileSettingsSearch extends Model
 	public function getPostById($id)
 	{
 		$query = History::find()
-			->select(['history.*'])
-			->joinWith('user')
+			->select(array(
+				'history.id',
+				'history.title',
+				'history.user_id',
+				'history.description',
+				'history.datetime',
+				'user.id as userId',
+				'user.username',
+				'user.img'
+			))
+			->leftJoin('user', 'history.user_id = user.id')
 			->joinWith('historyHashtags')
 			->where(['history.id' => $id])
 			->one();

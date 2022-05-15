@@ -27,7 +27,7 @@ use yii\bootstrap4\Html;
             <div class="comment-post" style="margin-top:20px;">
                 <div class="post" data-key="<?= $model->id ?>">
                     <div class="post-data">
-						<?= Html::img($model->relatedRecords["user"]->img, ['alt' => 'People']) ?> <?= Html::a('<span class="post-username">' . $model->relatedRecords["user"]->username . '</span>', ['/site/profile', 'id' => $model->relatedRecords["user"]->id]) ?>
+						<?= Html::img($model->img, ['alt' => 'People']) ?> <?= Html::a('<span class="post-username">' . $model->username . '</span>', ['/site/profile', 'id' => $model->userId]) ?>
                         <span class="post-date">Опубліковано о <?= $model->datetime ?></span>
                     </div>
                     <div class="post-description">
