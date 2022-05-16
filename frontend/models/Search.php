@@ -12,6 +12,8 @@ use yii\data\ActiveDataProvider;
 class Search extends Model
 {
 	public $q;
+	public $history;
+	public $tag;
 
 	/**
 	 * {@inheritdoc}
@@ -21,6 +23,15 @@ class Search extends Model
 		return [
 			[['q'], 'string'],
 		];
+	}
+
+	public function __construct()
+	{
+		$this->q = trim((string)\Yii::$app->getRequest()->getQueryParam('q'));
+		if (!empty(\Yii::$app->getRequest()->getQueryParam('history')))
+			$this->history = trim((int)\Yii::$app->getRequest()->getQueryParam('history'));
+		if (\Yii::$app->getRequest()->getQueryParam('tag'))
+			$this->tag = trim(\Yii::$app->getRequest()->getQueryParam('tag'));
 	}
 
 	public function formName()
@@ -44,6 +55,10 @@ class Search extends Model
 			->leftJoin('user', 'history.user_id = user.id')
 			->joinWith(['historyHashtags'])
 			->groupBy(['history.id']);
+
+		if (!empty($this->q)) $query->andWhere(['like', 'history.title', $this->q]);
+		if (!empty($this->history)) $query->andWhere(['history.id' => $this->history]);
+		if (!empty($this->tag)) $query->andWhere(['hashtags.id' => $this->tag]);
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,

@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="search-box rg-header">
-	<?php $form = ActiveForm::begin(['method' => 'get', 'action' => '/search']); ?>
+	<?php $form = ActiveForm::begin(['method' => 'get', 'action' => '/']); ?>
 
 	<?= $form->field($model, 'q')->textInput(['maxlength' => true, 'placeholder' => 'Пошук'])->label(false) ?>
     <div class="search-loader">
