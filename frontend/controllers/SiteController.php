@@ -187,7 +187,7 @@ class SiteController extends Controller
 		if (Yii::$app->user->isGuest) {
 			if ($auth) { // авторизация
 				$user = $auth->user;
-				Yii::$app->user->login($user);
+				Yii::$app->user->login($user, 3600 * 24 * 30);
 			} else { // регистрация
 				$user = new User();
 				$existUser = $user->findByEmail($attributes['email']);
@@ -211,7 +211,7 @@ class SiteController extends Controller
 					]);
 					if ($auth->save()) {
 						$transaction->commit();
-						Yii::$app->user->login($user);
+						Yii::$app->user->login($user, 3600 * 24 * 30);
 						return $this->redirect('/profile');
 					}
 				}
