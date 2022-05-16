@@ -113,18 +113,21 @@ class History extends \yii\db\ActiveRecord
 
 	public function transferImage($fromImage)
 	{
+		$dateFolder = date('Y') . '/' . date('m');
 		$filePath = Yii::getAlias('@frontend') . '/web/uploads/removeImages/' . $fromImage;
-		$destinationFilePath = Yii::getAlias('@frontend') . '/web/uploads/historyFiles/';
+		$destinationFilePath = Yii::getAlias('@frontend') . '/web/uploads/historyFiles/' . $dateFolder;
 
-		if (shell_exec("cp -r $filePath $destinationFilePath")) {
-			return false;
-		} else {
-			if (file_exists($filePath))
-				unlink($filePath);
+		if (!file_exists($destinationFilePath)) {
+			mkdir($destinationFilePath, 0755, true);
 		}
 
+		shell_exec("cp -r $filePath $destinationFilePath");
+
+		if (file_exists($filePath))
+			unlink($filePath);
+
 		return array(
-			'newFilePath' => Yii::$app->request->hostInfo . '/uploads/historyFiles/' . $fromImage,
+			'newFilePath' => Yii::$app->request->hostInfo . '/uploads/historyFiles/' . $dateFolder . '/' . $fromImage,
 			'oldFilePath' => Yii::$app->request->hostInfo . '/uploads/removeImages/' . $fromImage
 		);
 	}
