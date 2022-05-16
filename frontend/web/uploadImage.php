@@ -44,6 +44,7 @@ class UploadImage
 				if (!file_exists($folder)) {
 					mkdir($folder, 0777, true);
 				}
+
 				$url = $this->siteURL() . 'uploads/removeImages/' . $name;
 
 				//TODO Optimization image

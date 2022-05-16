@@ -4,8 +4,8 @@ use yii\bootstrap4\Html; ?>
 
 <div class="post">
     <div class="post-data">
-		<?= Html::img('/images/people.png', ['alt' => 'People']) ?> <span
-                class="post-username"><?= $model->relatedRecords['user']->username ?></span>
+		<?= Html::img($model->img, ['alt' => 'People']) ?> <span
+                class="post-username"><?= $model->username ?></span>
         <span class="post-date">Опубліковано о <?= $model->datetime ?></span>
     </div>
     <div class="post-description">

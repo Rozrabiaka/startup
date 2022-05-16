@@ -36,7 +36,7 @@ class AjaxController extends Controller
 	public function actionSearch()
 	{
 		if (Yii::$app->request->isAjax) {
-			$q = Yii::$app->request->get('q');
+			$q = trim(Yii::$app->request->get('q'));
 
 			$historyResult = (new \yii\db\Query())
 				->select(['title', 'id'])

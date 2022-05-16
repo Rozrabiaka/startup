@@ -763,7 +763,7 @@ footer .down {
     margin-right: 0;
 }
 
-.ui-menu {
+#autocomplete-container .ui-menu {
     color: #9772FF;
     background: #F5F7FF;
     padding: 10px 20px;
@@ -855,6 +855,100 @@ footer .down {
 
 .drawer-user-params {
     display: inline-grid;
+}
+
+.search-loader {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 50px;
+    display: none;
+}
+
+.search-box form {
+    position: relative;
+}
+
+.search-loader .lds-ring {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+}
+
+.search-loader .lds-ring div {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    border: 3px solid;
+    border-color: #9772FF transparent transparent transparent;
+}
+
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(.5, 0, .5, 1) infinite;
+}
+
+.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+#autocomplete-container-search ul {
+    background-color: #191B26;
+    border: 1px solid #9772FF;
+    border-top: none;
+}
+
+#autocomplete-container-search a {
+    font-size: 12px;
+    color: #DEE4FF;
+    font-family: 'Inter-Regular', sans-serif;
+    cursor: pointer;
+}
+
+#autocomplete-container-search a:hover {
+    color: #9772FF;
+}
+
+#autocomplete-container-search li {
+    padding: 0 10px;
+}
+
+#autocomplete-container-search .autocomplete-tag-name {
+    color: #9772FF;
+    font-size: 14px;
+    font-family: 'Inter-SemiBold', sans-serif;
+    padding: 5px 0;
+}
+
+#autocomplete-container-search .autocomplete-tag-name.tag-name-history {
+    padding-top: 24px;
+}
+
+#autocomplete-container-search {
+    position: absolute;
+    z-index: 12;
+    max-width: 280px;
+}
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* BOTTOM FOOTER END */

@@ -3,6 +3,8 @@ jQuery(document).ready(function () {
     const up = jQuery('.up');
     const down = jQuery('.down');
     const footerC = jQuery('.footer-c');
+    let hashtagsResult = true;
+    let historyResult = true;
 
     jQuery('.click-close-mmb').on('click', function () {
         jQuery('.mobile-menu-block').hide();
@@ -13,8 +15,11 @@ jQuery(document).ready(function () {
     });
 
     q.autocomplete({
-        // appendTo: '#autocomplete-container',
+        appendTo: '#autocomplete-container-search',
         source: function (request, response) {
+            hashtagsResult = true;
+            historyResult = true;
+            jQuery('.search-loader').show();
             jQuery.ajax({
                 url: '/ajax/search',
                 type: "GET",
@@ -23,24 +28,84 @@ jQuery(document).ready(function () {
                     if (data) {
                         let autocomplete = {};
                         const qResult = jQuery.parseJSON(data);
-                        jQuery.each(qResult, function (arKey, arValue) {
-                            autocomplete[arValue.id] = {
-                                'label': arValue.name,
-                                'id': arValue.id
+                        const hashtags = qResult.data.hashtags;
+                        const history = qResult.data.history;
+
+                        if (hashtags.length > 0) {
+                            jQuery.each(hashtags, function (arKey, arValue) {
+                                autocomplete[arValue.id + '-hashtags'] = {
+                                    'div': 'hashtags',
+                                    'label': arValue.name,
+                                    'id': arValue.id
+                                }
+                            });
+                        }
+
+                        if (history.length > 0) {
+                            jQuery.each(history, function (arKey, arValue) {
+                                autocomplete[arValue.id + '-history'] = {
+                                    'div': 'history',
+                                    'label': arValue.title,
+                                    'id': arValue.id
+                                }
+                            });
+                        }
+
+                        if (history.length === 0 && hashtags.length === 0) {
+                            autocomplete['id-none'] = {
+                                'div': 'no-result',
+                                'label': '',
+                                'value': '',
+                                'id': 'no-result-id'
                             }
-                        });
+                        }
+
                         response(autocomplete);
                     }
+
+                    jQuery('.search-loader').hide();
                 }
             });
         },
         select: function (event, ui) {
 
         }, minLength: 3,
-        close: function () {
+    }).data("ui-autocomplete")._renderItem = function (ul, item) {
+        if (item.id === 'no-result-id' && item.div === 'no-result') {
+            return jQuery("<li></li>")
+                .append("<div class='autocomplete-tag-name'>Результату не знайдено</div>")
+                .appendTo(ul);
+        }
 
-        },
-    });
+        //TODO при навидени ошибка когда Хештеги и Пости в консоле
+        if (hashtagsResult && item.div === 'hashtags') {
+            jQuery("<li></li>")
+                .append("<div class='autocomplete-tag-name'>Хештеги: </div>")
+                .appendTo(ul);
+            hashtagsResult = false;
+        }
+
+        if (historyResult && item.div === 'history') {
+            jQuery("<li></li>")
+                .append("<div class='autocomplete-tag-name tag-name-history'>Пости: </div>")
+                .appendTo(ul);
+            historyResult = false;
+        }
+
+        if (item.div === 'hashtags') {
+            return jQuery("<li></li>")
+                .data("item.autocomplete", item)
+                .append("<a href='/?tag=" + item.id + " '>" + item.label + "</a>")
+                .appendTo(ul);
+        }
+
+        if (item.div === 'history') {
+            return jQuery("<li></li>")
+                .data("item.autocomplete", item)
+                .append("<a href='/?history=" + item.id + " '>" + item.label + "</a>")
+                .appendTo(ul);
+        }
+    };
 
     jQuery(".up").click(function () {
         down.show();
