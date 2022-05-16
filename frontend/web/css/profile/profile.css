@@ -197,11 +197,12 @@
 }
 
 .profile-settings-layout input {
-    width: 160px;
+    width: 100% !important;
 }
 
 .profile-settings-layout {
     margin-bottom: 20px;
+    justify-content: space-around;
 }
 
 .profile-settings-layout .field-q {

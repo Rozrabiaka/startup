@@ -942,6 +942,10 @@ footer .down {
     max-width: 280px;
 }
 
+.comment-wrapper .history-comments .list-view{
+    margin-top:30px;
+}
+
 @keyframes lds-ring {
     0% {
         transform: rotate(0deg);
@@ -1042,6 +1046,12 @@ footer .down {
 }
 
 @media (max-width: 536px) {
+    .mh-block-dark-title{
+        display: none;
+    }
+    .profile-settings-layout .profile-search-form{
+        margin-left:unset;
+    }
     .f-c-links {
         display: block;
     }

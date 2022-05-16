@@ -15,17 +15,17 @@ use yii\bootstrap4\Html; ?>
 				<?php endif; ?>
                 <span class="pfi-description pfi-pc pfi-pad-top"><?= $description ?></span>
             </div>
-            <div class="profile-logout profile-logout-pc">
-				<?php
-				echo Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
-					. Html::submitButton(
-						'Вихід',
-						['class' => 'purple-b purple-back-none profile-logout-b']
-					)
-					. Html::endForm()
-				?>
-            </div>
 			<?php if (!$hide): ?>
+                <div class="profile-logout profile-logout-pc">
+					<?php
+					echo Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
+						. Html::submitButton(
+							'Вихід',
+							['class' => 'purple-b purple-back-none profile-logout-b']
+						)
+						. Html::endForm()
+					?>
+                </div>
                 <div class="profile-logout profile-logout-mobile">
 					<?php
 					echo Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
