@@ -83,9 +83,8 @@ class ProfileController extends Controller
 					array_push($searchArray, $data->value);
 				}
 
-				//ищем хештеги поимени
-				$hashtagsModel = new Hashtags();
-				$issetHashtags = $hashtagsModel::find()->select(['id', 'name'])->where(['name' => $searchArray])->asArray()->all();
+				//ищем хештеги по имени
+				$issetHashtags = Hashtags::find()->select(['id', 'name'])->where(['name' => $searchArray])->asArray()->all();
 
 				//Создаем 2 массива, один который хранит имена хештегов, 2рой будет хранить ID тегов для записи в БД postHashtags
 				$hashtagsNames = array(); //to one-dimensional array
@@ -108,11 +107,11 @@ class ProfileController extends Controller
 				}
 
 				//create tags
-				$result = Yii::$app->db->createCommand()->batchInsert($hashtagsModel::tableName(),
+				$result = Yii::$app->db->createCommand()->batchInsert(Hashtags::tableName(),
 					['name'], $batchArray)->execute();
 
 				if (is_int($result)) {
-					$newHashtagsIds = $hashtagsModel::find()->select(['id'])->where(['name' => $newTags])->asArray()->all();
+					$newHashtagsIds = Hashtags::find()->select(['id'])->where(['name' => $newTags])->asArray()->all();
 
 					//получив айди вставляем их в массив всех ID тегов которые нужно добавить к посту
 					foreach ($newHashtagsIds as $ids) {

@@ -1,7 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
-/* @var $user common\models\User */
+/* @var $userName frontend\models\SignupForm */
 
 ?>
 
@@ -16,7 +16,7 @@
 	<?php $this->beginBody() ?>
 
 	<div class="verify-email">
-		<p>Шановний <?= $user->username ?>. Команда Freedom Home вітає вас!</p>
+		<p>Шановний <?= $userName ?>. Команда Freedom Home вітає вас!</p>
 		<p>Дякуємо за реєстрацію на платформі.</p>
 
 		<p>З повагою Freedom Home!</p>

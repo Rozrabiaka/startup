@@ -79,9 +79,8 @@ class SignupForm extends Model
 			Yii::$app->user->login($user);
 			return true;
 		}
-		
+
 		return false;
-		//&& $this->sendEmail($user);
 	}
 
 	/**

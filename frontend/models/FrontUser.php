@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use common\models\User;
+use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Yii;
 use yii\base\Model;
 
@@ -113,16 +114,18 @@ class FrontUser extends Model
 			$fileName = md5(microtime() . rand(0, 9999)) . '_' . $file->name;
 			$imagePath = $path . '/' . $fileName;
 
-			if ($file->saveAs($imagePath)) {
-				if (file_exists(Yii::getAlias('@frontend') . '/web' . Yii::$app->user->identity->img)
-					and !empty(Yii::$app->user->identity->img)
-					and Yii::$app->user->identity->img !== Yii::getAlias('@imgDefault')
-				) {
-					unlink(Yii::getAlias('@frontend') . '/web' . Yii::$app->user->identity->img);
-				}
+			$optimizerChain = OptimizerChainFactory::create();
+			$optimizerChain->optimize($file->tempName, $imagePath);
 
-				return $uploadPath . '/' . $fileName;
+			if (file_exists(Yii::getAlias('@frontend') . '/web' . Yii::$app->user->identity->img)
+				and !empty(Yii::$app->user->identity->img)
+				and Yii::$app->user->identity->img !== Yii::getAlias('@imgDefault')
+			) {
+				unlink(Yii::getAlias('@frontend') . '/web' . Yii::$app->user->identity->img);
 			}
+
+			return $uploadPath . '/' . $fileName;
+
 		}
 
 		return false;
