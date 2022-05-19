@@ -15,13 +15,15 @@ class AppAsset extends AssetBundle
 		'css/site.css',
 	];
 	public $js = [
-		'js/main.js',
-		'js/autocomplete-0.3.0.min.js',
-		'js/jquery-ui.js'
+		['js/autocomplete-0.3.0.min.js', 'async' => 'async'],
+		'js/jquery-ui.js',
+		['js/main.js', 'async' => 'async']
 	];
 	public $images = [];
 	public $depends = [
 		'yii\web\YiiAsset',
 		'yii\bootstrap4\BootstrapAsset',
 	];
+
+//	public $jsOptions = ['async' => 'async'];
 }

@@ -94,7 +94,7 @@ class SiteController extends Controller
 		$model = new Search();
 		$dataProvider = $model->historis();
 
-		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'async'=>true, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/index.css", ['depends' => ['frontend\assets\AppAsset']]);
 		$this->getView()->registerCssFile("@web/css/post.css", ['depends' => ['frontend\assets\AppAsset']]);
 
@@ -378,7 +378,7 @@ class SiteController extends Controller
 		$model = new ProfileSettingsSearch();
 		$historyInfo = $model->getPostById($id);
 
-		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'async'=>true, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/post.css", ['depends' => ['frontend\assets\AppAsset']]);
 
 		\Yii::$app->view->registerMetaTag([

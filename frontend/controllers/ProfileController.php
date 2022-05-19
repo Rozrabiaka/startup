@@ -153,7 +153,7 @@ class ProfileController extends Controller
 			}
 		}
 
-		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/hashtags.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/hashtags.js', ['position' => \yii\web\View::POS_END, 'async'=>true, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
 
 		$this->view->registerMetaTag([
@@ -193,7 +193,7 @@ class ProfileController extends Controller
 			return $this->refresh();
 		}
 
-		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'async'=>true, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
 
 		$this->view->registerMetaTag([
@@ -223,7 +223,7 @@ class ProfileController extends Controller
 			'content' => "Freedom Home. Профіль. Мої історії. " . self::META
 		]);
 
-		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'async'=>true, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
 		$this->getView()->registerCssFile("@web/css/post.css", ['depends' => ['frontend\assets\AppAsset']]);
 		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
