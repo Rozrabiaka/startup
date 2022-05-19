@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use common\models\User;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
+use Spatie\ImageOptimizer\Optimizers\Pngquant;
 use Yii;
 use yii\base\Model;
 
@@ -115,7 +116,13 @@ class FrontUser extends Model
 			$imagePath = $path . '/' . $fileName;
 
 			$optimizerChain = OptimizerChainFactory::create();
-			$optimizerChain->optimize($file->tempName, $imagePath);
+			$optimizerChain
+				->addOptimizer(new Pngquant([
+					9,
+					'--force',
+					'--skip-if-larger',
+				]))
+				->optimize($file->tempName, $imagePath);
 
 			if (file_exists(Yii::getAlias('@frontend') . '/web' . Yii::$app->user->identity->img)
 				and !empty(Yii::$app->user->identity->img)

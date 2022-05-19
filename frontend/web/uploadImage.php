@@ -4,6 +4,7 @@ namespace uploadImage;
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Spatie\ImageOptimizer\OptimizerChainFactory;
+use Spatie\ImageOptimizer\Optimizers\Pngquant;
 
 class UploadImage
 {
@@ -13,6 +14,7 @@ class UploadImage
 
 	public function __construct()
 	{
+		//TODO whitelist IP address
 		$this->file = $_FILES;
 		foreach ($this->domains as $domain) {
 			if (strpos($_SERVER['HTTP_REFERER'], $domain) === false) {
@@ -81,7 +83,13 @@ class UploadImage
 	public function resize($pathToImage, $pathToOutput)
 	{
 		$optimizerChain = OptimizerChainFactory::create();
-		$optimizerChain->optimize($pathToImage, $pathToOutput);
+		$optimizerChain
+			->addOptimizer(new Pngquant([
+				9,
+				'--force',
+				'--skip-if-larger',
+			]))
+			->optimize($pathToImage, $pathToOutput);
 
 		return $pathToOutput;
 	}
