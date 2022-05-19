@@ -34,7 +34,7 @@ use yii2mod\editable\Editable;
 			<?php endif; ?>
         </div>
         <div class="comment-action-buttons">
-			<?php if (Yii::$app->getUser()->can('admin')) : ?>
+			<?php if (Yii::$app->getUser()->can('admin') || Yii::$app->getUser()->can('moderator')) : ?>
 				<?php echo Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('yii2mod.comments', 'Видатили'), '#', ['class' => 'delete-comment-btn', 'data' => ['action' => 'delete', 'url' => Url::to(['/comment/default/delete', 'id' => $model->id]), 'comment-id' => $model->id]]); ?>
 			<?php endif; ?>
 			<?php if (!Yii::$app->user->isGuest && ($model->level < $maxLevel || is_null($maxLevel))) : ?>
