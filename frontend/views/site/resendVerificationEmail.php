@@ -1,7 +1,8 @@
 <?php
 
-/** @var yii\web\View$this  */
+/** @var yii\web\View $this */
 /** @var yii\bootstrap4\ActiveForm $form */
+
 /** @var \frontend\models\ResetPasswordForm $model */
 
 use yii\bootstrap4\Html;
@@ -14,15 +15,15 @@ $this->title = 'Freedom Home. Відправити лист з підтверд�
 
     <div class="row">
         <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'resend-verification-email-form']); ?>
+			<?php $form = ActiveForm::begin(['id' => 'resend-verification-email-form']); ?>
 
-            <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+			<?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
 
             <div class="form-group">
-                <?= Html::submitButton('Підтвердити', ['class' => 'blue-b']) ?>
+				<?= Html::submitButton('Підтвердити', ['class' => 'blue-b']) ?>
             </div>
 
-            <?php ActiveForm::end(); ?>
+			<?php ActiveForm::end(); ?>
         </div>
     </div>
 </div>

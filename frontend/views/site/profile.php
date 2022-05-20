@@ -14,7 +14,7 @@ $this->title = Yii::$app->name . '. Профіль'
     <div class="row">
 		<?= ProfileTopMenuWidget::widget(array(
 				'userId' => $userId,
-                'hide' => true
+				'hide' => true
 			)
 		) ?>
         <div class="col-lg-4">

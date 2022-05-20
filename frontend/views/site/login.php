@@ -2,6 +2,7 @@
 
 /** @var yii\web\View $this */
 /** @var yii\bootstrap4\ActiveForm $form */
+
 /** @var \common\models\LoginForm $model */
 
 use common\widgets\FooterMenuWidget;
