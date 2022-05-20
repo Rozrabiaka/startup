@@ -92,7 +92,7 @@ class SiteController extends Controller
 		]);
 
 		$model = new Search();
-		$dataProvider = $model->historis();
+		$dataProvider = $model->histories();
 
 		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'async'=>true, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/index.css", ['depends' => ['frontend\assets\AppAsset']]);

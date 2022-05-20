@@ -39,7 +39,7 @@ class Search extends Model
 		return '';
 	}
 
-	public function historis()
+	public function histories()
 	{
 		$query = History::find()
 			->select(array(
