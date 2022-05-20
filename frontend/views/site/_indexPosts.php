@@ -1,5 +1,7 @@
 <?php
 use yii\bootstrap4\Html;
+use function Webmozart\Assert\Tests\StaticAnalysis\email;
+
 ?>
 
 <div class="post">
@@ -22,7 +24,7 @@ use yii\bootstrap4\Html;
 		<?php if (!empty($model->relatedRecords['historyHashtags'])): ?>
             <div class="post-hashtags">
 				<?php foreach ($model->relatedRecords['historyHashtags'] as $hashtags): ?>
-					<?= Html::a($hashtags->relatedRecords['hashtag']->name, '?tag=' . $hashtags->relatedRecords['hashtag']->id, ['class' => 'post-hashtag']) ?>
+					<?= Html::a($hashtags->hashtagName, '?tag=' . $hashtags->hashtag_id, ['class' => 'post-hashtag']) ?>
 				<?php endforeach; ?>
             </div>
 		<?php endif; ?>

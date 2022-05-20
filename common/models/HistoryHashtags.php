@@ -14,6 +14,9 @@ namespace common\models;
  */
 class HistoryHashtags extends \yii\db\ActiveRecord
 {
+
+	public $hashtagName;
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -54,7 +57,7 @@ class HistoryHashtags extends \yii\db\ActiveRecord
 	 */
 	public function getHashtag()
 	{
-		return $this->hasOne(Hashtags::className(), ['id' => 'hashtag_id'])->select(['id', 'name']);
+		return $this->hasOne(Hashtags::className(), ['id' => 'hashtag_id']);
 	}
 
 	/**

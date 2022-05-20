@@ -17,7 +17,6 @@ use Yii;
  */
 class History extends \yii\db\ActiveRecord
 {
-
 	public $hashtags;
 
 	/* userInfo in search model frontend/search */
@@ -108,7 +107,9 @@ class History extends \yii\db\ActiveRecord
 
 	public function getHistoryHashtags()
 	{
-		return $this->hasMany(HistoryHashtags::className(), ['history_id' => 'id'])->select(['hashtag_id', 'history_id'])->joinWith('hashtag');
+		return $this->hasMany(HistoryHashtags::className(), ['history_id' => 'id'])
+			->select(['hashtag_id', 'history_id', 'hashtags.name as hashtagName'])
+			->leftJoin('hashtags', 'history_hashtags.hashtag_id = hashtags.id');
 	}
 
 	public function transferImage($fromImage)
