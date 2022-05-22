@@ -17,12 +17,12 @@ use Yii;
  */
 class History extends \yii\db\ActiveRecord
 {
-	public $hashtags;
-
 	/* userInfo in search model frontend/search */
 	public $username;
 	public $img;
 	public $userId;
+
+	public $hashtags;
 
 	const STATUS_ACTIVE = 0;
 	const STATUS_DEACTIVATED = 1;
@@ -41,11 +41,11 @@ class History extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['title', 'user_id', 'hashtags'], 'required'],
+			[['title', 'user_id'], 'required'],
+			['hashtags', 'validateHashtags', 'skipOnEmpty' => false, 'skipOnError' => false],
 			[['description'], 'validateDescription'],
 			[['user_id'], 'integer'],
 			[['datetime'], 'safe'],
-			[['hashtags'], 'validateHashtags'],
 			[['title'], 'string', 'max' => 255],
 			[['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
 		];
@@ -84,12 +84,8 @@ class History extends \yii\db\ActiveRecord
 	public function validateHashtags()
 	{
 		$hashtagsData = json_decode($this->hashtags);
-		if (json_last_error() !== JSON_ERROR_NONE) {
-			$this->hashtags = '';
-			$this->addError('hashtags', "Трапилась незроуміла помилка. Спробуйте знову.");
-		}
 
-		if (!is_array($hashtagsData)) {
+		if (!is_array($hashtagsData) || json_last_error() !== JSON_ERROR_NONE) {
 			$this->hashtags = '';
 			$this->addError('hashtags', "Поле обов'язкове для заповнення.");
 		}
