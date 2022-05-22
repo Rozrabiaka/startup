@@ -8,7 +8,7 @@ jQuery(document).ready(function () {
 
     if (hashtags.val().length > 0) {
         const validHashtags = hashtags.val();
-        hashtags.val("");
+        hashtags.val('');
         if (isValidJSONString(validHashtags)) {
             const json = JSON.parse(validHashtags);
             if (json.length > 0) {
@@ -23,21 +23,9 @@ jQuery(document).ready(function () {
         hashtags.focus();
     });
 
-    hashtags.on("input", function () {
+    hashtags.on('keyup touchend', function () {
         if (jQuery(this).val().length >= maxLength) {
             hashtags.val(jQuery(this).val().substring(0, maxLength));
-        }
-
-        const width = hashtags.width();
-        if (jQuery(this).val().length > hashtagsCountValue) {
-            hashtagsCountValue = jQuery(this).val().length;
-            hashtags.css('width', (width + 12) + 'px');
-        } else if (jQuery(this).val().length < hashtagsCountValue) {
-            hashtagsCountValue = jQuery(this).val().length;
-            if (width > 30) hashtags.css('width', (width - 12) + 'px');
-            else hashtags.css('width', '34px');
-        } else if (jQuery(this).val().length === 0) {
-            hashtagsCountValue = 0;
         }
     });
 
@@ -56,8 +44,8 @@ jQuery(document).ready(function () {
 
             jQuery.ajax({
                 url: '/ajax/search-hashtags',
-                type: "GET",
-                data: {"hashtag": request.term, 'ignore': ignore},
+                type: 'GET',
+                data: {'hashtag': request.term, 'ignore': ignore},
                 success: function (data) {
                     if (data) {
                         let autocomplete = {};
@@ -80,10 +68,7 @@ jQuery(document).ready(function () {
 
         }, minLength: 3,
         close: function () {
-            hashtags.val("");
-            jQuery('.input_hashtags input').css(
-                'width:34px !important;'
-            );
+            hashtags.val('');
         },
     });
 
@@ -101,7 +86,7 @@ jQuery(document).ready(function () {
         }
 
         if (selectedTags.length === 0) {
-            hashtags.attr("placeholder", "Додати хештеги...");
+            hashtags.attr('placeholder', 'Додати хештеги...');
             hashtags.css('width', '100%');
         }
     });
@@ -109,10 +94,10 @@ jQuery(document).ready(function () {
     jQuery(document).mouseup(function (e) {
         const container = jQuery(".input_hashtags");
         if (!container.is(e.target) && container.has(e.target).length === 0) {
-            if (hashtags.val().length > 0) {
+            if (hashtags.val().length > 0 && e.target.classList[0] !== 'ui-menu-item-wrapper') {
                 resetHashtagsCountValue();
                 setNewHashtag(hashtags.val());
-                hashtags.val("");
+                hashtags.val('');
             }
         }
     });
@@ -122,7 +107,7 @@ jQuery(document).ready(function () {
         const charCode = String.fromCharCode(event.which);
         if (keycode === 13 || charCode === ',') {
             setNewHashtag(hashtags.val());
-            hashtags.val("");
+            hashtags.val('');
         }
     });
 
@@ -157,7 +142,6 @@ jQuery(document).ready(function () {
         if (label.length <= 1) return false;
 
         jQuery(".input_hashtags .form-group").prepend(span);
-        tagInput.css('width', '34px');
 
         selectedTags.push({
             'id': genId,
@@ -196,4 +180,10 @@ jQuery(document).ready(function () {
         }
         return true;
     }
+
+    form.on('afterValidate', function (event, messages, errorAttributes) {
+        tagInput.show();
+        hashtags.val('');
+        return false;
+    });
 });
