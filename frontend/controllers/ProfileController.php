@@ -2,9 +2,7 @@
 
 namespace frontend\controllers;
 
-use common\models\Hashtags;
 use common\models\History;
-use common\models\HistoryHashtags;
 use frontend\models\FrontUser;
 use frontend\models\NewPassword;
 use frontend\models\ProfileSettingsSearch;
@@ -75,77 +73,7 @@ class ProfileController extends Controller
 		$history = new History();
 
 		if ($history->load(Yii::$app->request->post()) && $history->validate()) {
-			$postData = Yii::$app->request->post('History');
-			if (!empty($postData['hashtags']) && $hashtags = json_decode($postData['hashtags'])) {
-				//делаем одномерный массив для поиска одним запросом
-				$searchArray = array();
-				foreach ($hashtags as $data) {
-					array_push($searchArray, $data->value);
-				}
-
-				//ищем хештеги по имени
-				$issetHashtags = Hashtags::find()->select(['id', 'name'])->where(['name' => $searchArray])->asArray()->all();
-
-				//Создаем 2 массива, один который хранит имена хештегов, 2рой будет хранить ID тегов для записи в БД postHashtags
-				$hashtagsNames = array(); //to one-dimensional array
-				$hashtagsIds = array(); //array with existing tags
-				foreach ($issetHashtags as $isset) {
-					array_push($hashtagsNames, $isset['name']);
-					array_push($hashtagsIds, $isset['id']); //tag to added (existing tags)
-				}
-
-				//теги которые нужно создать, в batchArray сохраняем для insert, $newTags для поиска в БД чтобы получить ID тегов
-				$batchArray = array();
-				$newTags = array();
-				foreach ($searchArray as $tag) {
-					if (!in_array($tag, $hashtagsNames)) {
-						$batchArray[] = array(
-							'name' => $tag
-						);
-						array_push($newTags, $tag);
-					}
-				}
-
-				//create tags
-				$result = Yii::$app->db->createCommand()->batchInsert(Hashtags::tableName(),
-					['name'], $batchArray)->execute();
-
-				if (is_int($result)) {
-					$newHashtagsIds = Hashtags::find()->select(['id'])->where(['name' => $newTags])->asArray()->all();
-
-					//получив айди вставляем их в массив всех ID тегов которые нужно добавить к посту
-					foreach ($newHashtagsIds as $ids) {
-						array_push($hashtagsIds, $ids['id']);
-					}
-				}
-			}
-
-			preg_match_all('/<img[^>]+>/i', $history->description, $descriptionImages);
-
-			foreach ($descriptionImages[0] as $key => $images) {
-				$explode = explode('/', $images);
-				$transferResult = $history->transferImage(str_replace('">', '', $explode[array_key_last($explode)]));
-
-				if (!empty($transferResult)) {
-					$history->description = str_replace($transferResult['oldFilePath'], $transferResult['newFilePath'], $history->description);
-				}
-			}
-
-			if ($history->save()) {
-				//сохраняем в таблицу postHashtags массив с тегами $hashtagsIds
-				if (!empty($hashtagsIds)) {
-					$historyBatchArray = array();
-					foreach ($hashtagsIds as $id) {
-						$historyBatchArray[] = array(
-							'history_id' => $history->id,
-							'hashtag_id' => $id
-						);
-					}
-
-					Yii::$app->db->createCommand()->batchInsert(HistoryHashtags::tableName(),
-						['history_id', 'hashtag_id'], $historyBatchArray)->execute();
-				}
-
+			if ($history->saveHistory()) {
 				Yii::$app->session->setFlash('success', 'Вашу історію було успішно добавлено.');
 				return $this->refresh();
 			} else {
