@@ -60,7 +60,7 @@ class Search extends Model
 		if (!empty($this->history)) $query->andWhere(['history.id' => $this->history]);
 		if (!empty($this->tag)) $query->andWhere(['hashtags.id' => $this->tag]);
 
-		$queryCount = History::find()->count('id');
+		$queryCount = History::find()->count();
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
