@@ -1020,6 +1020,7 @@ footer .down {
     font-family: 'Inter-Medium', sans-serif;
     font-size: 28px;
     line-height: 39px;
+    word-break: break-all;
 }
 
 .post-description {

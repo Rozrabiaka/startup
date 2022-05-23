@@ -12,21 +12,10 @@ class AjaxController extends Controller
 	{
 		if (Yii::$app->request->isAjax) {
 			$hashtag = Yii::$app->request->get('hashtag');
-			$ignore = Yii::$app->request->get('ignore');
 
-			$q = Hashtags::find()->select(['id', 'name'])->where(['like', 'name', trim($hashtag)]);
-
-			if (!empty($ignore)) {
-				$explodeIgnore = explode(',', $ignore);
-				foreach ($explodeIgnore as $explode) {
-					$q->andWhere(['!=', 'name', trim($explode)]);
-				}
-			}
-
-			$searchResult = $q->asArray()->all();
-
-			if (!empty($searchResult)) {
-				return json_encode($searchResult);
+			$q = Hashtags::find()->select(['id'])->where(['=', 'name', trim($hashtag)])->one();
+			if (!empty($q)) {
+				return json_encode($q->id);
 			}
 		}
 

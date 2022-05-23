@@ -4,8 +4,6 @@ use common\widgets\ProfileMenuWidget;
 use common\widgets\ProfileTopMenuWidget;
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
-use \stkevich\ckeditor5\EditorClassic;
-
 /** @var common\models\History $history */
 
 $this->title = 'Freedom Home. Створити історію';
@@ -23,12 +21,7 @@ $this->title = 'Freedom Home. Створити історію';
 
 				<?= $form->field($history, 'title')->textInput(['placeholder' => "Титулка"])->label(false) ?>
 
-				<?= $form->field($history, 'description')->widget(EditorClassic::className(),
-					[
-						'toolbar' => ['imageUpload', 'bold', 'link', 'bulletedList', 'uploadImage', 'blockQuote'],
-						'uploadUrl' => 'uploadImage.php',
-					]
-				)->label(false); ?>
+				<?= $form->field($history, 'description')->textarea()->label(false); ?>
 
                 <div class="input_hashtags form-control">
 					<?= $form->field($history, 'hashtags')->textInput(['class' => 'hashtags', 'placeholder' => "Додати хештеги..."])->label(false) ?>

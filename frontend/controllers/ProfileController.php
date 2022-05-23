@@ -81,7 +81,6 @@ class ProfileController extends Controller
 			}
 		}
 
-
 		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
 		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/hashtags.js', ['position' => \yii\web\View::POS_END, 'async' => true, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/ckeditor/ckeditor.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
@@ -103,6 +102,7 @@ class ProfileController extends Controller
 	 * @return mixed
 	 * @throws \yii\base\InvalidConfigException
 	 * @throws \yii\db\Exception
+	 * @throws \yii\base\Exception
 	 */
 	public function actionSettings()
 	{
@@ -111,7 +111,6 @@ class ProfileController extends Controller
 
 		if ($model->load(Yii::$app->request->post())) {
 			$image = UploadedFile::getInstances($model, 'image');
-
 			if ($model->updateUser($image)) {
 				Yii::$app->session->setFlash('success', 'Дані успішно оновлені.');
 				return $this->refresh();

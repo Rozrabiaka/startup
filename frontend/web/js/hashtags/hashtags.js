@@ -29,49 +29,6 @@ jQuery(document).ready(function () {
         }
     });
 
-    hashtags.autocomplete({
-        appendTo: '#autocomplete-container',
-        source: function (request, response) {
-            let ignore = '';
-            if (selectedTags.length > 0) {
-                for (let i = 0; selectedTags.length >= i; i++) {
-                    if (typeof selectedTags[i] !== 'undefined') {
-                        if (i === 0) ignore = selectedTags[i].value;
-                        else ignore += ',' + selectedTags[i].value;
-                    }
-                }
-            }
-
-            jQuery.ajax({
-                url: '/ajax/search-hashtags',
-                type: 'GET',
-                data: {'hashtag': request.term, 'ignore': ignore},
-                success: function (data) {
-                    if (data) {
-                        let autocomplete = {};
-                        const qResult = jQuery.parseJSON(data);
-                        jQuery.each(qResult, function (arKey, arValue) {
-                            autocomplete[arValue.id] = {
-                                'label': arValue.name,
-                                'id': arValue.id
-                            }
-                        });
-                        response(autocomplete);
-                    }
-                }
-            });
-        },
-        select: function (event, ui) {
-            if (ui.item.label) {
-                setNewHashtag(ui.item.label);
-            }
-
-        }, minLength: 3,
-        close: function () {
-            hashtags.val('');
-        },
-    });
-
     jQuery(document).on('click', '.hashtag-span-remove', function () {
         const id = jQuery(this).attr('id');
         jQuery('#' + id).parent().remove();
@@ -87,7 +44,6 @@ jQuery(document).ready(function () {
 
         if (selectedTags.length === 0) {
             hashtags.attr('placeholder', 'Додати хештеги...');
-            hashtags.css('width', '100%');
         }
     });
 
@@ -111,7 +67,7 @@ jQuery(document).ready(function () {
         }
     });
 
-    function setNewHashtag(label) {
+    async function setNewHashtag(label) {
         if (selectedTags.length > 0) {
             for (let i = 0; selectedTags.length >= i; i++) {
                 if (typeof selectedTags[i] !== 'undefined') {
@@ -127,7 +83,7 @@ jQuery(document).ready(function () {
         }
 
         let id = () => {
-            return Math.floor((1 + Math.random()) * 0x10000)
+            return 'g-' + Math.floor((1 + Math.random()) * 0x10000)
                 .toString(16)
                 .substring(1);
         };
@@ -149,6 +105,7 @@ jQuery(document).ready(function () {
         });
 
         if (selectedTags.length > 0) hashtags.attr("placeholder", "");
+        await getHashId(label, genId);
     }
 
     form.on('keyup keypress', function (e) {
@@ -167,6 +124,23 @@ jQuery(document).ready(function () {
         else tagInput.show();
         jQuery('#history-description').val(jQuery('.ck-content').html());
     });
+
+    async function getHashId(tag, genId) {
+        await jQuery.ajax({
+            url: '/ajax/search-hashtags',
+            type: 'GET',
+            data: {'hashtag': tag},
+            success: function (data) {
+                if (data) {
+                    const newId = 'g-' + jQuery.parseJSON(data);
+                    jQuery('#' + genId).attr("id", newId);
+                    jQuery.each(selectedTags, function (index, value) {
+                        if (value.id === genId) selectedTags[index].id = newId
+                    });
+                }
+            }
+        });
+    }
 
     function resetHashtagsCountValue() {
         hashtagsCountValue = 0;
