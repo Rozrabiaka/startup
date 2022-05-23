@@ -94,9 +94,7 @@ class SiteController extends Controller
 		$model = new Search();
 		$dataProvider = $model->histories();
 
-		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'async'=>true, 'depends' => [\yii\web\JqueryAsset::className()]]);
-		$this->getView()->registerCssFile("@web/css/index.css", ['depends' => ['frontend\assets\AppAsset']]);
-		$this->getView()->registerCssFile("@web/css/post.css", ['depends' => ['frontend\assets\AppAsset']]);
+		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'async' => true, 'depends' => [\yii\web\JqueryAsset::className()]]);
 
 		return $this->render('index', array(
 			'dataProvider' => $dataProvider
@@ -378,8 +376,7 @@ class SiteController extends Controller
 		$model = new ProfileSettingsSearch();
 		$historyInfo = $model->getPostById($id);
 
-		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'async'=>true, 'depends' => [\yii\web\JqueryAsset::className()]]);
-		$this->getView()->registerCssFile("@web/css/post.css", ['depends' => ['frontend\assets\AppAsset']]);
+		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'async' => true, 'depends' => [\yii\web\JqueryAsset::className()]]);
 
 		\Yii::$app->view->registerMetaTag([
 			'name' => 'description',
@@ -404,7 +401,6 @@ class SiteController extends Controller
 		$dataProvider = $model->search($id);
 
 		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
-		$this->getView()->registerCssFile("@web/css/post.css", ['depends' => ['frontend\assets\AppAsset']]);
 		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/history.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 
 		\Yii::$app->view->registerMetaTag([
