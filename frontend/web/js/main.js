@@ -1,4 +1,5 @@
 jQuery(document).ready(function () {
+    lazyLoad();
     const q = jQuery('#q');
     const up = jQuery('.up');
     const down = jQuery('.down');
@@ -119,3 +120,22 @@ jQuery(document).ready(function () {
         footerC.hide();
     });
 });
+
+function lazyLoad() {
+    jQuery('.image img').Lazy({
+        beforeLoad: function (element) {
+            element[0].style.opacity = 1;
+        },
+        afterLoad: function (element) {
+            element.parent().addClass('loaded-image');
+            element.parent().removeClass('image');
+        },
+        // your configuration goes here
+        scrollDirection: 'vertical',
+        effect: 'fadeIn',
+        visibleOnly: true,
+        onError: function (element) {
+            console.log('error loading ' + element.data('src'));
+        }
+    });
+}
