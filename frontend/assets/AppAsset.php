@@ -19,8 +19,8 @@ class AppAsset extends AssetBundle
 	public $js = [
 		['js/autocomplete-0.3.0.min.js', 'async' => 'async'],
 		'js/jquery-ui.js',
-		['js/lazy.min.js'],
-		['js/main.js', 'async' => 'async'],
+		'js/lazy.min.js',
+		'js/main.js',
 	];
 
 	public $images = [];
@@ -28,6 +28,4 @@ class AppAsset extends AssetBundle
 		'yii\web\YiiAsset',
 		'yii\bootstrap4\BootstrapAsset',
 	];
-
-//	public $jsOptions = ['async' => 'async'];
 }

@@ -99,11 +99,6 @@ blockquote {
     }
 }
 
-.image_store .image img {
-    opacity: 0;
-    transition: opacity .5s ease-in;
-}
-
 .form-text-header, .button-auth-google {
     text-align: center;
 }
