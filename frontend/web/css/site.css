@@ -61,12 +61,21 @@ main > .container {
     padding: 70px 15px 20px;
 }
 
+blockquote {
+    font-style: italic;
+}
+
+.story-image__content ul {
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
 .story-image__content {
     font-size: 14px;
 }
 
-.story-image__content strong{
-    font-size:18px;
+.story-image__content strong {
+    font-size: 18px;
 }
 
 .story-image__content .image {

@@ -4,7 +4,6 @@ jQuery(document).ready(function () {
     const form = jQuery('#create-history-form');
     const maxLength = 25;
     let selectedTags = [];
-    let hashtagsCountValue = 0;
 
     if (hashtags.val().length > 0) {
         const validHashtags = hashtags.val();
@@ -51,7 +50,6 @@ jQuery(document).ready(function () {
         const container = jQuery(".input_hashtags");
         if (!container.is(e.target) && container.has(e.target).length === 0) {
             if (hashtags.val().length > 0 && e.target.classList[0] !== 'ui-menu-item-wrapper') {
-                resetHashtagsCountValue();
                 setNewHashtag(hashtags.val());
                 hashtags.val('');
             }
@@ -111,8 +109,7 @@ jQuery(document).ready(function () {
     form.on('keyup keypress', function (e) {
         const keyCode = e.keyCode || e.which;
         const charCode = String.fromCharCode(e.which);
-        if (keyCode === 13 || charCode === ',') {
-            resetHashtagsCountValue();
+        if (keyCode === 13) {
             e.preventDefault();
             return false;
         }
@@ -140,10 +137,6 @@ jQuery(document).ready(function () {
                 }
             }
         });
-    }
-
-    function resetHashtagsCountValue() {
-        hashtagsCountValue = 0;
     }
 
     function isValidJSONString(str) {
