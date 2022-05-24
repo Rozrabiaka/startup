@@ -172,6 +172,9 @@ class History extends \yii\db\ActiveRecord
 				}
 			}
 
+			//change src to data-src, for lazy load
+			$this->description = str_replace('src', 'data-src', $this->description);
+
 			if ($this->save()) {
 				//сохраняем в таблицу postHashtags массив с тегами $hashtagsIds
 				if (!empty($hashtagsIds)) {
