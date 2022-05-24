@@ -1,5 +1,5 @@
 jQuery(document).ready(function () {
-    lazyLoad();
+    lazyLoad(); //start lazy load
     const q = jQuery('#q');
     const up = jQuery('.up');
     const down = jQuery('.down');
@@ -15,6 +15,7 @@ jQuery(document).ready(function () {
         jQuery('.mobile-menu-block').show();
     });
 
+    //global search
     q.autocomplete({
         appendTo: '#autocomplete-container-search',
         source: function (request, response) {
@@ -107,11 +108,16 @@ jQuery(document).ready(function () {
                 .appendTo(ul);
         }
     };
+    //end global search
 
+    //footer scroll
     jQuery(".up").click(function () {
         down.show();
         footerC.show();
         up.hide();
+        jQuery([document.documentElement, document.body]).animate({
+            scrollTop: jQuery('.down').offset().top
+        }, 200);
     });
 
     jQuery(".down").click(function () {
@@ -119,6 +125,8 @@ jQuery(document).ready(function () {
         up.show();
         footerC.hide();
     });
+
+    //end footer scroll
 });
 
 function lazyLoad() {

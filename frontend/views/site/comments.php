@@ -23,8 +23,7 @@ use yii\bootstrap4\Html;
 			<?= FooterMenuWidget::widget() ?>
         </div>
         <div class="col-lg-8">
-            <h5 class="mh-block-dark">Коментарі</h5>
-            <div class="comment-post" style="margin-top:20px;">
+            <div class="comment-post">
                 <div class="post" data-key="<?= $model->id ?>">
                     <div class="post-data">
 						<?= Html::img($model->img, ['alt' => 'People']) ?> <?= Html::a('<span class="post-username">' . $model->username . '</span>', ['/site/profile', 'id' => $model->userId]) ?>

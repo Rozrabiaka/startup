@@ -8,12 +8,17 @@ jQuery(document).ready(function () {
         const close = jQuery('[data-key=' + id + ']').find('.close-story');
         const idEl = jQuery('#' + el);
 
+        const block = jQuery('[data-key=' + id + '] .story-block');
         if (close.length > 0) {
-            jQuery('[data-key=' + id + '] .story-block').css('max-height', '450px');
+            block.css('max-height', '450px');
             idEl.text('Читати повністю');
-            idEl.removeClass('close-story')
+            idEl.removeClass('close-story');
+
+            jQuery([document.documentElement, document.body]).animate({
+                scrollTop: block.offset().top
+            }, 200);
         } else {
-            jQuery('[data-key=' + id + '] .story-block').css('max-height', '100%');
+            block.css('max-height', '100%');
             idEl.text('Закрити');
             idEl.addClass('close-story')
         }
