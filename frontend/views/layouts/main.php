@@ -85,7 +85,7 @@ AppAsset::register($this);
                         <div class="mmb-links">
                             <ul>
                                 <li><?= Html::a('Головна', ['/'], ['class' => '']) ?></li>
-                                <li><?= Html::a('Спільноти', ['/'], ['class' => '']) ?></li>
+                                <li><?= Html::a('Спільноти', ['/communities'], ['class' => '']) ?></li>
                             </ul>
                         </div>
 
