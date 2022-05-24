@@ -38,7 +38,7 @@ class FrontUser extends Model
 
 			['image', 'safe'],
 
-			[['description'], 'string'],
+			[['description'], 'string', 'max' => 200],
 		];
 	}
 

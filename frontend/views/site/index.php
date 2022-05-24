@@ -59,7 +59,9 @@ $this->title = Yii::$app->name;
                     <div class="menu-back info-block">
                         Freedom Home потребує вашої допомоги. Ми шукаємо SEO спеціаліста(ів), котрі допоможуть
                         продвинути наший проєкт в пошукових системах. Якщо маєте бажання допомогти, будь ласка,
-						<?= Html::mailto('напишіть нам', 'freehomeua@gmail.com', ['class' => '']) ?>
+						<?= Html::mailto('напишіть нам', 'freehomeua@gmail.com', ['class' => '']) ?>.
+                        <br>
+                        P.S Потребуємо модераторів, програмістів.
                     </div>
                 </div>
             </div>
