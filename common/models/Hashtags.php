@@ -48,27 +48,19 @@ class Hashtags extends \yii\db\ActiveRecord
 		];
 	}
 
-	public static function validateHashtag($tag, $id)
+	public static function validateHashtag($tag)
 	{
 		//validate tag
 		$tag = preg_replace("/[^a-zа-щА-ЩЬьЮюЯяЇїІіЄєҐґA-ZА-Яа-я0-9\s+]/u", '', $tag);
 		if (preg_match('/[^0-9]/', $tag) === 0) $tag = null;
 		$tag = mb_strtoupper(mb_substr(strtolower($tag), 0, 1)) . mb_substr(strtolower($tag), 1);
 
-		//validate tag id
-		$explodeId = explode('-', $id);
+		return $tag;
+	}
 
-		$g = $explodeId[0];
-		$afterG = $explodeId[1];
-
-		if ($g !== 'g' || empty($afterG)) $id = null;
-		else if (strlen($afterG) !== 4 && preg_match('/[^0-9]/', $afterG) === 1) $id = null;
-		else if (strlen($afterG) > 4 && preg_match('/[^0-9]/', $afterG) !== 0) $id = null;
-		else $id = $afterG;
-
-		return array(
-			'name' => $tag,
-			'id' => $id
-		);
+	public static function validateId($id)
+	{
+		if (empty($id) || !is_int($id)) return null;
+		return (int)$id;
 	}
 }

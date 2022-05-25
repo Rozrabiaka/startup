@@ -8,14 +8,22 @@ use yii\web\Controller;
 
 class AjaxController extends Controller
 {
-	public function actionSearchHashtags()
+	public function actionHashtags()
 	{
 		if (Yii::$app->request->isAjax) {
-			$hashtag = Yii::$app->request->get('hashtag');
+			$hashtag = (string)Yii::$app->request->get('hashtag');
+			$model = new Hashtags();
 
-			$q = Hashtags::find()->select(['id'])->where(['=', 'name', trim($hashtag)])->one();
+			$q = $model::find()->select(['id'])->where(['=', 'name', trim($hashtag)])->one();
 			if (!empty($q)) {
 				return json_encode($q->id);
+			} else {
+				$hashtag = $model::validateHashtag($hashtag);
+				if (!empty($hashtag) && strlen($hashtag) >= 2) {
+					$model->name = $hashtag;
+					$model->save();
+					return json_encode($model->id);
+				}
 			}
 		}
 

@@ -13,6 +13,7 @@ use yii\data\ActiveDataProvider;
 class ProfileSettingsSearch extends Model
 {
 	public $q;
+	public $tag;
 
 	/**
 	 * {@inheritdoc}
@@ -27,6 +28,7 @@ class ProfileSettingsSearch extends Model
 	public function __construct()
 	{
 		$this->q = Yii::$app->request->getQueryParam('q');
+		$this->tag = (int)Yii::$app->request->getQueryParam('tag');
 	}
 
 	public function formName()
@@ -55,6 +57,7 @@ class ProfileSettingsSearch extends Model
 		else $query->where(['history.user_id' => $useId]);
 
 		if (!empty($this->q)) $query->andWhere(['like', 'history.title', $this->q]);
+		if (!empty($this->tag)) $query->andWhere(['=', 'hashtags.id', $this->tag]);
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,

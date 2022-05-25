@@ -132,33 +132,11 @@ class History extends \yii\db\ActiveRecord
 	public function saveHistory()
 	{
 		if (!empty($this->hashtags) && $hashtags = json_decode($this->hashtags)) {
-			//делаем одномерный массив для поиска одним запросом
 			$hashtagsIds = array();
-			$batchArray = array();
-			$newTags = array();
 			foreach ($hashtags as $data) {
 				//валидация хештега
-				$tagData = Hashtags::validateHashtag($data->value, $data->id);
-				if (strlen($tagData['name']) > 3 && !empty($tagData['id']) && preg_match('/[^0-9]/', $tagData['id']) === 1) {
-					$batchArray[] = array('name' => $tagData['name']);
-					array_push($newTags, $tagData['name']);
-				} else if (strlen($tagData['name']) > 3 && !empty($tagData['id']) && preg_match('/[^0-9]/', $tagData['id']) === 0) {
-					array_push($hashtagsIds, $tagData['id']);
-				}
-			}
-
-			if (!empty($batchArray)) {
-				//create tags
-				$result = Yii::$app->db->createCommand()->batchInsert(Hashtags::tableName(),
-					['name'], $batchArray)->execute();
-
-				if (is_int($result)) {
-					$newHashtagsIds = Hashtags::find()->select(['id'])->where(['name' => $newTags])->asArray()->all();
-					//получив айди вставляем их в массив всех ID тегов которые нужно добавить к посту
-					foreach ($newHashtagsIds as $ids) {
-						array_push($hashtagsIds, $ids['id']);
-					}
-				}
+				$id = Hashtags::validateId($data->tagId);
+				if (!empty($id)) array_push($hashtagsIds, $id);
 			}
 
 			preg_match_all('/<img[^>]+>/i', $this->description, $descriptionImages);

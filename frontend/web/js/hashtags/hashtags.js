@@ -30,20 +30,7 @@ jQuery(document).ready(function () {
 
     jQuery(document).on('click', '.hashtag-span-remove', function () {
         const id = jQuery(this).attr('id');
-        jQuery('#' + id).parent().remove();
-
-        selectedTags = selectedTags.filter(function (elem) {
-            return elem.id !== id;
-        });
-
-        if (selectedTags.length < 9) {
-            hashtags.prop('disabled', false);
-            hashtags.show();
-        }
-
-        if (selectedTags.length === 0) {
-            hashtags.attr('placeholder', 'Додати хештеги...');
-        }
+        removeTag(id);
     });
 
     jQuery(document).mouseup(function (e) {
@@ -93,13 +80,14 @@ jQuery(document).ready(function () {
         label = label.replace(/  +/g, ' ');
 
         if (!label.replace(/\s/g, '').length) return false;
-        if (label.length <= 1) return false;
+        if (label.length <= 2 || /^\d+$/.test(label)) return false;
 
         jQuery(".input_hashtags .form-group").prepend(span);
 
         selectedTags.push({
             'id': genId,
-            'value': label
+            'value': label,
+            'tagId': ''
         });
 
         if (selectedTags.length > 0) hashtags.attr("placeholder", "");
@@ -108,7 +96,6 @@ jQuery(document).ready(function () {
 
     form.on('keyup keypress', function (e) {
         const keyCode = e.keyCode || e.which;
-        const charCode = String.fromCharCode(e.which);
         if (keyCode === 13) {
             e.preventDefault();
             return false;
@@ -124,19 +111,34 @@ jQuery(document).ready(function () {
 
     async function getHashId(tag, genId) {
         await jQuery.ajax({
-            url: '/ajax/search-hashtags',
+            url: '/ajax/hashtags',
             type: 'GET',
             data: {'hashtag': tag},
             success: function (data) {
                 if (data) {
-                    const newId = 'g-' + jQuery.parseJSON(data);
-                    jQuery('#' + genId).attr("id", newId);
                     jQuery.each(selectedTags, function (index, value) {
-                        if (value.id === genId) selectedTags[index].id = newId
+                        if (value.id === genId) selectedTags[index].tagId = jQuery.parseJSON(data)
                     });
                 }
             }
         });
+    }
+
+    function removeTag(id) {
+        jQuery('#' + id).parent().remove();
+
+        selectedTags = selectedTags.filter(function (elem) {
+            return elem.id !== id;
+        });
+
+        if (selectedTags.length < 9) {
+            hashtags.prop('disabled', false);
+            hashtags.show();
+        }
+
+        if (selectedTags.length === 0) {
+            hashtags.attr('placeholder', 'Додати хештеги...');
+        }
     }
 
     function isValidJSONString(str) {
