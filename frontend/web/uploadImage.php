@@ -3,6 +3,7 @@
 namespace uploadImage;
 require __DIR__ . '/../../vendor/autoload.php';
 
+use claviska\SimpleImage;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\ImageOptimizer\Optimizers\Pngquant;
 
@@ -82,6 +83,18 @@ class UploadImage
 
 	public function resize($pathToImage, $pathToOutput)
 	{
+		list($width) = getimagesize($pathToImage);
+
+		if ($width > 690) {
+			$image = new SimpleImage();
+			// Magic! ✨
+			$image
+				->fromFile($pathToImage)
+				->autoOrient()
+				->resize(690)
+				->toFile($pathToImage);
+		}
+
 		$optimizerChain = OptimizerChainFactory::create();
 		$optimizerChain
 			->addOptimizer(new Pngquant([

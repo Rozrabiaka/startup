@@ -29,7 +29,8 @@
     "kop/yii2-scroll-pager": "dev-master",
     "yii2mod/yii2-comments": "*",
     "yiisoft/yii2-queue": "^2.0@dev",
-    "spatie/image-optimizer": "^1.6"
+    "spatie/image-optimizer": "^1.6",
+    "claviska/simpleimage": "dev-master"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",
