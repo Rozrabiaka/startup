@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use claviska\SimpleImage;
 use common\models\User;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\ImageOptimizer\Optimizers\Pngquant;
@@ -114,6 +115,18 @@ class FrontUser extends Model
 		foreach ($image as $file) {
 			$fileName = md5(microtime() . rand(0, 9999)) . '_' . $file->name;
 			$imagePath = $path . '/' . $fileName;
+
+			list($width) = getimagesize($file->tempName);
+
+			if ($width > 200) {
+				$image = new SimpleImage();
+				// Magic! ✨
+				$image
+					->fromFile($file->tempName)
+					->autoOrient()
+					->resize(200)
+					->toFile($file->tempName);
+			}
 
 			$optimizerChain = OptimizerChainFactory::create();
 			$optimizerChain

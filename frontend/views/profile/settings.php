@@ -33,7 +33,7 @@ $this->title = 'Freedom Home. Налаштування';
 							'showUpload' => false,
 							'overwriteInitial' => false,
 							'allowedFileExtensions' => ['jpg', 'png', 'jpeg'],
-							'maxFileSize' => 3800,
+							'maxFileSize' => 4800,
 						],
 						'options' => ['accept' => 'image/*'],
 					])->label(false); ?>
