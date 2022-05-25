@@ -40,7 +40,7 @@ $this->title = 'Freedom Home. Мої історії';
 			echo ListView::widget([
 				'dataProvider' => $dataProvider,
 				'itemOptions' => ['class' => 'item'],
-				'itemView' => '_indexPosts',
+				'itemView' => '../site/_indexPosts',
 				'summary' => '',
 				'pager' => [
 					'nextPageLabel' => 'Далі' . Html::img('/images/svg/right.svg', ['alt' => 'People']),
