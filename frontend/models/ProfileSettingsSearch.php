@@ -53,8 +53,8 @@ class ProfileSettingsSearch extends Model
 			->joinWith('historyHashtags')
 			->groupBy(['history.id']);
 
-		if (empty($useId)) $query->where(['history.user_id' => Yii::$app->user->id]);
-		else $query->where(['history.user_id' => $useId]);
+		if (empty($useId)) $query->andWhere(['history.user_id' => Yii::$app->user->id]);
+		else $query->andWhere(['history.user_id' => $useId]);
 
 		if (!empty($this->q)) $query->andWhere(['like', 'history.title', $this->q]);
 		if (!empty($this->tag)) $query->andWhere(['=', 'hashtags.id', $this->tag]);

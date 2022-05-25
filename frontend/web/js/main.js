@@ -135,7 +135,7 @@ function lazyLoad() {
         enableThrottle: true,
         visibleOnly: true,
         throttle: 300,
-        effectTime: 2000,
+        effectTime: 500,
         threshold: 0,
         afterLoad: function (element) {
             element.parent().addClass('loaded-image');

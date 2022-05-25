@@ -9,11 +9,6 @@
 }
 
 @font-face {
-    font-family: Inter-SemiBold;
-    src: url("/fonts/Inter-SemiBold.ttf") format('truetype');
-}
-
-@font-face {
     font-family: Inter-Regular;
     src: url("/fonts/Inter-Regular.ttf") format('truetype');
 }
@@ -525,7 +520,7 @@ header {
 }
 
 .mc-social-links {
-    font-family: 'Inter-SemiBold', sans-serif;
+    font-family: 'Inter-Bold', sans-serif;
     font-size: 14px;
 }
 
@@ -967,7 +962,7 @@ footer .down {
 #autocomplete-container-search .autocomplete-tag-name {
     color: #9772FF;
     font-size: 14px;
-    font-family: 'Inter-SemiBold', sans-serif;
+    font-family: 'Inter-Bold', sans-serif;
     padding: 5px 0;
 }
 
