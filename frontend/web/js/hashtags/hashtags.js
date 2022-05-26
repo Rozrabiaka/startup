@@ -4,6 +4,8 @@ jQuery(document).ready(function () {
     const form = jQuery('#create-history-form');
     const maxLength = 25;
     let selectedTags = [];
+    let searchParams = new URLSearchParams(window.location.search);
+    let historyId = parseInt(searchParams.get('id'));
 
     if (hashtags.val().length > 0) {
         const validHashtags = hashtags.val();
@@ -12,7 +14,7 @@ jQuery(document).ready(function () {
             const json = JSON.parse(validHashtags);
             if (json.length > 0) {
                 jQuery.each(json, function (index, value) {
-                    setNewHashtag(value.value);
+                    setNewHashtag(value.value, value.tagId, true);
                 });
             }
         }
@@ -52,7 +54,7 @@ jQuery(document).ready(function () {
         }
     });
 
-    async function setNewHashtag(label) {
+    async function setNewHashtag(label, tagId = null, current = false) {
         if (selectedTags.length > 0) {
             for (let i = 0; selectedTags.length >= i; i++) {
                 if (typeof selectedTags[i] !== 'undefined') {
@@ -87,11 +89,12 @@ jQuery(document).ready(function () {
         selectedTags.push({
             'id': genId,
             'value': label,
-            'tagId': ''
+            'tagId': tagId,
+            'current': current
         });
 
         if (selectedTags.length > 0) hashtags.attr("placeholder", "");
-        await getHashId(label, genId);
+        if (tagId === null) await getHashId(label, genId);
     }
 
     form.on('keyup keypress', function (e) {
@@ -109,6 +112,30 @@ jQuery(document).ready(function () {
         jQuery('#history-description').val(jQuery('.ck-content').html());
     });
 
+    form.on('afterValidate', function (event, messages, errorAttributes) {
+        tagInput.show();
+        hashtags.val('');
+        return false;
+    });
+
+    function removeTag(id) {
+        jQuery('#' + id).parent().remove();
+
+        selectedTags = selectedTags.filter(function (elem) {
+            if (elem.id === id && !isNaN(historyId)) removeHistoryTag(elem.tagId, historyId);
+            return elem.id !== id;
+        });
+
+        if (selectedTags.length < 9) {
+            hashtags.prop('disabled', false);
+            hashtags.show();
+        }
+
+        if (selectedTags.length === 0) {
+            hashtags.attr('placeholder', 'Додати хештеги...');
+        }
+    }
+
     async function getHashId(tag, genId) {
         await jQuery.ajax({
             url: '/ajax/hashtags',
@@ -124,21 +151,19 @@ jQuery(document).ready(function () {
         });
     }
 
-    function removeTag(id) {
-        jQuery('#' + id).parent().remove();
-
-        selectedTags = selectedTags.filter(function (elem) {
-            return elem.id !== id;
+    function removeHistoryTag(tag, history) {
+        jQuery.ajax({
+            url: '/ajax/remove-hashtag',
+            type: 'POST',
+            data: {'hashtag': tag, 'history': history},
+            success: function (data) {
+                if (data) {
+                    jQuery.each(selectedTags, function (index, value) {
+                        if (value.id === genId) selectedTags[index].tagId = jQuery.parseJSON(data)
+                    });
+                }
+            }
         });
-
-        if (selectedTags.length < 9) {
-            hashtags.prop('disabled', false);
-            hashtags.show();
-        }
-
-        if (selectedTags.length === 0) {
-            hashtags.attr('placeholder', 'Додати хештеги...');
-        }
     }
 
     function isValidJSONString(str) {
@@ -149,10 +174,4 @@ jQuery(document).ready(function () {
         }
         return true;
     }
-
-    form.on('afterValidate', function (event, messages, errorAttributes) {
-        tagInput.show();
-        hashtags.val('');
-        return false;
-    });
 });

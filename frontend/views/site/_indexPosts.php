@@ -1,15 +1,25 @@
 <?php
 
+use common\widgets\PostMenuWidget;
 use yii\bootstrap4\Html;
-use function Webmozart\Assert\Tests\StaticAnalysis\email;
 
 ?>
 
 <div class="post">
     <div class="post-data">
-		<?= Html::img($model->img, ['alt' => 'People']) ?>
-		<?= Html::a('<span class="post-username">' . $model->username . '</span>', ['/site/profile', 'id' => $model->userId]) ?>
-        <span class="post-date">Опубліковано о <?= $model->datetime ?></span>
+        <div>
+			<?= Html::img($model->img, ['alt' => 'People']) ?>
+			<?= Html::a('<span class="post-username">' . $model->username . '</span>', ['/site/profile', 'id' => $model->userId]) ?>
+        </div>
+        <div>
+            <span class="post-date"> <?= $model->datetime ?></span>
+        </div>
+        <div class="post-menu">
+			<?php echo PostMenuWidget::widget(array(
+				'pathInfo' => Yii::$app->request->pathInfo,
+				'postId' => $model->id
+			)); ?>
+        </div>
     </div>
     <div class="post-description">
         <h3 class="post-title"><?= $model->title ?></h3>

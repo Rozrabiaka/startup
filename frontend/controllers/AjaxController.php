@@ -30,6 +30,26 @@ class AjaxController extends Controller
 		return false;
 	}
 
+	public function actionRemoveHashtag()
+	{
+		if (Yii::$app->request->isAjax) {
+			$hashtag = Yii::$app->request->post('hashtag');
+			$history = Yii::$app->request->post('history');
+
+			if (!empty($hashtag) && $history) {
+				\Yii::$app
+					->db
+					->createCommand()
+					->delete('history_hashtags', ['history_id' => (int)$history, 'hashtag_id' => (int)$hashtag])
+					->execute();
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public function actionSearch()
 	{
 		if (Yii::$app->request->isAjax) {

@@ -114,14 +114,13 @@ class History extends \yii\db\ActiveRecord
 		$filePath = Yii::getAlias('@frontend') . '/web/uploads/removeImages/' . $fromImage;
 		$destinationFilePath = Yii::getAlias('@frontend') . '/web/uploads/historyFiles/' . $dateFolder;
 
-		if (!file_exists($destinationFilePath)) {
+		if (!file_exists($destinationFilePath))
 			mkdir($destinationFilePath, 0755, true);
-		}
 
-		shell_exec("cp -r $filePath $destinationFilePath");
-
-		if (file_exists($filePath))
+		if (file_exists($filePath)) {
+			shell_exec("cp -r $filePath $destinationFilePath");
 			unlink($filePath);
+		}
 
 		return array(
 			'newFilePath' => Yii::$app->request->hostInfo . '/uploads/historyFiles/' . $dateFolder . '/' . $fromImage,
@@ -145,6 +144,51 @@ class History extends \yii\db\ActiveRecord
 				$explode = explode('/', $images);
 				$transferResult = $this->transferImage(str_replace('">', '', $explode[array_key_last($explode)]));
 
+				if (!empty($transferResult)) {
+					$this->description = str_replace($transferResult['oldFilePath'], $transferResult['newFilePath'], $this->description);
+				}
+			}
+
+			//change src to data-src, for lazy load
+			$this->description = str_replace('src', 'data-src', $this->description);
+
+			if ($this->save()) {
+				//сохраняем в таблицу postHashtags массив с тегами $hashtagsIds
+				if (!empty($hashtagsIds)) {
+					$historyBatchArray = array();
+					foreach ($hashtagsIds as $id) {
+						$historyBatchArray[] = array(
+							'history_id' => $this->id,
+							'hashtag_id' => $id
+						);
+					}
+
+					Yii::$app->db->createCommand()->batchInsert(HistoryHashtags::tableName(),
+						['history_id', 'hashtag_id'], $historyBatchArray)->execute();
+				}
+			}
+			return true;
+		}
+
+		return false;
+	}
+
+	public function updateHistory()
+	{
+		if (!empty($this->hashtags) && $hashtags = json_decode($this->hashtags)) {
+			$hashtagsIds = array();
+			foreach ($hashtags as $data) {
+				if (!$data->current) {
+					$id = Hashtags::validateId($data->tagId);
+					if (!empty($id)) array_push($hashtagsIds, $id);
+				}
+			}
+
+			preg_match_all('/<img[^>]+>/i', $this->description, $descriptionImages);
+
+			foreach ($descriptionImages[0] as $key => $images) {
+				$explode = explode('/', $images);
+				$transferResult = $this->transferImage(str_replace('">', '', $explode[array_key_last($explode)]));
 				if (!empty($transferResult)) {
 					$this->description = str_replace($transferResult['oldFilePath'], $transferResult['newFilePath'], $this->description);
 				}

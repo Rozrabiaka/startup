@@ -125,6 +125,10 @@ jQuery(document).ready(function () {
         footerC.hide();
     });
 
+    jQuery(".links-dom").click(function () {
+        jQuery(this).find(".links-menu").toggle();
+    });
+
     lazyLoad();
 });
 

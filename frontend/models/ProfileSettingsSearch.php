@@ -56,11 +56,22 @@ class ProfileSettingsSearch extends Model
 		if (empty($useId)) $query->andWhere(['history.user_id' => Yii::$app->user->id]);
 		else $query->andWhere(['history.user_id' => $useId]);
 
-		if (!empty($this->q)) $query->andWhere(['like', 'history.title', $this->q]);
-		if (!empty($this->tag)) $query->andWhere(['=', 'hashtags.id', $this->tag]);
+		$queryCount = History::find()->where(['history.user_id' => Yii::$app->user->id]);
+
+		if (!empty($this->q)) {
+			$queryCount->andWhere(['like', 'history.title', $this->q]);
+			$query->andWhere(['like', 'history.title', $this->q]);
+		}
+		if (!empty($this->tag)) {
+			$queryCount->andWhere(['=', 'hashtags.id', $this->tag]);
+			$query->andWhere(['=', 'hashtags.id', $this->tag]);
+		}
+
+		$count = $queryCount->count('*');
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
+			'totalCount' => $count,
 			'pagination' => [
 				'pageSize' => 5
 			],

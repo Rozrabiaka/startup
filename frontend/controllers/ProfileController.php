@@ -2,7 +2,9 @@
 
 namespace frontend\controllers;
 
+use common\models\Hashtags;
 use common\models\History;
+use common\models\HistoryHashtags;
 use frontend\models\FrontUser;
 use frontend\models\NewPassword;
 use frontend\models\ProfileSettingsSearch;
@@ -27,10 +29,10 @@ class ProfileController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['index', 'settings', 'my-history'],
+				'only' => ['index', 'settings', 'my-history', 'edit-history'],
 				'rules' => [
 					[
-						'actions' => ['index', 'settings', 'my-history'],
+						'actions' => ['index', 'settings', 'my-history', 'edit-history'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -160,5 +162,58 @@ class ProfileController extends Controller
 			'dataProvider' => $dataProvider,
 			'search' => $search
 		]);
+	}
+
+	public function actionEditHistory(int $id)
+	{
+		$model = History::find()
+			->select(array(
+				'history.id',
+				'history.title',
+				'history.description',
+			))
+			->andWhere(['history.user_id' => Yii::$app->user->id])
+			->andWhere(['history.id' => $id])
+			->one();
+
+		if (!empty($model)) {
+			if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+				if ($model->updateHistory()) {
+					Yii::$app->session->setFlash('success', 'Вашу історію було успішно оновлено.');
+					return $this->refresh();
+				} else {
+					Yii::$app->session->setFlash('success', 'Трапилась помилка оновлені історії. Спробуйте знову.');
+				}
+			}
+
+			$hashtags = HistoryHashtags::find()->select(['hashtag_id', 'hashtags.name as hashtagName'])
+				->leftJoin('hashtags', 'hashtags.id = history_hashtags.hashtag_id')
+				->where(['history_hashtags.history_id' => $id])->all();
+
+			if (!empty($hashtags)) {
+				$hashtagsArray = array();
+				foreach ($hashtags as $hashtag) {
+					$hashtagsArray[] = array(
+						'value' => $hashtag->hashtagName,
+						'tagId' => $hashtag->hashtag_id
+					);
+				}
+
+				$model->hashtags = json_encode($hashtagsArray);
+			}
+
+			$model->description = str_replace('data-src', 'src', $model->description);
+
+			$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
+			$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/hashtags/hashtags.js', ['position' => \yii\web\View::POS_END, 'async' => true, 'depends' => [\yii\web\JqueryAsset::className()]]);
+			$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/ckeditor/ckeditor.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+			$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/ckeditor/ckeditor-funcitons.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+
+			return $this->render('edit', [
+				'model' => $model
+			]);
+		}
+
+		return $this->render('/site/error');
 	}
 }
