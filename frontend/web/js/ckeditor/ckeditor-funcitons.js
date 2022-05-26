@@ -1,6 +1,6 @@
 jQuery(document).ready(function () {
     ClassicEditor.create(document.querySelector('#history-description'), {
-        "toolbar": ["imageUpload", "bold", "link", "bulletedList", "uploadImage", "blockQuote"],
+        "toolbar": ["bold", "link", "bulletedList", "uploadImage", "blockQuote"],
         "ckfinder": {
             "uploadUrl": "/uploadImage.php",
             "options": {
