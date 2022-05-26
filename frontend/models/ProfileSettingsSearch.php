@@ -53,10 +53,7 @@ class ProfileSettingsSearch extends Model
 			->joinWith('historyHashtags')
 			->groupBy(['history.id']);
 
-		//TODO оптимизировать
-		if (empty($useId)) {
-			$useId = Yii::$app->user->id;
-		}
+		if (empty($useId)) $useId = Yii::$app->user->id;
 
 		$queryCount = History::find()->where(['history.user_id' => $useId]);
 		$query->andWhere(['history.user_id' => $useId]);
