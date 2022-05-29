@@ -28,6 +28,9 @@ class Community extends \yii\db\ActiveRecord
 	protected const COMMUNITY_HISTORY_ADD_SUBSCRIBERS = 1;
 	protected const COMMUNITY_HISTORY_ADD_ALL = 2;
 
+	protected const COMMUNITY_DEACTIVATE = 0;
+	protected const COMMUNITY_ACTIVE = 1;
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -107,7 +110,7 @@ class Community extends \yii\db\ActiveRecord
 			'query' => $query,
 			'totalCount' => $queryCount,
 			'pagination' => [
-				'pageSize' => 6
+				'pageSize' => 10
 			],
 			'sort' => [
 				'defaultOrder' => [
