@@ -2,7 +2,10 @@
 use common\widgets\ProfileMenuWidget;
 use common\widgets\ProfileTopMenuWidget;
 use yii\bootstrap4\ActiveForm;
-use yii\bootstrap4\Html; ?>
+use yii\bootstrap4\Html;
+
+$this->title = 'Freedom Home. Редагувати історію. ';
+?>
 
 <div class="edit-post">
 	<div class="row">
@@ -11,7 +14,7 @@ use yii\bootstrap4\Html; ?>
 		<div class="col-lg-8">
 			<h5 class="mh-block-dark">Редагування посту</h5>
 			<div class="create-history profile-right-content">
-				<?php $form = ActiveForm::begin(['id' => 'create-history-form']); ?>
+				<?php $form = ActiveForm::begin(['id' => 'edit-history-form']); ?>
 
 				<?= $form->field($model, 'title')->textInput(['placeholder' => "Титулка"])->label(false) ?>
 

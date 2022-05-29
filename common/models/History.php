@@ -108,26 +108,6 @@ class History extends \yii\db\ActiveRecord
 			->leftJoin('hashtags', 'history_hashtags.hashtag_id = hashtags.id');
 	}
 
-	public function transferImage($fromImage)
-	{
-		$dateFolder = date('Y') . '/' . date('m');
-		$filePath = Yii::getAlias('@frontend') . '/web/uploads/removeImages/' . $fromImage;
-		$destinationFilePath = Yii::getAlias('@frontend') . '/web/uploads/historyFiles/' . $dateFolder;
-
-		if (!file_exists($destinationFilePath))
-			mkdir($destinationFilePath, 0755, true);
-
-		if (file_exists($filePath)) {
-			shell_exec("cp -r $filePath $destinationFilePath");
-			unlink($filePath);
-		}
-
-		return array(
-			'newFilePath' => Yii::$app->request->hostInfo . '/uploads/historyFiles/' . $dateFolder . '/' . $fromImage,
-			'oldFilePath' => Yii::$app->request->hostInfo . '/uploads/removeImages/' . $fromImage
-		);
-	}
-
 	public function saveHistory()
 	{
 		if (!empty($this->hashtags) && $hashtags = json_decode($this->hashtags)) {
@@ -142,7 +122,7 @@ class History extends \yii\db\ActiveRecord
 
 			foreach ($descriptionImages[0] as $key => $images) {
 				$explode = explode('/', $images);
-				$transferResult = $this->transferImage(str_replace('">', '', $explode[array_key_last($explode)]));
+				$transferResult = Images::transferImage(str_replace('">', '', $explode[array_key_last($explode)]));
 
 				if (!empty($transferResult)) {
 					$this->description = str_replace($transferResult['oldFilePath'], $transferResult['newFilePath'], $this->description);
@@ -188,7 +168,7 @@ class History extends \yii\db\ActiveRecord
 
 			foreach ($descriptionImages[0] as $key => $images) {
 				$explode = explode('/', $images);
-				$transferResult = $this->transferImage(str_replace('">', '', $explode[array_key_last($explode)]));
+				$transferResult = Images::transferImage(str_replace('">', '', $explode[array_key_last($explode)]));
 				if (!empty($transferResult)) {
 					$this->description = str_replace($transferResult['oldFilePath'], $transferResult['newFilePath'], $this->description);
 				}

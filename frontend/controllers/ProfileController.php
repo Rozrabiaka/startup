@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 
-use common\models\Hashtags;
+use common\models\Community;
 use common\models\History;
 use common\models\HistoryHashtags;
 use frontend\models\FrontUser;
@@ -125,6 +125,9 @@ class ProfileController extends Controller
 			return $this->refresh();
 		}
 
+		$communityModel = new Community();
+		$comDataProvider = $communityModel->userCommunities();
+
 		$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'async' => true, 'depends' => [\yii\web\JqueryAsset::className()]]);
 		$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
 
@@ -135,7 +138,8 @@ class ProfileController extends Controller
 
 		return $this->render('settings', [
 			'model' => $model,
-			'modelPassword' => $modelPassword
+			'modelPassword' => $modelPassword,
+			'comDataProvider' => $comDataProvider
 		]);
 	}
 

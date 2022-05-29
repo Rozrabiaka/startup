@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Auth;
 use common\models\Community;
+use common\models\Images;
 use common\models\LoginForm;
 use common\models\User;
 use frontend\models\PasswordResetRequestForm;
@@ -19,6 +20,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -35,7 +37,7 @@ class SiteController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['logout', 'signup'],
+				'only' => ['logout', 'signup', 'create-community'],
 				'rules' => [
 					[
 						'actions' => ['signup'],
@@ -43,7 +45,7 @@ class SiteController extends Controller
 						'roles' => ['?'],
 					],
 					[
-						'actions' => ['logout', 'profile'],
+						'actions' => ['logout', 'profile', 'create-community'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -432,6 +434,36 @@ class SiteController extends Controller
 
 		return $this->render('communities', [
 			'dataProvider' => $dataProvider
+		]);
+	}
+
+	public function actionCreateCommunity()
+	{
+		$model = new Community();
+
+		if ($model->load(Yii::$app->request->post())) {
+			$image = UploadedFile::getInstances($model, 'image');
+			if (!empty($image)) {
+				$img = Images::uploadAvatar($image, false);
+				$model->img = $img;
+			}
+
+			$model->user_id = Yii::$app->user->id;
+			if ($model->validate() && $model->save()) {
+				Yii::$app->session->setFlash('success', 'Спільноту створено. Очікуйте підтвердження від модератора.');
+				return $this->refresh();
+			} else
+				Yii::$app->session->setFlash('error', 'Трапилась помилка. Спробуйте знову.');
+		}
+
+		\Yii::$app->view->registerMetaTag([
+			'name' => 'description',
+			'content' => 'Freedom Home. Створити спільноту.'
+		]);
+
+		\Yii::$app->getView()->registerJsFile(Yii::$app->request->baseUrl . '/js/community.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
+		return $this->render('/community/communityCreate', [
+			'model' => $model
 		]);
 	}
 }

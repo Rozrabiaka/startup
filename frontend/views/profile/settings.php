@@ -3,8 +3,10 @@
 use common\widgets\ProfileMenuWidget;
 use common\widgets\ProfileTopMenuWidget;
 use kartik\file\FileInput;
+use kop\y2sp\ScrollPager;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
+use yii\widgets\ListView;
 
 $this->title = 'Freedom Home. Налаштування';
 ?>
@@ -14,8 +16,9 @@ $this->title = 'Freedom Home. Налаштування';
 	<?= ProfileMenuWidget::widget() ?>
     <div class="col-lg-8">
         <div class="change-click">
-            <div class="change-info-click active">Налаштування профілю</div>
-            <div class="change-password-click">Змінити пароль</div>
+            <div class="change-info-click active change-click-event">Налаштування профілю</div>
+            <div class="change-password-click change-click-event">Змінити пароль</div>
+            <div class="community-setting-click change-click-event">Налаштування спільнот</div>
         </div>
         <div class="create-history profile-right-content">
 			<?php $form = ActiveForm::begin(['id' => 'profile-settings-form']); ?>
@@ -63,6 +66,34 @@ $this->title = 'Freedom Home. Налаштування';
                 </div>
             </div>
 			<?php ActiveForm::end(); ?>
+
+            <div class="community-scroll">
+                <div class="community-top-buttons">
+                    <span class="c-t-b-1">Мої спільноти</span>
+                    <span class="c-t-b-2"><?= Html::a('Створити спільноту', ['/create-community'], ['class' => '']) ?></span>
+                </div>
+				<?php
+				echo ListView::widget([
+					'dataProvider' => $comDataProvider,
+					'itemOptions' => ['class' => 'item'],
+					'itemView' => '/community/_indexCommunities',
+					'summary' => '',
+					'pager' => [
+						'class' => ScrollPager::className(),
+						'noneLeftText' => 'Кінець стрічки.',
+						'spinnerTemplate' => '
+					                    <div class="d-flex justify-content-center loader-historis">
+                                            <div class="spinner-border" role="status">
+                                                <span class="sr-only"></span>
+                                            </div>
+                                        </div>
+					',
+						'enabledExtensions' => [ScrollPager::EXTENSION_SPINNER, ScrollPager::EXTENSION_NONE_LEFT, ScrollPager::EXTENSION_PAGING],
+						'eventOnScroll' => 'function() {$(\'.ias-trigger a\').trigger(\'click\')}',
+					]
+				]);
+				?>
+            </div>
         </div>
     </div>
 </div>

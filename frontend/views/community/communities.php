@@ -17,11 +17,11 @@ $this->title = Yii::$app->name . ". Спільноти";
 			echo ListView::widget([
 				'dataProvider' => $dataProvider,
 				'itemOptions' => ['class' => 'item'],
-				'itemView' => '_indexCommunities',
+				'itemView' => '/community/_indexCommunities',
 				'summary' => '',
 				'pager' => [
 					'class' => ScrollPager::className(),
-					'noneLeftText' => 'Кінець стрічки.',
+					'noneLeftText' => '',
 					'spinnerTemplate' => '
 					                    <div class="d-flex justify-content-center loader-historis">
                                             <div class="spinner-border" role="status">

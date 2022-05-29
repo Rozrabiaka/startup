@@ -83,7 +83,7 @@ return [
 			'showScriptName' => false,
 			'rules' => [
 				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-				'<action:index|comments|communities|contact|signup|login|request-password-reset|resend-verification-email>' => 'site/<action>',
+				'<action:index|comments|communities|contact|signup|login|request-password-reset|resend-verification-email|create-community>' => 'site/<action>',
 			],
 		],
 	],

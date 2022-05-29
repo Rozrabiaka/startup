@@ -1,39 +1,40 @@
-jQuery(document).ready(function () {
-    const q = jQuery('#q');
-    const up = jQuery('.up');
-    const down = jQuery('.down');
-    const footerC = jQuery('.footer-c');
+$(document).ready(function () {
+    lazyLoad();
+    const q = $('#q');
+    const up = $('.up');
+    const down = $('.down');
+    const footerC = $('.footer-c');
     let hashtagsResult = true;
     let historyResult = true;
 
-    jQuery('.click-close-mmb').on('click', function () {
-        jQuery('.mobile-menu-block').hide();
+    $('.click-close-mmb').on('click', function () {
+        $('.mobile-menu-block').hide();
     });
 
-    jQuery('.mobile-menu').on('click', function () {
-        jQuery('.mobile-menu-block').show();
+    $('.mobile-menu').on('click', function () {
+        $('.mobile-menu-block').show();
     });
 
-    //global search
+    //GLOBAL SEARCH
     q.autocomplete({
         appendTo: '#autocomplete-container-search',
         source: function (request, response) {
             hashtagsResult = true;
             historyResult = true;
-            jQuery('.search-loader').show();
-            jQuery.ajax({
+            $('.search-loader').show();
+            $.ajax({
                 url: '/ajax/search',
                 type: "GET",
                 data: {"q": request.term},
                 success: function (data) {
                     if (data) {
                         let autocomplete = {};
-                        const qResult = jQuery.parseJSON(data);
+                        const qResult = $.parseJSON(data);
                         const hashtags = qResult.data.hashtags;
                         const history = qResult.data.history;
 
                         if (hashtags.length > 0) {
-                            jQuery.each(hashtags, function (arKey, arValue) {
+                            $.each(hashtags, function (arKey, arValue) {
                                 autocomplete[arValue.id + '-hashtags'] = {
                                     'div': 'hashtags',
                                     'label': arValue.name,
@@ -43,7 +44,7 @@ jQuery(document).ready(function () {
                         }
 
                         if (history.length > 0) {
-                            jQuery.each(history, function (arKey, arValue) {
+                            $.each(history, function (arKey, arValue) {
                                 autocomplete[arValue.id + '-history'] = {
                                     'div': 'history',
                                     'label': arValue.title,
@@ -64,7 +65,7 @@ jQuery(document).ready(function () {
                         response(autocomplete);
                     }
 
-                    jQuery('.search-loader').hide();
+                    $('.search-loader').hide();
                 }
             });
         },
@@ -73,67 +74,67 @@ jQuery(document).ready(function () {
         }, minLength: 3,
     }).data("ui-autocomplete")._renderItem = function (ul, item) {
         if (item.id === 'no-result-id' && item.div === 'no-result') {
-            return jQuery("<li></li>")
+            return $("<li></li>")
                 .append("<div class='autocomplete-tag-name'>Результату не знайдено</div>")
                 .appendTo(ul);
         }
 
         //TODO при навидени ошибка когда Хештеги и Пости в консоле
         if (hashtagsResult && item.div === 'hashtags') {
-            jQuery("<li></li>")
+            $("<li></li>")
                 .append("<div class='autocomplete-tag-name'>Хештеги: </div>")
                 .appendTo(ul);
             hashtagsResult = false;
         }
 
         if (historyResult && item.div === 'history') {
-            jQuery("<li></li>")
+            $("<li></li>")
                 .append("<div class='autocomplete-tag-name tag-name-history'>Пости: </div>")
                 .appendTo(ul);
             historyResult = false;
         }
 
         if (item.div === 'hashtags') {
-            return jQuery("<li></li>")
+            return $("<li></li>")
                 .data("item.autocomplete", item)
                 .append("<a href='/?tag=" + item.id + " '>" + item.label + "</a>")
                 .appendTo(ul);
         }
 
         if (item.div === 'history') {
-            return jQuery("<li></li>")
+            return $("<li></li>")
                 .data("item.autocomplete", item)
                 .append("<a href='/?history=" + item.id + " '>" + item.label + "</a>")
                 .appendTo(ul);
         }
     };
-    //end global search
+    //END GLOBAL SEARCH
 
-    //footer scroll
-    jQuery(".up").click(function () {
+    /* FOOTER SCROLL */
+    $(".up").click(function () {
         down.show();
         footerC.show();
         up.hide();
-        jQuery([document.documentElement, document.body]).animate({
-            scrollTop: jQuery('.down').offset().top
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $('.down').offset().top
         }, 200);
     });
 
-    jQuery(".down").click(function () {
+    $(".down").click(function () {
         down.hide();
         up.show();
         footerC.hide();
     });
 
-    jQuery(".links-dom").click(function () {
-        jQuery(this).find(".links-menu").toggle();
+    $(".links-dom").click(function () {
+        $(this).find(".links-menu").toggle();
     });
 
-    lazyLoad();
+    /* END FOOTER SCROLL */
 });
 
 function lazyLoad() {
-    jQuery('.image img').Lazy({
+    $('.story-image__content img').Lazy({
         scrollDirection: 'vertical',
         effect: 'fadeIn',
         enableThrottle: true,

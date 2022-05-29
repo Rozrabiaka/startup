@@ -129,24 +129,10 @@
 .profile-right-content .file-preview {
     height: 160px;
     width: 160px;
-    border: none;
 }
 
 .file-drop-zone.clickable:hover {
     border: 1px dashed #999 !important;
-}
-
-.profile-right-content .file-drop-zone {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    border: 1px dashed #9772FF !important;
-    min-height: unset;
-}
-
-.file-thumbnail-footer, .fileinput-remove, .file-drop-zone-title {
-    display: none;
 }
 
 .kv-file-content {
@@ -154,21 +140,11 @@
     width: 140px !important;
 }
 
-.kv-file-content img {
-    height: 100% !important;
-    object-fit: cover;
-}
-
-.file-preview-frame {
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.change-password-click, .change-info-click {
+.change-click-event {
     cursor: pointer;
 }
 
-.change-password {
+.change-password, .community-scroll {
     display: none;
 }
 
@@ -176,7 +152,7 @@
     display: flex;
     justify-content: space-around;
     background: #1E2133;
-    padding: 20px 0;
+    padding: 17px 0;
     text-align: center;
 }
 
@@ -285,9 +261,6 @@
     font-family: 'Inter-Regular', sans-serif;
 }
 
-.site-user-profile .menu-contact{
-    padding-top:0;
-}
 @media (max-width: 991px) {
     .bottom-profile {
         display: flex;

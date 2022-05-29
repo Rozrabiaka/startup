@@ -12,9 +12,22 @@ use yii\data\ActiveDataProvider;
  * @property string $name
  * @property string $img
  * @property string $date
+ * @property int $status
+ * @property int $community_access
+ * @property int $community_his_add
+ * @property int $user_id
+ *
+ * @property User $user
  */
 class Community extends \yii\db\ActiveRecord
 {
+	public $image;
+	protected const COMMUNITY_ACCESS_CLOSED = 0;
+	protected const COMMUNITY_ACCESS_OPEN = 1;
+	protected const COMMUNITY_HISTORY_ADD_ADMINISTRATOR = 0;
+	protected const COMMUNITY_HISTORY_ADD_SUBSCRIBERS = 1;
+	protected const COMMUNITY_HISTORY_ADD_ALL = 2;
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -29,9 +42,14 @@ class Community extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['name', 'img'], 'required'],
+			[['name', 'img', 'community_access', 'community_his_add', 'description'], 'required'],
 			[['date'], 'safe'],
-			[['name', 'img'], 'string', 'max' => 255],
+			['image', 'safe'],
+			[['status', 'community_access', 'community_his_add', 'user_id'], 'integer'],
+			[['img'], 'string', 'max' => 255],
+			[['description'], 'string', 'max' => 150, 'min' => 10],
+			[['name'], 'string', 'max' => 30, 'min' => 3],
+			[['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
 		];
 	}
 
@@ -42,20 +60,54 @@ class Community extends \yii\db\ActiveRecord
 	{
 		return [
 			'id' => 'ID',
-			'name' => "Ім'я",
+			'name' => "Назва спільноти",
 			'img' => 'Картинка',
-			'date' => 'Дата',
+			'date' => 'Date',
+			'status' => 'Status',
+			'community_access' => 'Community Access',
+			'community_his_add' => 'Community His Add',
+			'user_id' => 'User ID',
+			'description' => 'Опис спільноти',
 		];
 	}
 
-	public function getCommunities()
+	/**
+	 * Gets query for [[User]].
+	 *
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getUser()
 	{
-		$query = self::find();
+		return $this->hasOne(User::className(), ['id' => 'user_id']);
+	}
+
+	public function getRadioArrayCommunityAccess()
+	{
+		return array(
+			self::COMMUNITY_ACCESS_OPEN => 'Відкрита спільнота',
+			self::COMMUNITY_ACCESS_CLOSED => 'Закрита спільнота'
+		);
+	}
+
+	public function getRadioArrayCommunityHistoryAdd()
+	{
+		return array(
+			self::COMMUNITY_HISTORY_ADD_ADMINISTRATOR => 'Історії публікує тільки адміністратор',
+			self::COMMUNITY_HISTORY_ADD_SUBSCRIBERS => 'Історії можуть публікувати підписники',
+			self::COMMUNITY_HISTORY_ADD_ALL => 'Історії можуть публікувати усі користувачі'
+		);
+	}
+
+	public function userCommunities()
+	{
+		$query = self::find()->select(['id', 'img', 'name'])->where(['user_id' => Yii::$app->user->id]);
+		$queryCount = self::find()->where(['user_id' => Yii::$app->user->id])->count();
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
+			'totalCount' => $queryCount,
 			'pagination' => [
-				'pageSize' => 10
+				'pageSize' => 6
 			],
 			'sort' => [
 				'defaultOrder' => [
@@ -63,7 +115,6 @@ class Community extends \yii\db\ActiveRecord
 				]
 			],
 		]);
-
 		return $dataProvider;
 	}
 }

@@ -2,10 +2,8 @@
 
 namespace frontend\models;
 
-use claviska\SimpleImage;
+use common\models\Images;
 use common\models\User;
-use Spatie\ImageOptimizer\OptimizerChainFactory;
-use Spatie\ImageOptimizer\Optimizers\Pngquant;
 use Yii;
 use yii\base\Model;
 
@@ -71,7 +69,7 @@ class FrontUser extends Model
 	/**
 	 * Communities page.
 	 *
-	 * @param integer $image
+	 * @param array $image
 	 * @return mixed
 	 * @throws \yii\db\Exception
 	 */
@@ -82,7 +80,7 @@ class FrontUser extends Model
 		}
 
 		$this->image = Yii::$app->user->identity->img;
-		if (!empty($image)) $this->image = $this->uploadAvatar($image);
+		if (!empty($image)) $this->image = Images::uploadAvatar($image);
 
 		$result = Yii::$app->db->createCommand()
 			->update('user', array(
@@ -95,58 +93,6 @@ class FrontUser extends Model
 			)->execute();
 
 		if (is_int($result)) return true;
-
-		return false;
-	}
-
-	/**
-	 * Communities page.
-	 *
-	 * @param integer $image
-	 * @return mixed
-	 */
-	public function uploadAvatar($image)
-	{
-		$uploadPath = Yii::getAlias('@uploads') . '/avatars/' . date('Y') . '/' . date('m');
-		$path = Yii::getAlias('@frontend') . '/web' . $uploadPath;
-		if (!is_dir($path))
-			mkdir($path, 0777, true);
-
-		foreach ($image as $file) {
-			$fileName = md5(microtime() . rand(0, 9999)) . '_' . $file->name;
-			$imagePath = $path . '/' . $fileName;
-
-			list($width) = getimagesize($file->tempName);
-
-			if ($width > 200) {
-				$image = new SimpleImage();
-				// Magic! ✨
-				$image
-					->fromFile($file->tempName)
-					->autoOrient()
-					->resize(200)
-					->toFile($file->tempName);
-			}
-
-			$optimizerChain = OptimizerChainFactory::create();
-			$optimizerChain
-				->addOptimizer(new Pngquant([
-					9,
-					'--force',
-					'--skip-if-larger',
-				]))
-				->optimize($file->tempName, $imagePath);
-
-			if (file_exists(Yii::getAlias('@frontend') . '/web' . Yii::$app->user->identity->img)
-				and !empty(Yii::$app->user->identity->img)
-				and Yii::$app->user->identity->img !== Yii::getAlias('@imgDefault')
-			) {
-				unlink(Yii::getAlias('@frontend') . '/web' . Yii::$app->user->identity->img);
-			}
-
-			return $uploadPath . '/' . $fileName;
-
-		}
 
 		return false;
 	}

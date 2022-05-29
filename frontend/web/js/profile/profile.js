@@ -1,6 +1,7 @@
 jQuery(document).ready(function () {
     const changeInfo = jQuery('.change-info');
     const changePassword = jQuery('.change-password');
+    const communityScroll = jQuery('.community-scroll');
     let imgChoose = false;
     let imgClickEvent = 0;
 
@@ -21,19 +22,30 @@ jQuery(document).ready(function () {
         }
     });
 
-    jQuery('.change-info-click').on('click', function () {
-        changeInfo.show();
-        changePassword.hide();
-
-        jQuery('.change-password-click').removeClass('active');
-        jQuery('.change-info-click').addClass('active');
+    $('.change-click-event').on('click', function () {
+        eventActive(this.className.split(' ')[0]);
     });
 
-    jQuery('.change-password-click').on('click', function () {
-        changePassword.show();
-        changeInfo.hide();
+    function eventActive(className) {
+        $('.change-click').find('.active').removeClass('active');
+        $('.' + className).addClass('active');
 
-        jQuery('.change-info-click').removeClass('active');
-        jQuery('.change-password-click').addClass('active');
-    });
+        switch (className) {
+            case 'change-info-click':
+                changeInfo.show();
+                changePassword.hide();
+                communityScroll.hide();
+                break;
+            case 'change-password-click':
+                changePassword.show();
+                changeInfo.hide();
+                communityScroll.hide();
+                break;
+            case 'community-setting-click':
+                communityScroll.show();
+                changePassword.hide();
+                changeInfo.hide();
+                break;
+        }
+    }
 });
