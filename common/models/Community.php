@@ -123,9 +123,4 @@ class Community extends \yii\db\ActiveRecord
 		//TODO cache dataProvider
 		return $dataProvider;
 	}
-
-	public function getImagesLinks()
-	{
-		return $this->img;
-	}
 }
