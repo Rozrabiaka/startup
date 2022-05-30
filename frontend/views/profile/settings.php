@@ -38,7 +38,7 @@ $this->title = 'Freedom Home. Налаштування';
 							'allowedFileExtensions' => ['jpg', 'png', 'jpeg'],
 							'maxFileSize' => 4800,
 						],
-						'options' => ['accept' => 'image/*'],
+						'options' => ['accept' => 'image/*', 'class' => 'input-img-c'],
 					])->label(false); ?>
                 </div>
 

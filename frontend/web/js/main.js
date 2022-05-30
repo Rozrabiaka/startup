@@ -129,8 +129,36 @@ $(document).ready(function () {
     $(".links-dom").click(function () {
         $(this).find(".links-menu").toggle();
     });
-
     /* END FOOTER SCROLL */
+
+    //IMG UPLOAD
+    let imgChoose = false;
+    let imgClickEvent = 0;
+
+    jQuery('.input-img-c').on('fileselect', function (event) {
+        jQuery('.file-preview-frame:first').css('display', 'none');
+    });
+
+    jQuery('.field-community-image').on('click', function () {
+        imageChoose();
+    });
+
+    jQuery('.field-frontuser-image').on('click', function () {
+        imageChoose();
+    });
+
+    function imageChoose() {
+        if (!imgChoose) {
+            imgChoose = true;
+            jQuery('.clickable').trigger('click');
+        }
+
+        imgClickEvent += 1;
+        if (imgClickEvent === 3) {
+            imgClickEvent = 0;
+            imgChoose = false;
+        }
+    }
 });
 
 function lazyLoad() {

@@ -80,7 +80,7 @@ class FrontUser extends Model
 		}
 
 		$this->image = Yii::$app->user->identity->img;
-		if (!empty($image)) $this->image = Images::uploadAvatar($image);
+		if (!empty($image)) $this->image = Images::uploadAvatar($image, Yii::$app->user->identity->img, $this::className(), true);
 
 		$result = Yii::$app->db->createCommand()
 			->update('user', array(

@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\caching\DbDependency;
 use yii\data\ActiveDataProvider;
 
 /**
@@ -104,11 +105,10 @@ class Community extends \yii\db\ActiveRecord
 	public function userCommunities()
 	{
 		$query = self::find()->select(['id', 'img', 'name'])->where(['user_id' => Yii::$app->user->id]);
-		$queryCount = self::find()->where(['user_id' => Yii::$app->user->id])->count();
+
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
-			'totalCount' => $queryCount,
 			'pagination' => [
 				'pageSize' => 10
 			],
@@ -118,6 +118,14 @@ class Community extends \yii\db\ActiveRecord
 				]
 			],
 		]);
+
+
+		//TODO cache dataProvider
 		return $dataProvider;
+	}
+
+	public function getImagesLinks()
+	{
+		return $this->img;
 	}
 }

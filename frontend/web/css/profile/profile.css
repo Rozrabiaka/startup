@@ -51,8 +51,8 @@
     color: #8D92A4;
 }
 
-.pfi-pad-top{
-    padding-top:14px;
+.pfi-pad-top {
+    padding-top: 14px;
 }
 
 .profile-logout {
@@ -89,9 +89,13 @@
     padding-bottom: 20px;
 }
 
-.profile-right-content {
+.profile-right-content, .edit-community {
     padding: 20px;
     background: #353B53;
+}
+
+.edit-community .file-preview .clickable {
+    width: 144px;
 }
 
 .create-history .ck-editor__main .ck-content {

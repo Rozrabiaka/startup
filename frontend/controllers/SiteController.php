@@ -444,7 +444,7 @@ class SiteController extends Controller
 		if ($model->load(Yii::$app->request->post())) {
 			$image = UploadedFile::getInstances($model, 'image');
 			if (!empty($image)) {
-				$img = Images::uploadAvatar($image, false);
+				$img = Images::uploadAvatar($image, '', '', false);
 				$model->img = $img;
 			}
 

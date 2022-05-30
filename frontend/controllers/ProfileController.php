@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Community;
 use common\models\History;
 use common\models\HistoryHashtags;
+use common\models\Images;
 use frontend\models\FrontUser;
 use frontend\models\NewPassword;
 use frontend\models\ProfileSettingsSearch;
@@ -29,10 +30,10 @@ class ProfileController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['index', 'settings', 'my-history', 'edit-history'],
+				'only' => ['index', 'settings', 'my-history', 'edit-history', 'edit-community'],
 				'rules' => [
 					[
-						'actions' => ['index', 'settings', 'my-history', 'edit-history'],
+						'actions' => ['index', 'settings', 'my-history', 'edit-history', 'edit-community'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -214,6 +215,40 @@ class ProfileController extends Controller
 			$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/ckeditor/ckeditor-funcitons.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 
 			return $this->render('edit', [
+				'model' => $model
+			]);
+		}
+
+		return $this->render('/site/error');
+	}
+
+	public function actionEditCommunity(int $id)
+	{
+		$model = Community::find()
+			->select(['id', 'img', 'name', 'description', 'community_access', 'community_his_add'])
+			->where(['user_id' => Yii::$app->user->id])
+			->andWhere(['id' => $id])
+			->one();
+
+		if ($model->load(Yii::$app->request->post())) {
+			$image = UploadedFile::getInstances($model, 'image');
+			if (!empty($image)) {
+				$img = Images::uploadAvatar($image, $model->img, $model::className(), true);
+				$model->img = $img;
+
+				if ($model->save()) {
+					Yii::$app->session->setFlash('success', 'Вашу спільноту було успішно оновлено.');
+					return $this->refresh();
+				} else
+					Yii::$app->session->setFlash('error', 'Трапилась помилка, будь ласка, спробуйте знову.');
+			}
+		}
+
+		if (!empty($model)) {
+			$this->getView()->registerJsFile(\Yii::$app->request->baseUrl . '/js/profile/profile.js', ['position' => \yii\web\View::POS_END, 'async' => true, 'depends' => [\yii\web\JqueryAsset::className()]]);
+			$this->getView()->registerCssFile("@web/css/profile/profile.css", ['depends' => ['frontend\assets\AppAsset']]);
+
+			return $this->render('/community/edit', [
 				'model' => $model
 			]);
 		}

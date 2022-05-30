@@ -18,9 +18,11 @@ class Images extends Model
 	 *
 	 * @param array $image
 	 * @param bool $remove
+	 * @param string $imgRemovePath
+	 * @param string $model
 	 * @return mixed
 	 */
-	public static function uploadAvatar($image, $remove = true)
+	public static function uploadAvatar($image, $imgRemovePath = '', $model = '', $remove = true)
 	{
 		$uploadPath = Yii::getAlias('@uploads') . '/avatars/' . date('Y') . '/' . date('m');
 		$path = Yii::getAlias('@frontend') . '/web' . $uploadPath;
@@ -32,20 +34,34 @@ class Images extends Model
 			$imagePath = $path . '/' . $fileName;
 
 			self::optimizateImage($file->tempName, $imagePath);
-
-			if ($remove) {
-				if (file_exists(Yii::getAlias('@frontend') . '/web' . Yii::$app->user->identity->img)
-					and !empty(Yii::$app->user->identity->img)
-					and Yii::$app->user->identity->img !== Yii::getAlias('@imgDefault')
-				) {
-					unlink(Yii::getAlias('@frontend') . '/web' . Yii::$app->user->identity->img);
-				}
-			}
+			if ($remove) self::removeAvatar($imgRemovePath, $model);
 
 			return $uploadPath . '/' . $fileName;
 		}
 
 		return false;
+	}
+
+	public static function removeAvatar($path, $model)
+	{
+		$modelPath = explode('\\', $model);
+		$modelClassName = array_pop($modelPath);
+
+		switch ($modelClassName) {
+			case 'User':
+				if (file_exists(Yii::getAlias('@frontend') . '/web' . $path)
+					and !empty($path)
+					and $path !== Yii::getAlias('@imgDefault')
+				) {
+					unlink(Yii::getAlias('@frontend') . '/web' . $path);
+				}
+				break;
+			default:
+				if (file_exists(Yii::getAlias('@frontend') . '/web' . $path)) {
+					unlink(Yii::getAlias('@frontend') . '/web' . $path);
+				}
+				break;
+		}
 	}
 
 	public static function optimizateImage($tempName, $imageSavePath, $resizeWidth = 200)
